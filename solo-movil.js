@@ -1,15 +1,13 @@
-// solo-movil.js - Versión definitiva basada en el prototipo para visibilidad total sin recortes
-document.addEventListener("DOMContentLoaded", function() {
-    
+// solo-movil.js - Versión robusta para forzar horizontal y mostrar toda la interfaz sin pantallas negras
+(function() {
     // 1. Detección estricta de dispositivos móviles
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
-    // Si es PC, el script no hace nada y tu versión de computadora se queda 100% intacta
     if (!esMovil) {
-        return; 
+        return; // Si es PC, se queda 100% intacto
     }
 
-    // 2. Inyectar estilos para bloquear el scroll y fijar el entorno móvil horizontal
+    // 2. Inyectar estilos base seguros para evitar pantallas negras
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -24,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 0 !important;
         }
 
-        /* Contenedor principal que abarca toda la ventana móvil */
         .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
@@ -33,13 +30,12 @@ document.addEventListener("DOMContentLoaded", function() {
             height: 100vh !important;
             overflow: hidden !important;
             background-color: #000 !important;
-            z-index: 9999;
+            z-index: 99999;
             display: flex !important;
             justify-content: center !important;
             align-items: center !important;
         }
 
-        /* Consola base de 1366x768 centrada milimétricamente */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -48,32 +44,37 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 50% !important;
             transform-origin: center center !important;
             box-sizing: border-box !important;
-            overflow: hidden !important;
         }
     `;
     document.head.appendChild(style);
 
-    // 3. Envolver automáticamente el televisor si no está envuelto
-    const tvContainer = document.querySelector('.tv-screen-container');
-    if (tvContainer && !tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'mobile-forced-landscape';
-        tvContainer.parentNode.insertBefore(wrapper, tvContainer);
-        wrapper.appendChild(tvContainer);
-        tvContainer.id = 'scaledForcedContainer';
-    }
+    // 3. Función principal de escalado y estructuración
+    function inicializarModoMovil() {
+        let tvContainer = document.querySelector('.tv-screen-container');
+        
+        // Si el contenedor aún no ha cargado en el HTML, esperamos un instante y reintentamos
+        if (!tvContainer) {
+            setTimeout(inicializarModoMovil, 50);
+            return;
+        }
 
-    // 4. Función de escala adaptada al área visual real del celular (evitando que las barras del navegador corten la descripción)
-    function ajustarPrototipoMovil() {
-        const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
-        if (!container) return;
+        // Envolver el televisor si no está envuelto todavía
+        if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'mobile-forced-landscape';
+            tvContainer.parentNode.insertBefore(wrapper, tvContainer);
+            wrapper.appendChild(tvContainer);
+            tvContainer.id = 'scaledForcedContainer';
+        }
 
-        // Obtenemos el ancho y alto real disponible ignorando las barras flotantes del navegador
-        const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-        const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        const container = document.getElementById('scaledForcedContainer') || tvContainer;
 
-        const anchoVentana = Math.max(vw, vh);
-        const altoVentana = Math.min(vw, vh);
+        // Cálculo milimétrico para el modo horizontal forzado
+        const realWidth = window.innerWidth;
+        const realHeight = window.innerHeight;
+
+        const anchoVentana = Math.max(realWidth, realHeight);
+        const altoVentana = Math.min(realWidth, realHeight);
 
         const baseWidth = 1366;
         const baseHeight = 768;
@@ -81,24 +82,22 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // Usamos Math.min para garantizar que quepa todo por completo, 
-        // multiplicando por 0.88 para dejar un margen seguro que evita que la descripción inferior se oculte
-        const scale = Math.min(scaleX, scaleY) * 0.88;
+        // Usamos Math.min con un factor de 0.90 para garantizar que la pantalla, 
+        // el menú de hamburguesa superior y la descripción inferior entren perfectamente a la vista
+        const scale = Math.min(scaleX, scaleY) * 0.90;
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    // Escuchamos cambios de tamaño y rotación
-    window.addEventListener('resize', ajustarPrototipoMovil);
-    
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', ajustarPrototipoMovil);
-        window.visualViewport.addEventListener('scroll', ajustarPrototipoMovil);
+    // Ejecutar cuando cargue el DOM o la ventana completa
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', inicializarModoMovil);
+    } else {
+        inicializarModoMovil();
     }
 
+    window.addEventListener('resize', inicializarModoMovil);
     window.addEventListener('orientationchange', () => {
-        setTimeout(ajustarPrototipoMovil, 300);
+        setTimeout(inicializarModoMovil, 400);
     });
-
-    ajustarPrototipoMovil();
-});
+})();
