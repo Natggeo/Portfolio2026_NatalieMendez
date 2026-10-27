@@ -1,4 +1,4 @@
-// solo-movil.js - Prueba de escala reducida para encontrar el tamaño perfecto sin recortes
+// solo-movil.js - Escalado global y unificado para todo el sitio
 (function() {
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
@@ -6,6 +6,7 @@
         return; 
     }
 
+    // Inyectamos los estilos base globales para móvil
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -46,14 +47,11 @@
     `;
     document.head.appendChild(style);
 
-    function inicializarModoMovil() {
+    function aplicarEscalaGlobal() {
         let tvContainer = document.querySelector('.tv-screen-container');
-        
-        if (!tvContainer) {
-            setTimeout(inicializarModoMovil, 50);
-            return;
-        }
+        if (!tvContainer) return;
 
+        // Envolvemos el contenedor en el wrapper si no lo está
         if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
             const wrapper = document.createElement('div');
             wrapper.className = 'mobile-forced-landscape';
@@ -76,20 +74,20 @@
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // PROBAMOS ESCALA MÁS PEQUEÑA (0.72) para ver la televisión completa con margen alrededor
-        const scale = Math.min(scaleX, scaleY) * 0.72;
+        // Usamos una escala unificada y equilibrada (puedes ajustar el 0.65 si lo quieres un poquito más grande o pequeño)
+        const scale = Math.min(scaleX, scaleY) * 0.65;
 
-        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', inicializarModoMovil);
+        document.addEventListener('DOMContentLoaded', aplicarEscalaGlobal);
     } else {
-        inicializarModoMovil();
+        aplicarEscalaGlobal();
     }
 
-    window.addEventListener('resize', inicializarModoMovil);
+    window.addEventListener('resize', aplicarEscalaGlobal);
     window.addEventListener('orientationchange', () => {
-        setTimeout(inicializarModoMovil, 400);
+        setTimeout(aplicarEscalaGlobal, 400);
     });
 })();
