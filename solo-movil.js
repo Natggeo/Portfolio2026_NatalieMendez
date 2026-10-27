@@ -1,4 +1,4 @@
-// solo-movil.js - Versión limpia y nativa para móviles (sin scale roto para proteger clics y videos)
+// solo-movil.js - Escalado interactivo perfecto para móviles (respeta clics, videos y mantiene la consola intacta)
 (function() {
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
@@ -6,41 +6,51 @@
         return; 
     }
 
-    // Inyectamos un estilo móvil limpio que respeta los eventos táctiles y los videos
     const style = document.createElement('style');
     style.innerHTML = `
-        /* Forzar modo horizontal en la estructura base sin usar scale de JS */
         html, body {
             background-color: #000 !important;
             width: 100vw !important;
-            min-height: 100vh !important;
-            overflow-x: hidden !important;
-            overflow-y: auto !important;
+            height: 100vh !important;
+            overflow: hidden !important;
             margin: 0 !important;
             padding: 0 !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
         }
 
-        /* Hacemos que cualquier contenedor principal se adapte de forma fluida y 100% interactiva */
-        .tv-screen-container, 
-        .container, 
-        .container-fluid {
-            width: 100% !important;
-            max-width: 100% !important;
-            height: auto !important;
-            min-height: 100vh !important;
-            margin: 0 !important;
-            padding: 10px !important;
+        /* Contenedor envolvente centrado */
+        .mobile-forced-landscape {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            overflow: hidden !important;
+            background-color: #000 !important;
+            z-index: 99999;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            pointer-events: auto !important;
+        }
+
+        /* Consola base fija de 1366x768 que mantiene tu diseño original exacto */
+        .tv-screen-container {
+            width: 1366px !important;
+            height: 768px !important;
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform-origin: center center !important;
             box-sizing: border-box !important;
-            transform: none !important; /* Eliminamos el scale para que los clics y videos funcionen perfectamente */
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
+            overflow: visible !important;
+            pointer-events: auto !important;
         }
 
-        /* Asegurar que los videos e iframes vuelvan a mostrarse y reproducirse con normalidad */
+        /* Asegurar que los videos e iframes se rendericen perfectamente */
         video, iframe, embed, object {
-            max-width: 100% !important;
-            height: auto !important;
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
@@ -48,5 +58,47 @@
     `;
     document.head.appendChild(style);
 
-    console.log("Modo móvil nativo activado: Clics y videos restaurados.");
+    function inicializarEscalaInteractiva() {
+        let tvContainer = document.querySelector('.tv-screen-container');
+        if (!tvContainer) return;
+
+        if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'mobile-forced-landscape';
+            tvContainer.parentNode.insertBefore(wrapper, tvContainer);
+            wrapper.appendChild(tvContainer);
+            tvContainer.id = 'scaledForcedContainer';
+        }
+
+        const container = document.getElementById('scaledForcedContainer') || tvContainer;
+
+        const realWidth = window.innerWidth;
+        const realHeight = window.innerHeight;
+
+        const anchoVentana = Math.max(realWidth, realHeight);
+        const altoVentana = Math.min(realWidth, realHeight);
+
+        const baseWidth = 1366;
+        const baseHeight = 768;
+
+        const scaleX = anchoVentana / baseWidth;
+        const scaleY = altoVentana / baseHeight;
+        
+        // Usamos Math.min con un factor de 0.80 para que la televisión completa (con su menú arriba y descripción abajo) 
+        // quepa de un solo vistazo con un margen limpio alrededor, permitiendo ver los videos y tocar los botones sin fallo.
+        const scale = Math.min(scaleX, scaleY) * 0.80;
+
+        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', inicializarEscalaInteractiva);
+    } else {
+        inicializarEscalaInteractiva();
+    }
+
+    window.addEventListener('resize', inicializarEscalaInteractiva);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(inicializarEscalaInteractiva, 400);
+    });
 })();
