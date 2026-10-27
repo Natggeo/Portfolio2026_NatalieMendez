@@ -1,4 +1,4 @@
-// solo-movil.js - Versión móvil exclusiva en horizontal con aviso de giro y visibilidad total
+// solo-movil.js - Versión horizontal con factor de reducción seguro para visibilidad total
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Consola de 1366x768 centrada y lista para interactuar */
+        /* Consola de 1366x768 centrada y con margen seguro */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
         aviso.innerHTML = `
             <div class="icono-giro">📱🔄</div>
             <h2>¡Gira tu dispositivo!</h2>
-            <p>Para disfrutar de la experiencia interactiva de la televisión y acceder al menú, por favor coloca tu celular en posición <strong>horizontal</strong>.</p>
+            <p>Para disfrutar de la experiencia interactiva, ver el menú de hamburguesa y las descripciones, por favor coloca tu celular en posición <strong>horizontal</strong>.</p>
         `;
         document.body.appendChild(aviso);
     }
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledLandscapeContainer';
     }
 
-    // 5. Función de control: detecta si está en vertical u horizontal y escala perfecto
+    // 5. Función de control con factor de reducción seguro
     function verificarOrientacionYEscala() {
         const aviso = document.getElementById('aviso-rotacion');
         const wrapper = document.querySelector('.mobile-landscape-wrapper');
@@ -133,12 +133,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const ancho = window.innerWidth;
         const alto = window.innerHeight;
 
-        // Si el usuario sostiene el celular en vertical (Portrait)
+        // Si el usuario sostiene el celular en vertical
         if (ancho < alto) {
             aviso.style.display = 'flex';
             wrapper.style.display = 'none';
         } else {
-            // Si el usuario gira el celular a horizontal (Landscape)
+            // Si el usuario gira el celular a horizontal
             aviso.style.display = 'none';
             wrapper.style.display = 'flex';
 
@@ -151,8 +151,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const scaleX = vw / baseWidth;
             const scaleY = vh / baseHeight;
             
-            // Escala exacta para que encaje de lado a lado sin cortar ningún botón ni descripción
-            const scale = Math.min(scaleX, scaleY);
+            // Aplicamos el factor 0.75 para asegurar que todo el televisor respire 
+            // y el menú superior junto con la descripción inferior queden totalmente visibles
+            const scale = Math.min(scaleX, scaleY) * 0.75;
 
             container.style.transform = `translate(-50%, -50%) scale(${scale})`;
         }
