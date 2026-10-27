@@ -23,7 +23,7 @@
         }
 
         body {
-            background-color: #290087;
+            background-color: #000;
             color: #F6FFE9;
             font-family: 'Teko', sans-serif;
             font-size: 1.4rem;
@@ -33,13 +33,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
         }
 
-        /* Contenedor Televisor */
+        /* Contenedor Televisor (Dimensiones base para el escalador global) */
         .tv-screen-container {
-            width: 100vw;
-            height: 100vh;
+            width: 1366px;
+            height: 768px;
             background-color: #CAC5E5;
             border: 12px solid #F137A6;
             padding: 20px;
@@ -48,7 +47,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
+            position: absolute;
+            transform-origin: center center;
         }
 
         /* BOTÓN MENÚ HAMBURGUESA ESQUINA SUPERIOR DERECHA */
@@ -461,7 +461,7 @@
                 <div class="inputs-osd-panel" style="display: flex;">
                     <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
                     
-                    <a href="index.html" class="input-option-item">
+                    <a href="guiaCanales.html" class="input-option-item">
                         <span>📺 TV - Guía EPG de Canales</span>
                         <span class="input-tag">SINTONIZADOR</span>
                     </a>
@@ -476,6 +476,7 @@
         </div>
     </div>
 
+    <!-- Scripts de Funcionalidad y Escalado Global -->
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const menuOverlay = document.getElementById('menuOverlay');
@@ -513,19 +514,19 @@
         /* LÓGICA DE REPRODUCCIÓN DEL SHOWREEL CON PAUSA DE 5 SEGUNDOS */
         const video = document.getElementById('showreelVideo');
 
-        // Iniciar reproducción automática al cargar la página
         window.addEventListener('DOMContentLoaded', () => {
             video.play().catch(e => console.log("Autoplay bloqueado por el navegador:", e));
         });
 
-        // Evento cuando el video termina
         video.addEventListener('ended', () => {
-            // Esperar 5 segundos antes de reiniciar
             setTimeout(() => {
                 video.currentTime = 0;
                 video.play().catch(e => console.log("Error al reiniciar video:", e));
-            }, 5000); // 5000 milisegundos = 5 segundos de pausa en pantalla negra
+            }, 5000);
         });
     </script>
+
+    <!-- Script global de escalado horizontal automático -->
+    <script src="escalador-global.js"></script>
 </body>
 </html>

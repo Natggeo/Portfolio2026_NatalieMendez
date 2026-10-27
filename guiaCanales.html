@@ -22,24 +22,8 @@
             box-sizing: border-box;
         }
 
-        body {
-            background-color: #290087;
-            color: #F6FFE9;
-            font-family: 'Teko', sans-serif;
-            font-size: 1.3rem;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
-
-        /* Contenedor Marco Televisor */
+        /* Contenedor Marco Televisor (El script global se encarga de dimensionarlo y escalarlo) */
         .tv-screen-container {
-            width: 100vw;
-            height: 100vh;
             background-color: #290087;
             border: 12px solid #F137A6;
             padding: 15px;
@@ -48,7 +32,6 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            position: relative;
         }
 
         /* SECCIÓN SUPERIOR */
@@ -338,6 +321,9 @@
             }
         }
     </script>
+
+    <!-- Script global de escalado -->
+    <script src="escalador-global.js"></script>
 
 </body>
 </html>
