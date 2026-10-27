@@ -1,15 +1,15 @@
-// solo-movil.js - Versión horizontal con factor de reducción seguro para visibilidad total
+// solo-movil.js - Forzado horizontal permanente y escalado ampliado para móviles
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
-    // Si es PC, el script se detiene y tu versión de computadora se queda 100% intacta
+    // Si es PC, el script no hace nada y tu versión de computadora se queda 100% intacta
     if (!esMovil) {
         return; 
     }
 
-    // 2. Inyectar estilos para el aviso de rotación y el contenedor horizontal
+    // 2. Inyectar estilos para bloquear la vista horizontal estricta y rellenar la pantalla
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -24,56 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 0 !important;
         }
 
-        /* Pantalla de aviso para girar el celular (solo aparece en vertical) */
-        #aviso-rotacion {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            background-color: #000 !important;
-            color: #F6FFE9 !important;
-            font-family: sans-serif;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-            align-items: center !important;
-            text-align: center !important;
-            padding: 25px !important;
-            z-index: 99999 !important;
-            box-sizing: border-box !important;
-        }
-
-        #aviso-rotacion h2 {
-            font-family: 'Chunko', sans-serif, Arial;
-            color: #F137A6;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 0px #290087;
-        }
-
-        #aviso-rotacion p {
-            font-size: 1.1rem;
-            color: #F2E0A4;
-            max-width: 320px;
-            line-height: 1.5;
-        }
-
-        /* Icono animado de giro */
-        .icono-giro {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            animation: girarCelular 2s infinite ease-in-out;
-        }
-
-        @keyframes girarCelular {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(90deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        /* Contenedor principal en modo horizontal */
-        .mobile-landscape-wrapper {
+        /* Contenedor principal que llena toda la pantalla del móvil */
+        .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
             left: 0 !important;
@@ -87,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Consola de 1366x768 centrada y con margen seguro */
+        /* Consola base de 1366x768 centrada */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -100,74 +52,47 @@ document.addEventListener("DOMContentLoaded", function() {
     `;
     document.head.appendChild(style);
 
-    // 3. Crear el elemento visual del aviso de rotación
-    if (!document.getElementById('aviso-rotacion')) {
-        const aviso = document.createElement('div');
-        aviso.id = 'aviso-rotacion';
-        aviso.innerHTML = `
-            <div class="icono-giro">📱🔄</div>
-            <h2>¡Gira tu dispositivo!</h2>
-            <p>Para disfrutar de la experiencia interactiva, ver el menú de hamburguesa y las descripciones, por favor coloca tu celular en posición <strong>horizontal</strong>.</p>
-        `;
-        document.body.appendChild(aviso);
-    }
-
-    // 4. Envolver automáticamente el televisor
+    // 3. Envolver automáticamente el televisor
     const tvContainer = document.querySelector('.tv-screen-container');
-    if (tvContainer && !tvContainer.parentElement.classList.contains('mobile-landscape-wrapper')) {
+    if (tvContainer && !tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
         const wrapper = document.createElement('div');
-        wrapper.className = 'mobile-landscape-wrapper';
+        wrapper.className = 'mobile-forced-landscape';
         tvContainer.parentNode.insertBefore(wrapper, tvContainer);
         wrapper.appendChild(tvContainer);
-        tvContainer.id = 'scaledLandscapeContainer';
+        tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 5. Función de control con factor de reducción seguro
-    function verificarOrientacionYEscala() {
-        const aviso = document.getElementById('aviso-rotacion');
-        const wrapper = document.querySelector('.mobile-landscape-wrapper');
-        const container = document.getElementById('scaledLandscapeContainer') || document.querySelector('.tv-screen-container');
-        
+    // 4. Función que fuerza el cálculo horizontal y aplica un 30% más de escala horizontal
+    function escalarForzadoHorizontal() {
+        const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
-        const ancho = window.innerWidth;
-        const alto = window.innerHeight;
+        // Tomamos siempre el lado mayor como ancho y el menor como alto para simular el bloqueo horizontal
+        const realWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+        const realHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
-        // Si el usuario sostiene el celular en vertical
-        if (ancho < alto) {
-            aviso.style.display = 'flex';
-            wrapper.style.display = 'none';
-        } else {
-            // Si el usuario gira el celular a horizontal
-            aviso.style.display = 'none';
-            wrapper.style.display = 'flex';
+        const anchoVentana = Math.max(realWidth, realHeight);
+        const altoVentana = Math.min(realWidth, realHeight);
 
-            const vw = window.visualViewport ? window.visualViewport.width : ancho;
-            const vh = window.visualViewport ? window.visualViewport.height : alto;
+        const baseWidth = 1366;
+        const baseHeight = 768;
 
-            const baseWidth = 1366;
-            const baseHeight = 768;
+        const scaleX = anchoVentana / baseWidth;
+        const scaleY = altoVentana / baseHeight;
+        
+        // Tomamos la escala base y le sumamos el 30% de expansión horizontal solicitada
+        const escalaBase = Math.min(scaleX, scaleY);
+        const escalaAmpliada = escalaBase * 1.30; 
 
-            const scaleX = vw / baseWidth;
-            const scaleY = vh / baseHeight;
-            
-            // Aplicamos el factor 0.75 para asegurar que todo el televisor respire 
-            // y el menú superior junto con la descripción inferior queden totalmente visibles
-            const scale = Math.min(scaleX, scaleY) * 0.75;
-
-            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
-        }
+        container.style.transform = `translate(-50%, -50%) scale(${escalaAmpliada})`;
     }
 
-    window.addEventListener('resize', verificarOrientacionYEscala);
-    window.addEventListener('orientationchange', () => {
-        setTimeout(verificarOrientacionYEscala, 300);
-    });
-
+    window.addEventListener('resize', escalarForzadoHorizontal);
+    
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', verificarOrientacionYEscala);
-        window.visualViewport.addEventListener('scroll', verificarOrientacionYEscala);
+        window.visualViewport.addEventListener('resize', escalarForzadoHorizontal);
+        window.visualViewport.addEventListener('scroll', escalarForzadoHorizontal);
     }
 
-    verificarOrientacionYEscala();
+    escalarForzadoHorizontal();
 });
