@@ -1,11 +1,11 @@
-// escalador-global.js - Escalado automático horizontal con margen de respiro para móviles
+// escalador-global.js - Escalado automático horizontal adaptado al área real del visor móvil
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Inyectar estilos estrictos para bloquear scroll y desbordamientos
+    // 1. Inyectar estilos base para bloquear cualquier scroll o desbordamiento
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
             background-color: #000 !important;
-            width: 100vw !important;
+            width: 100% !important;
             height: 100% !important;
             overflow: hidden !important;
             margin: 0 !important;
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         .scaler-wrapper {
             width: 100vw !important;
-            height: 100dvh !important;
+            height: 100vh !important;
             position: fixed !important;
             top: 0 !important;
             left: 0 !important;
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledContainer';
     }
 
-    // 3. Función matemática de escalado con margen de respiro para móviles
+    // 3. Función matemática basada en el viewport visual real del navegador
     function escalarSitio() {
         const container = document.getElementById('scaledContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
@@ -60,28 +60,36 @@ document.addEventListener("DOMContentLoaded", function() {
         const baseWidth = 1366;
         const baseHeight = 768;
 
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
+        // Detectar el ancho y alto real visible ignorando las barras flotantes del celular
+        const windowWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+        const windowHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
         const scaleX = windowWidth / baseWidth;
         const scaleY = windowHeight / baseHeight;
         
         let scale = Math.min(scaleX, scaleY);
 
-        // Si es una pantalla pequeña (móvil), aplicamos el factor de reducción para dar margen
-        if (windowWidth <= 900) {
-            scale = scale * 0.92; // 0.92 deja un margen de respiro perfecto y evita cortes
+        // Margen de respiro extra para pantallas móviles o tablets pequeñas
+        if (windowWidth <= 900 || windowHeight <= 600) {
+            scale = scale * 0.88; // Reduce un poco más para que respire por completo
         }
 
-        // Centrado absoluto + escala ajustada
+        // Centrado absoluto y aplicación de escala limpia
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
     window.addEventListener('resize', escalarSitio);
-    window.addEventListener('orientationchange', () => {
-        setTimeout(escalarSitio, 200); // Pequeño respiro para que el navegador recalcule el giro
-    });
-    window.addEventListener('load', escalarSitio);
     
+    // Escuchar cambios del visor móvil (cuando aparecen/desaparecen las barras del navegador)
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', escalarSitio);
+        window.visualViewport.addEventListener('scroll', escalarSitio);
+    }
+
+    window.addEventListener('orientationchange', () => {
+        setTimeout(escalarSitio, 300); // Pausa para que el celular termine de rotar fluidamente
+    });
+    
+    window.addEventListener('load', escalarSitio);
     escalarSitio();
 });
