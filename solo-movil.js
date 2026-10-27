@@ -1,13 +1,11 @@
-// solo-movil.js - Versión robusta para forzar horizontal y mostrar toda la interfaz sin pantallas negras
+// solo-movil.js - Prueba de escala reducida para encontrar el tamaño perfecto sin recortes
 (function() {
-    // 1. Detección estricta de dispositivos móviles
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
     if (!esMovil) {
-        return; // Si es PC, se queda 100% intacto
+        return; 
     }
 
-    // 2. Inyectar estilos base seguros para evitar pantallas negras
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -48,17 +46,14 @@
     `;
     document.head.appendChild(style);
 
-    // 3. Función principal de escalado y estructuración
     function inicializarModoMovil() {
         let tvContainer = document.querySelector('.tv-screen-container');
         
-        // Si el contenedor aún no ha cargado en el HTML, esperamos un instante y reintentamos
         if (!tvContainer) {
             setTimeout(inicializarModoMovil, 50);
             return;
         }
 
-        // Envolver el televisor si no está envuelto todavía
         if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
             const wrapper = document.createElement('div');
             wrapper.className = 'mobile-forced-landscape';
@@ -69,7 +64,6 @@
 
         const container = document.getElementById('scaledForcedContainer') || tvContainer;
 
-        // Cálculo milimétrico para el modo horizontal forzado
         const realWidth = window.innerWidth;
         const realHeight = window.innerHeight;
 
@@ -82,14 +76,12 @@
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // Usamos Math.min con un factor de 0.90 para garantizar que la pantalla, 
-        // el menú de hamburguesa superior y la descripción inferior entren perfectamente a la vista
-        const scale = Math.min(scaleX, scaleY) * 0.90;
+        // PROBAMOS ESCALA MÁS PEQUEÑA (0.72) para ver la televisión completa con margen alrededor
+        const scale = Math.min(scaleX, scaleY) * 0.72;
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    // Ejecutar cuando cargue el DOM o la ventana completa
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', inicializarModoMovil);
     } else {
