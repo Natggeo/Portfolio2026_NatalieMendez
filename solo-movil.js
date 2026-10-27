@@ -1,4 +1,4 @@
-// solo-movil.js - Escalado masivo y agresivo para forzar la visibilidad completa de la descripción y el menú
+// solo-movil.js - Versión definitiva basada en el prototipo para visibilidad total sin recortes
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return; 
     }
 
-    // 2. Inyectar estilos para pantalla completa horizontal con desplazamiento de seguridad
+    // 2. Inyectar estilos para bloquear el scroll y fijar el entorno móvil horizontal
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 0 !important;
         }
 
-        /* Contenedor principal que cubre toda la pantalla móvil */
+        /* Contenedor principal que abarca toda la ventana móvil */
         .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
@@ -39,21 +39,21 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Consola base de 1366x768 desplazada ligeramente hacia arriba para dar aire a la descripción */
+        /* Consola base de 1366x768 centrada milimétricamente */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
             position: absolute !important;
-            top: 48% !important;
+            top: 50% !important;
             left: 50% !important;
             transform-origin: center center !important;
             box-sizing: border-box !important;
-            overflow: visible !important;
+            overflow: hidden !important;
         }
     `;
     document.head.appendChild(style);
 
-    // 3. Envolver automáticamente el televisor
+    // 3. Envolver automáticamente el televisor si no está envuelto
     const tvContainer = document.querySelector('.tv-screen-container');
     if (tvContainer && !tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
         const wrapper = document.createElement('div');
@@ -63,16 +63,17 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 4. Función de escala masiva multiplicada para forzar un tamaño grande y visible
-    function escalarMasivoMovil() {
+    // 4. Función de escala adaptada al área visual real del celular (evitando que las barras del navegador corten la descripción)
+    function ajustarPrototipoMovil() {
         const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
-        const realWidth = window.innerWidth;
-        const realHeight = window.innerHeight;
+        // Obtenemos el ancho y alto real disponible ignorando las barras flotantes del navegador
+        const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+        const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
-        const anchoVentana = Math.max(realWidth, realHeight);
-        const altoVentana = Math.min(realWidth, realHeight);
+        const anchoVentana = Math.max(vw, vh);
+        const altoVentana = Math.min(vw, vh);
 
         const baseWidth = 1366;
         const baseHeight = 768;
@@ -80,17 +81,24 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // Aplicamos un multiplicador masivo (* 1.35) sobre la escala máxima para asegurarnos de que todo resalte y se vea
-        const scale = Math.max(scaleX, scaleY) * 1.35;
+        // Usamos Math.min para garantizar que quepa todo por completo, 
+        // multiplicando por 0.88 para dejar un margen seguro que evita que la descripción inferior se oculte
+        const scale = Math.min(scaleX, scaleY) * 0.88;
 
-        // Desplazamos un 1% hacia arriba (-51%) para que la caja de descripción inferior suba a la zona visible
-        container.style.transform = `translate(-50%, -51%) scale(${scale})`;
+        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', escalarMasivoMovil);
+    // Escuchamos cambios de tamaño y rotación
+    window.addEventListener('resize', ajustarPrototipoMovil);
+    
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', ajustarPrototipoMovil);
+        window.visualViewport.addEventListener('scroll', ajustarPrototipoMovil);
+    }
+
     window.addEventListener('orientationchange', () => {
-        setTimeout(escalarMasivoMovil, 300);
+        setTimeout(ajustarPrototipoMovil, 300);
     });
 
-    escalarMasivoMovil();
+    ajustarPrototipoMovil();
 });
