@@ -1,4 +1,4 @@
-// solo-movil.js - Escalado horizontal fijo con ampliación optimizada para pantalla completa
+// solo-movil.js - Ajuste de escala basado en altura para mostrar menú y descripción completos sin cortes
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -61,33 +61,28 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 4. Función de escala ampliada un poco más sin perder estabilidad
-    function ajustarEscalaAmpliada() {
+    // 4. Función de escala basada en la altura exacta para que nunca se corte el contenido vertical
+    function ajustarEscalaVerticalPerfecta() {
         const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
         const realWidth = window.innerWidth;
         const realHeight = window.innerHeight;
 
-        const anchoVentana = Math.max(realWidth, realHeight);
         const altoVentana = Math.min(realWidth, realHeight);
-
-        const baseWidth = 1366;
         const baseHeight = 768;
 
-        const scaleX = anchoVentana / baseWidth;
-        const scaleY = altoVentana / baseHeight;
-        
-        // Tomamos la escala base y la multiplicamos por 1.12 para ampliarla un poco más y acoplarla mejor
-        const scale = Math.min(scaleX, scaleY) * 1.12;
+        // Calculamos la escala tomando como base la altura de la ventana para asegurar que 
+        // el menú superior y la descripción inferior entren siempre en el visor
+        const scale = (altoVentana / baseHeight) * 0.95;
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', ajustarEscalaAmpliada);
+    window.addEventListener('resize', ajustarEscalaVerticalPerfecta);
     window.addEventListener('orientationchange', () => {
-        setTimeout(ajustarEscalaAmpliada, 300);
+        setTimeout(ajustarEscalaVerticalPerfecta, 300);
     });
 
-    ajustarEscalaAmpliada();
+    ajustarEscalaVerticalPerfecta();
 });
