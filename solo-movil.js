@@ -1,4 +1,4 @@
-// solo-movil.js - Forzado horizontal y pantalla completa total sin marcos negros
+// solo-movil.js - Escalado fijo horizontal completo, sin zoom al hacer scroll y sin necesidad de desplazamiento
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return; 
     }
 
-    // 2. Inyectar estilos para pantalla completa absoluta en móvil
+    // 2. Inyectar estilos para bloquear el scroll de la página por completo
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 0 !important;
         }
 
-        /* Contenedor principal que llena toda la pantalla del móvil sin dejar huecos */
+        /* Contenedor principal fijo que abarca toda la pantalla sin permitir scroll */
         .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Consola base de 1366x768 centrada */
+        /* Consola base de 1366x768 perfectamente centrada */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 50% !important;
             transform-origin: center center !important;
             box-sizing: border-box !important;
+            overflow: hidden !important;
         }
     `;
     document.head.appendChild(style);
@@ -62,14 +63,14 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 4. Función de escala máxima (Cover) para eliminar los marcos negros por completo
-    function escalarPantallaCompleta() {
+    // 4. Función de escala fija estable (sin listeners de scroll para evitar el zoom)
+    function ajustarEscalaFijaCompleta() {
         const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
-        // Forzar dimensiones virtuales horizontales estables
-        const realWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-        const realHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        // Dimensiones estables orientadas siempre en horizontal
+        const realWidth = window.innerWidth;
+        const realHeight = window.innerHeight;
 
         const anchoVentana = Math.max(realWidth, realHeight);
         const altoVentana = Math.min(realWidth, realHeight);
@@ -80,18 +81,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // Usamos Math.max para que la pantalla cubra todo el espacio sin dejar marcos negros
-        const scale = Math.max(scaleX, scaleY);
+        // Math.min asegura que toda la interfaz quepa de un solo vistazo sin cortar nada ni requerir scroll
+        const scale = Math.min(scaleX, scaleY);
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', escalarPantallaCompleta);
-    
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', escalarPantallaCompleta);
-        window.visualViewport.addEventListener('scroll', escalarPantallaCompleta);
-    }
+    // Escuchamos únicamente los cambios de tamaño generales o rotación de pantalla
+    window.addEventListener('resize', ajustarEscalaFijaCompleta);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(ajustarEscalaFijaCompleta, 300);
+    });
 
-    escalarPantallaCompleta();
+    ajustarEscalaFijaCompleta();
 });
