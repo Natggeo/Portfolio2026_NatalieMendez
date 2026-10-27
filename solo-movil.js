@@ -1,4 +1,4 @@
-// solo-movil.js - Escalado móvil con margen de respiro optimizado para ver botones y descripciones
+// solo-movil.js - Escalado móvil optimizado con mayor tamaño y margen de respiro equilibrado
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -62,8 +62,8 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledMobileContainer';
     }
 
-    // 4. Función de cálculo de escala con margen de respiro de seguridad
-    function escalarMovilSeguro() {
+    // 4. Función de cálculo de escala con un factor mayor (0.95) para aprovechar mejor la pantalla
+    function escalarMovilMasGrande() {
         const container = document.getElementById('scaledMobileContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
         
@@ -76,23 +76,22 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = windowWidth / baseWidth;
         const scaleY = windowHeight / baseHeight;
         
-        // Tomamos la escala menor y la multiplicamos por 0.90 para garantizar 
-        // que el botón de hamburguesa arriba y las descripciones abajo queden 100% a la vista
-        const scale = Math.min(scaleX, scaleY) * 0.90;
+        // Subimos al 95% para que se vea más grande y detallado ocupando mejor el espacio
+        const scale = Math.min(scaleX, scaleY) * 0.95;
 
         container.style.transform = `scale(${scale})`;
     }
 
-    window.addEventListener('resize', escalarMovilSeguro);
+    window.addEventListener('resize', escalarMovilMasGrande);
     
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', escalarMovilSeguro);
-        window.visualViewport.addEventListener('scroll', escalarMovilSeguro);
+        window.visualViewport.addEventListener('resize', escalarMovilMasGrande);
+        window.visualViewport.addEventListener('scroll', escalarMovilMasGrande);
     }
 
     window.addEventListener('orientationchange', () => {
-        setTimeout(escalarMovilSeguro, 350);
+        setTimeout(escalarMovilMasGrande, 350);
     });
 
-    escalarMovilSeguro();
+    escalarMovilMasGrande();
 });
