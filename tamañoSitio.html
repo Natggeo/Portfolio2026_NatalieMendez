@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gy Arts - Test de Escalado Proporcional</title>
+    
+    <style>
+        @font-face {
+            font-family: 'Chunko';
+            src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Teko';
+            src: url('fonts/Teko-Regular.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #F6FFE9;
+            font-family: 'Teko', sans-serif;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Contenedor con proporción fija adaptativa (16:9) */
+        .tv-screen-container {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Proportional height */
+            max-height: 100vh;
+            max-width: 177.78vh; /* 16:9 Proportional width */
+            background-color: #290087;
+            border: 12px solid #F137A6;
+            outline: 6px solid #F2E0A4;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.6);
+        }
+
+        .test-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Chunko', sans-serif;
+            font-size: 3rem;
+            color: #F2E0A4;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tv-screen-container">
+        <div class="test-content">
+            <h1>PRUEBA DE ESCALADO</h1>
+            <p>Cambia el tamaño de la ventana de tu navegador para ver cómo la pantalla mantiene su proporción exacta.</p>
+        </div>
+    </div>
+
+</body>
+</html>
