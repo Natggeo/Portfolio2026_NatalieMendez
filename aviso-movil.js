@@ -1,6 +1,15 @@
-// escalador-global.js - Escalado horizontal milimétrico basado en altura para evitar cualquier scroll
+// escalador-global.js - Activa el escalado horizontal EXCLUSIVAMENTE en dispositivos móviles
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Inyectar estilos estrictos para bloquear scroll y fijar la vista
+    
+    // 1. Detectar si es un dispositivo móvil (por navegador o tamaño de pantalla)
+    const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
+
+    // Si estás en una PC o pantalla grande, el script se detiene y la PC queda 100% intacta
+    if (!esMovil) {
+        return; 
+    }
+
+    // 2. Si es móvil, inyectamos los estilos para bloquear scroll y centrar el televisor
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -29,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Lienzo base de PC mantenido exactamente en el centro */
+        /* Lienzo base de PC mantenido exactamente en el centro para móviles */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -42,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
     `;
     document.head.appendChild(style);
 
-    // 2. Envolver automáticamente el televisor si no está envuelto
+    // 3. Envolver automáticamente el televisor en modo móvil
     const tvContainer = document.querySelector('.tv-screen-container');
     if (tvContainer && !tvContainer.parentElement.classList.contains('scaler-wrapper')) {
         const wrapper = document.createElement('div');
@@ -52,8 +61,8 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledContainer';
     }
 
-    // 3. Función matemática ajustada priorizando la altura vertical para eliminar el scroll
-    function escalarSitio() {
+    // 4. Función matemática optimizada para móviles (prioriza altura para evitar scroll)
+    function escalarSitioMovil() {
         const container = document.getElementById('scaledContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
         
@@ -66,29 +75,22 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = windowWidth / baseWidth;
         const scaleY = windowHeight / baseHeight;
         
-        // En dispositivos móviles, priorizamos scaleY para que NUNCA sobrepase la altura de la pantalla
-        let scale = Math.min(scaleX, scaleY);
+        // Ajustamos la escala priorizando la altura vertical con un margen de respiro limpio
+        let scale = Math.min(scaleX, scaleY) * 0.92; 
 
-        if (windowWidth <= 900 || windowHeight <= 600) {
-            // Factor optimizado para que todo el televisor (arriba y abajo) entre de golpe en la pantalla
-            scale = scaleY * 0.95; 
-        }
-
-        // Centrado absoluto y aplicación de la escala perfecta
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', escalarSitio);
+    window.addEventListener('resize', escalarSitioMovil);
     
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', escalarSitio);
-        window.visualViewport.addEventListener('scroll', escalarSitio);
+        window.visualViewport.addEventListener('resize', escalarSitioMovil);
+        window.visualViewport.addEventListener('scroll', escalarSitioMovil);
     }
 
     window.addEventListener('orientationchange', () => {
-        setTimeout(escalarSitio, 300);
+        setTimeout(escalarSitioMovil, 300);
     });
     
-    window.addEventListener('load', escalarSitio);
-    escalarSitio();
+    escalarSitioMovil();
 });
