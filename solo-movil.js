@@ -1,4 +1,4 @@
-// solo-movil.js - Forzado horizontal permanente y escalado ampliado para móviles
+// solo-movil.js - Forzado horizontal y pantalla completa total sin marcos negros
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return; 
     }
 
-    // 2. Inyectar estilos para bloquear la vista horizontal estricta y rellenar la pantalla
+    // 2. Inyectar estilos para pantalla completa absoluta en móvil
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 0 !important;
         }
 
-        /* Contenedor principal que llena toda la pantalla del móvil */
+        /* Contenedor principal que llena toda la pantalla del móvil sin dejar huecos */
         .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
@@ -62,12 +62,12 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 4. Función que fuerza el cálculo horizontal y aplica un 30% más de escala horizontal
-    function escalarForzadoHorizontal() {
+    // 4. Función de escala máxima (Cover) para eliminar los marcos negros por completo
+    function escalarPantallaCompleta() {
         const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
-        // Tomamos siempre el lado mayor como ancho y el menor como alto para simular el bloqueo horizontal
+        // Forzar dimensiones virtuales horizontales estables
         const realWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
         const realHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
@@ -80,19 +80,18 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // Tomamos la escala base y le sumamos el 30% de expansión horizontal solicitada
-        const escalaBase = Math.min(scaleX, scaleY);
-        const escalaAmpliada = escalaBase * 1.30; 
+        // Usamos Math.max para que la pantalla cubra todo el espacio sin dejar marcos negros
+        const scale = Math.max(scaleX, scaleY);
 
-        container.style.transform = `translate(-50%, -50%) scale(${escalaAmpliada})`;
+        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', escalarForzadoHorizontal);
+    window.addEventListener('resize', escalarPantallaCompleta);
     
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', escalarForzadoHorizontal);
-        window.visualViewport.addEventListener('scroll', escalarForzadoHorizontal);
+        window.visualViewport.addEventListener('resize', escalarPantallaCompleta);
+        window.visualViewport.addEventListener('scroll', escalarPantallaCompleta);
     }
 
-    escalarForzadoHorizontal();
+    escalarPantallaCompleta();
 });
