@@ -1,21 +1,21 @@
-// solo-movil.js - Adaptador exclusivo para dispositivos móviles con margen de respiro
+// solo-movil.js - Escalado móvil optimizado con Flexbox y margen de respiro sin cortes
 document.addEventListener("DOMContentLoaded", function() {
     
-    // 1. Detección estricta de dispositivo móvil o pantallas pequeñas
+    // 1. Detección de dispositivos móviles o pantallas reducidas
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
-    // Si estás en una PC, el script se detiene por completo y la PC no sufre ningún cambio
+    // Si es PC, el script se detiene y la PC se queda 100% intacta
     if (!esMovil) {
         return; 
     }
 
-    // 2. Inyectar estilos específicos para móviles con un contenedor que deja "respirar" el diseño
+    // 2. Inyectar estilos limpios basados en Flexbox para evitar desfases
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
             background-color: #000 !important;
-            width: 100% !important;
-            height: 100% !important;
+            width: 100vw !important;
+            height: 100vh !important;
             overflow: hidden !important;
             margin: 0 !important;
             padding: 0 !important;
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 0 !important;
         }
 
-        /* Envoltorio móvil con padding interno para dar el margen de respiro */
+        /* Contenedor principal que centra y da el margen de respiro */
         .mobile-respiro-wrapper {
             width: 100vw !important;
             height: 100vh !important;
@@ -38,23 +38,21 @@ document.addEventListener("DOMContentLoaded", function() {
             justify-content: center !important;
             align-items: center !important;
             box-sizing: border-box !important;
-            padding: 15px !important; /* Margen de respiro para que respire por los 4 lados */
+            padding: 20px !important; /* Margen de respiro seguro alrededor de todo el televisor */
         }
 
-        /* Forzar dimensiones de consola fija dentro del área segura móvil */
+        /* Lienzo base de la consola sin posiciones absolutas problemáticas */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
-            position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
+            flex-shrink: 0 !important;
             transform-origin: center center !important;
             box-sizing: border-box !important;
         }
     `;
     document.head.appendChild(style);
 
-    // 3. Envolver automáticamente el televisor dentro del contenedor móvil
+    // 3. Envolver automáticamente el televisor en el contenedor móvil
     const tvContainer = document.querySelector('.tv-screen-container');
     if (tvContainer && !tvContainer.parentElement.classList.contains('mobile-respiro-wrapper')) {
         const wrapper = document.createElement('div');
@@ -64,36 +62,42 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledMobileContainer';
     }
 
-    // 4. Función de cálculo de escala con factor de reducción extra para el respiro
-    function escalarMovilConRespiro() {
+    // 4. Función de escala matemática precisa basada en el área útil con respiro
+    function escalarMovilSinCortes() {
         const container = document.getElementById('scaledMobileContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
         
         const baseWidth = 1366;
         const baseHeight = 768;
 
+        // Obtenemos el tamaño visible real del visor del celular
         const windowWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
         const windowHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
-        const scaleX = windowWidth / baseWidth;
-        const scaleY = windowHeight / baseHeight;
-        
-        // Multiplicamos por 0.85 para asegurar que encaje holgadamente sin tocar los bordes de la pantalla
-        let scale = Math.min(scaleX, scaleY) * 0.85; 
+        // Restamos el espacio del padding de respiro (40px en total por eje)
+        const availableWidth = windowWidth - 40;
+        const availableHeight = windowHeight - 40;
 
-        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        const scaleX = availableWidth / baseWidth;
+        const scaleY = availableHeight / baseHeight;
+        
+        // Tomamos la escala menor para asegurar que encaje tanto de ancho como de alto perfectamente
+        const scale = Math.min(scaleX, scaleY);
+
+        // Aplicamos la escala directa sin desfasar coordenadas
+        container.style.transform = `scale(${scale})`;
     }
 
-    window.addEventListener('resize', escalarMovilConRespiro);
+    window.addEventListener('resize', escalarMovilSinCortes);
     
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', escalarMovilConRespiro);
-        window.visualViewport.addEventListener('scroll', escalarMovilConRespiro);
+        window.visualViewport.addEventListener('resize', escalarMovilSinCortes);
+        window.visualViewport.addEventListener('scroll', escalarMovilSinCortes);
     }
 
     window.addEventListener('orientationchange', () => {
-        setTimeout(escalarMovilConRespiro, 300);
+        setTimeout(escalarMovilSinCortes, 350); // Pausa para permitir que el celular complete la rotación
     });
 
-    escalarMovilConRespiro();
+    escalarMovilSinCortes();
 });
