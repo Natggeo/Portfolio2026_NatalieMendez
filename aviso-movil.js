@@ -1,15 +1,15 @@
-// escalador-global.js - Activa el escalado horizontal EXCLUSIVAMENTE en dispositivos móviles
+// escalador-global.js - Activa el escalado horizontal EXCLUSIVAMENTE en móviles
 document.addEventListener("DOMContentLoaded", function() {
     
-    // 1. Detectar si es un dispositivo móvil (por navegador o tamaño de pantalla)
+    // 1. Detectar si es un dispositivo móvil
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
-    // Si estás en una PC o pantalla grande, el script se detiene y la PC queda 100% intacta
+    // Si estás en PC, el script se detiene aquí y la versión de PC queda 100% intacta y original
     if (!esMovil) {
         return; 
     }
 
-    // 2. Si es móvil, inyectamos los estilos para bloquear scroll y centrar el televisor
+    // 2. Si es móvil, inyectamos los estilos de transformación y contenedor exclusivo para celulares
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Lienzo base de PC mantenido exactamente en el centro para móviles */
+        /* Forzar dimensiones de consola fija SOLAMENTE en móviles */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
     `;
     document.head.appendChild(style);
 
-    // 3. Envolver automáticamente el televisor en modo móvil
+    // 3. Envolver el televisor en el contenedor móvil
     const tvContainer = document.querySelector('.tv-screen-container');
     if (tvContainer && !tvContainer.parentElement.classList.contains('scaler-wrapper')) {
         const wrapper = document.createElement('div');
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledContainer';
     }
 
-    // 4. Función matemática optimizada para móviles (prioriza altura para evitar scroll)
+    // 4. Función de escalado optimizada para celulares
     function escalarSitioMovil() {
         const container = document.getElementById('scaledContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
@@ -75,22 +75,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = windowWidth / baseWidth;
         const scaleY = windowHeight / baseHeight;
         
-        // Ajustamos la escala priorizando la altura vertical con un margen de respiro limpio
+        // Margen de respiro para móviles
         let scale = Math.min(scaleX, scaleY) * 0.92; 
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
     window.addEventListener('resize', escalarSitioMovil);
-    
     if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', escalarSitioMovil);
         window.visualViewport.addEventListener('scroll', escalarSitioMovil);
     }
-
-    window.addEventListener('orientationchange', () => {
-        setTimeout(escalarSitioMovil, 300);
-    });
-    
+    window.addEventListener('orientationchange', () => setTimeout(escalarSitioMovil, 300));
     escalarSitioMovil();
 });
