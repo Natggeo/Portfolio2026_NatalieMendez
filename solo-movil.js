@@ -1,4 +1,4 @@
-// solo-movil.js - Ajuste exacto al área visual real del celular para visibilidad e interactividad total
+// solo-movil.js - Escalado móvil con margen de respiro seguro para ver menús y descripciones
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -57,19 +57,18 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledMobileContainer';
     }
 
-    // 4. Función de ajuste milimétrico basada en el área visual real del dispositivo
-    function ajustarPantallaMovil() {
+    // 4. Función con factor de respiro para asegurar visibilidad total
+    function ajustarPantallaMovilConRespiro() {
         const wrapper = document.querySelector('.mobile-respiro-wrapper');
         const container = document.getElementById('scaledMobileContainer') || document.querySelector('.tv-screen-container');
         if (!wrapper || !container) return;
 
-        // Obtener el ancho y alto visible real ignorando las barras flotantes del navegador móvil
+        // Obtener el ancho y alto visible real ignorando barras flotantes
         const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
         const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
         const offsetTop = window.visualViewport ? window.visualViewport.offsetTop : 0;
         const offsetLeft = window.visualViewport ? window.visualViewport.offsetLeft : 0;
 
-        // Forzar al envoltorio a ocupar exactamente el espacio útil visible
         wrapper.style.width = vw + 'px';
         wrapper.style.height = vh + 'px';
         wrapper.style.top = offsetTop + 'px';
@@ -81,23 +80,23 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = vw / baseWidth;
         const scaleY = vh / baseHeight;
         
-        // Calcular la escala exacta para que encaje de lado a lado y de arriba a abajo sin recortes
-        const scale = Math.min(scaleX, scaleY);
+        // Multiplicamos por 0.82 para garantizar un margen de respiro perfecto por los 4 lados
+        const scale = Math.min(scaleX, scaleY) * 0.82;
 
         // Aplicar transformación centrada
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', ajustarPantallaMovil);
+    window.addEventListener('resize', ajustarPantallaMovilConRespiro);
     
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', ajustarPantallaMovil);
-        window.visualViewport.addEventListener('scroll', ajustarPantallaMovil);
+        window.visualViewport.addEventListener('resize', ajustarPantallaMovilConRespiro);
+        window.visualViewport.addEventListener('scroll', ajustarPantallaMovilConRespiro);
     }
 
     window.addEventListener('orientationchange', () => {
-        setTimeout(ajustarPantallaMovil, 300);
+        setTimeout(ajustarPantallaMovilConRespiro, 300);
     });
 
-    ajustarPantallaMovil();
+    ajustarPantallaMovilConRespiro();
 });
