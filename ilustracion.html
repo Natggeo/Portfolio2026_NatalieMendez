@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gy Arts - Canal Ilustración</title>
+    
+    <style>
+        /* Declaración de fuentes */
+        @font-face {
+            font-family: 'Chunko';
+            src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Teko';
+            src: url('fonts/Teko-Regular.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #290087;
+            color: #F6FFE9;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.4rem;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        /* Contenedor Televisor */
+        .tv-screen-container {
+            width: 100vw;
+            height: 100vh;
+            background-color: #CAC5E5;
+            border: 12px solid #F137A6;
+            padding: 20px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+            outline: 6px solid #F2E0A4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* BOTÓN MENÚ HAMBURGUESA ESQUINA SUPERIOR DERECHA */
+        .btn-menu-icon {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 45px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 60;
+            background: rgba(41, 0, 135, 0.4);
+            padding: 8px;
+            border-radius: 8px;
+            border: 2px solid #F2E0A4;
+        }
+
+        .btn-menu-icon span {
+            display: block;
+            height: 4px;
+            width: 100%;
+            background-color: #F6FFE9;
+            border-radius: 4px;
+        }
+
+        .btn-menu-icon:hover, .btn-menu-icon.active-btn {
+            opacity: 0.77 !important;
+            transform: scale(1.08);
+        }
+
+        /* Área Central del Proyecto */
+        .project-display-area {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: #000;
+            margin-bottom: 15px;
+            border: 3px solid #290087;
+        }
+
+        .project-display-area video, .project-display-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #05020a;
+        }
+
+        /* Flechas de Navegación */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px !important;
+            height: 35px !important;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 50;
+            user-select: none;
+        }
+
+        .nav-arrow:hover {
+            opacity: 0.77 !important;
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .arrow-left { left: 15px; }
+        .arrow-right { right: 15px; }
+
+        /* Panel Inferior */
+        .tv-bottom-panel {
+            background-color: #290087;
+            border: 3px solid #F2E0A4;
+            border-radius: 10px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            min-height: 110px;
+            color: #F6FFE9;
+            position: relative;
+        }
+
+        .channel-logo-box {
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.8rem;
+            color: #F137A6;
+            border-right: 3px dashed #CAC5E5;
+            padding-right: 25px;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .project-info-box { 
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2px;
+            padding-bottom: 15px;
+        }
+
+        .project-title {
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.5rem;
+            color: #F2E0A4;
+            line-height: 1;
+        }
+
+        .project-description {
+            font-size: 1.1rem;
+            line-height: 1.15;
+            color: #F6FFE9;
+            max-width: 80%;
+        }
+
+        /* Contenedor fijado en la Esquina Inferior Derecha */
+        .project-tags-container {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .project-tag-pill {
+            background-color: #F2E0A4;
+            color: #290087;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1;
+            padding: 2px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: 1.5px solid #F137A6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        /* MODAL / OVERLAY OSD */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 8, 30, 0.88);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .menu-modal-container {
+            width: 95%;
+            max-width: 1050px;
+            height: 85vh;
+            max-height: 620px;
+            display: flex;
+            gap: 15px;
+            position: relative;
+        }
+
+        .menu-sidebar {
+            width: 100px;
+            background-color: #120c1f;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+
+        .sidebar-icon-item {
+            width: 100%;
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #ffffff;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-icon-item.active {
+            border: 2px solid #F137A6;
+            box-shadow: inset 0 0 10px #F137A6, 0 0 15px #F137A6;
+            background: rgba(241, 55, 166, 0.15);
+        }
+
+        .sidebar-icon-item:hover:not(.active) {
+            color: #F2E0A4;
+            transform: scale(1.1);
+        }
+
+        .menu-content-card {
+            flex: 1;
+            background-color: #1a084c;
+            border-radius: 8px;
+            padding: 35px 45px;
+            display: flex;
+            flex-direction: column;
+            color: #F6FFE9;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-header-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 2rem;
+            color: #ffffff;
+            text-transform: lowercase;
+            line-height: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-main-name {
+            font-family: 'Chunko', sans-serif;
+            font-size: 5rem;
+            color: #ffffff;
+            line-height: 0.85;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        .menu-body-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex: 1;
+        }
+
+        .menu-photo-placeholder {
+            width: 320px;
+            height: 320px;
+            background-color: #f2f2f2;
+            border-radius: 2px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .menu-photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-text-bio {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.4rem;
+            line-height: 1.25;
+            color: #ffffff;
+            text-align: justify;
+            flex: 1;
+            display: block;
+        }
+
+        .menu-text-bio p {
+            margin-bottom: 14px;
+        }
+
+        .menu-text-bio p:last-child {
+            margin-bottom: 0;
+        }
+
+        .inputs-osd-panel {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            background: #120c1f;
+            border: 3px solid #F2E0A4;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 15px;
+        }
+
+        .inputs-osd-title {
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.8rem;
+            color: #F2E0A4;
+            border-bottom: 2px dashed #F137A6;
+            padding-bottom: 8px;
+        }
+
+        .input-option-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1a084c;
+            border: 2px solid #F137A6;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: #F6FFE9;
+            font-size: 1.4rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-option-item:hover {
+            background-color: #F2E0A4;
+            color: #290087;
+            font-weight: bold;
+            transform: translateX(8px);
+        }
+
+        .input-tag {
+            font-family: 'Chunko', sans-serif;
+            background-color: #F137A6;
+            color: #F6FFE9;
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+        }
+
+        .btn-close-menu {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background-color: #F137A6;
+            color: #F6FFE9;
+            font-family: 'Chunko', sans-serif;
+            border: 2px solid #F2E0A4;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 110;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tv-screen-container">
+        
+        <!-- BOTÓN DE MENÚ HAMBURGUESA -->
+        <div class="btn-menu-icon" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Área Central de Proyectos -->
+        <div class="project-display-area">
+            <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="proyectoAnterior()">
+
+            <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+                <img id="canalImagen" src="img/ilustracion/portada_comic.jpg" alt="Portada de Comic" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">
+            </div>
+
+            <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="proyectoSiguiente()">
+        </div>
+
+        <!-- Panel Inferior -->
+        <div class="tv-bottom-panel">
+            <div id="channelLogo" class="channel-logo-box">ILUSTRA-TV</div>
+            <div class="project-info-box">
+                <div id="projectTitle" class="project-title">Portada de Comic</div>
+                <div id="projectDesc" class="project-description">
+                    Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales. Esta portada está inspirada en la leyenda de los duendes, a partir de bocetos y diseño de personajes, logré el acabado final en Krita y Canva, aprendiendo sobre narrativa visual, flujo creativo y composición editorial.
+                </div>
+            </div>
+            <!-- Palabras clave en la esquina inferior derecha -->
+            <div id="projectTags" class="project-tags-container"></div>
+        </div>
+
+    </div>
+
+    <!-- MODAL / MENU DESPLEGABLE -->
+    <div id="menuOverlay" class="menu-overlay">
+        <div class="menu-modal-container">
+            
+            <button class="btn-close-menu" id="closeMenuBtn">✕</button>
+
+            <div class="menu-sidebar">
+                <div class="sidebar-icon-item active" id="btnPerfil" title="Perfil / Bio" onclick="mostrarSeccion('bio')">👤</div>
+                <div class="sidebar-icon-item" title="Favoritos">⭐</div>
+                <div class="sidebar-icon-item" title="Buscar">🔍</div>
+                <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
+                <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
+                <div class="sidebar-icon-item" id="btnInputs" title="Entradas Video / HDMI" onclick="mostrarSeccion('inputs')">📡</div>
+            </div>
+
+            <div class="menu-content-card" id="cardBio">
+                <div class="menu-header-title">conoce sobre</div>
+                <h1 class="menu-main-name">NATALIE</h1>
+                
+                <div class="menu-body-layout">
+                    <div class="menu-photo-placeholder">
+                        <img src="img/natalie_bio.jpg" alt="Natalie" onerror="this.parentNode.innerHTML='<span style=\'color:#1a084c; font-weight:bold; font-size:1.5rem;\'>[FOTO]</span>'">
+                    </div>
+                    
+                    <div class="menu-text-bio">
+                        <p>En el mundo de la animación y el desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. No me limito a una sola disciplina, desde el trazo conceptual, la estructura de un modelo 3D y la fluidez del storyboard, hasta el trabajo colaborativo en equipo, disfruto conectar ideas con historias que impacten.</p>
+                        <p>Mi experiencia en atención al cliente me ha enseñado a escuchar activamente, adaptarme a dinámicas exigentes y entender las necesidades del público o cliente final. Hablo español, inglés (intermedio) y japonés (básico). Para mí, un proyecto nunca es solo un encargo; es un universo creativo con alma propia diseñado para comunicar, emocionar y cobrar vida.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-content-card" id="cardInputs" style="display: none;">
+                <div class="menu-header-title">seleccionar fuente</div>
+                <h1 class="menu-main-name">ENTRADAS / SOURCE</h1>
+                
+                <div class="inputs-osd-panel" style="display: flex;">
+                    <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
+                    
+                    <a href="index.html" class="input-option-item">
+                        <span>📺 TV - Guía EPG de Canales</span>
+                        <span class="input-tag">SINTONIZADOR</span>
+                    </a>
+
+                    <a href="habilidades.html" class="input-option-item">
+                        <span>🔌 HDMI 1 - Wii Menu (Habilidades & Software)</span>
+                        <span class="input-tag">CONSOLA</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+        menuBtn.addEventListener('click', () => {
+            menuOverlay.style.display = 'flex';
+            menuBtn.classList.add('active-btn');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            menuOverlay.style.display = 'none';
+            menuBtn.classList.remove('active-btn');
+        });
+
+        function mostrarSeccion(seccion) {
+            const cardBio = document.getElementById('cardBio');
+            const cardInputs = document.getElementById('cardInputs');
+            const btnPerfil = document.getElementById('btnPerfil');
+            const btnInputs = document.getElementById('btnInputs');
+
+            if (seccion === 'inputs') {
+                cardBio.style.display = 'none';
+                cardInputs.style.display = 'flex';
+                btnPerfil.classList.remove('active');
+                btnInputs.classList.add('active');
+            } else {
+                cardBio.style.display = 'flex';
+                cardInputs.style.display = 'none';
+                btnInputs.classList.remove('active');
+                btnPerfil.classList.add('active');
+            }
+        }
+
+        // ARRAY DE PROYECTOS DE ILUSTRACIÓN EXTRAÍDOS DE TUS IMÁGENES
+        const proyectosIlustracion = [
+            {
+                titulo: "Portada de Comic",
+                tags: ["ILUSTRACIÓN DIGITAL", "CONCEPT ART", "NARRATIVA VISUAL", "ILUSTRACIÓN EDITORIAL"],
+                recurso: "img/ilustracion/portada_comic.jpg",
+                tipo: "imagen",
+                descripcion: "Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales. Esta portada está inspirada en la leyenda de los duendes, a partir de bocetos y diseño de personajes, logré el acabado final en Krita y Canva, aprendiendo sobre narrativa visual, flujo creativo y composición editorial."
+            },
+            {
+                titulo: "Bonbon: Diseño Editorial y Cómic Secuencial",
+                tags: ["CONCEPT ART", "DISEÑO EDITORIAL", "MODEL SHEET", "COMIC SECUENCIAL"],
+                recurso: "img/ilustracion/bonbon.jpg",
+                tipo: "imagen",
+                descripcion: "Diseñé en Krita e Illustrator un cómic impreso con tiras cómicas, model sheets y portadas. Aprendí a estructurar una publicación editorial completa, desde la conceptualización hasta la maquetación final."
+            },
+            {
+                titulo: "Model Sheet y Conceptualización 3D",
+                tags: ["CONCEPT ART", "MODEL SHEET", "PREPRODUCCIÓN 3D"],
+                recurso: "img/ilustracion/model_sheet_3d.jpg",
+                tipo: "imagen",
+                descripcion: "Se diseñó en Krita la hoja de personaje con turnaround y conceptos para modelado 3D. Aprendí a estructurar guías técnicas de visibilidad y proporción para agilizar la producción multidimensional."
+            },
+            {
+                titulo: "El Cuento de Kaguya: Desarrollo de Espacios y Entornos",
+                tags: ["BACKGROUND ART", "ILUSTRACIÓN DIGITAL", "COMPOSICIÓN VISUAL"],
+                recurso: "img/ilustracion/cuento_kaguya.jpg",
+                tipo: "imagen",
+                descripcion: "En este proyecto ilustré en Krita diversos fondos para la secuencia de un storyboard adaptado de la leyenda japonesa de la Princesa Kaguya. Durante el proceso, aprendí a construir la ambientación y la profundidad espacial de una narrativa visual, dominando el manejo de valores tonales en escala de grises, el estilo de pincelada tradicional y la composición escénica enfocada a la producción de animación."
+            }
+        ];
+
+        let indiceActual = 0;
+
+        function cargarProyectoActual() {
+            const proj = proyectosIlustracion[indiceActual];
+            document.getElementById('projectTitle').innerText = proj.titulo;
+            document.getElementById('projectDesc').innerText = proj.descripcion;
+            
+            const tagsContainer = document.getElementById('projectTags');
+            tagsContainer.innerHTML = proj.tags.map(tag => `<span class="project-tag-pill">${tag}</span>`).join('');
+
+            const mediaContainer = document.getElementById('mediaContainer');
+            if (proj.tipo === "video") {
+                mediaContainer.innerHTML = `<video id="canalVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain;"><source src="${proj.recurso}" type="video/mp4"></video>`;
+            } else {
+                mediaContainer.innerHTML = `<img id="canalImagen" src="${proj.recurso}" alt="${proj.titulo}" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">`;
+            }
+        }
+
+        function proyectoSiguiente() {
+            indiceActual = (indiceActual + 1) % proyectosIlustracion.length;
+            cargarProyectoActual();
+        }
+
+        function proyectoAnterior() {
+            indiceActual = (indiceActual - 1 + proyectosIlustracion.length) % proyectosIlustracion.length;
+            cargarProyectoActual();
+        }
+
+        cargarProyectoActual();
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gy Arts - Inicio</title>
+    
+    <style>
+        /* Declaración de la fuente principal */
+        @font-face {
+            font-family: 'Chunko';
+            src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Teko';
+            src: url('fonts/Teko-Regular.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Video de fondo a pantalla completa */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* Capa de tinte azul retro sobre el video */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(41, 0, 135, 0.4);
+            z-index: 2;
+        }
+
+        /* Botón principal de Sintonizar */
+        .btn-sintonizar {
+            position: relative;
+            z-index: 3;
+            background-color: #F137A6;
+            color: #F6FFE9;
+            font-family: 'Chunko', sans-serif;
+            font-size: 2.2rem;
+            padding: 15px 40px;
+            border: 4px solid #F2E0A4;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(241, 55, 166, 0.8), 5px 5px 0px #290087;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-sintonizar:hover {
+            background-color: #F2E0A4;
+            color: #290087;
+            transform: scale(1.08);
+            border-color: #F137A6;
+        }
+
+        /* Estilos para el aviso de pantalla vertical en móviles */
+        .rotate-device-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #120638;
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            color: #F6FFE9;
+            font-family: 'Teko', sans-serif;
+        }
+
+        .rotate-box {
+            background-color: #290087;
+            border: 4px solid #F2E0A4;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(241, 55, 166, 0.6);
+            max-width: 350px;
+        }
+
+        .rotate-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: spinIcon 2s infinite ease-in-out;
+        }
+
+        .rotate-device-overlay h2 {
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.8rem;
+            color: #F137A6;
+            margin-bottom: 10px;
+        }
+
+        .rotate-device-overlay p {
+            font-size: 1.3rem;
+            line-height: 1.2;
+        }
+
+        @keyframes spinIcon {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(90deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* Se activa únicamente en celulares cuando están en vertical (portrait) */
+        @media screen and (max-width: 900px) and (orientation: portrait) {
+            .rotate-device-overlay {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Aviso para girar el dispositivo en móviles -->
+    <div id="landscapeWarning" class="rotate-device-overlay">
+        <div class="rotate-box">
+            <div class="rotate-icon">📱 ⟳</div>
+            <h2>GIRA TU DISPOSITIVO</h2>
+            <p>Para disfrutar de la mejor experiencia retro en tu TV, por favor coloca tu celular en horizontal.</p>
+        </div>
+    </div>
+
+    <!-- Video de fondo en bucle -->
+    <video autoplay loop muted playsinline class="video-background">
+        <source src="videos/PORTADA FINAL.mp4" type="video/mp4">
+    </video>
+    
+    <div class="overlay"></div>
+
+    <!-- Botón que envía a la Guía EPG indicando el parámetro de navegación -->
+    <a href="guiaCanales.html?desde_home=true" class="btn-sintonizar">SINTONIZAR</a>
+
+</body>
+</html>
