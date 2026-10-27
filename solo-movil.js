@@ -1,4 +1,4 @@
-// solo-movil.js - Escalado fijo horizontal completo, sin zoom al hacer scroll y sin necesidad de desplazamiento
+// solo-movil.js - Escalado horizontal fijo con ampliación optimizada para pantalla completa
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return; 
     }
 
-    // 2. Inyectar estilos para bloquear el scroll de la página por completo
+    // 2. Inyectar estilos para bloquear el scroll y mantener el contenedor fijo
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function() {
             left: 0 !important;
         }
 
-        /* Contenedor principal fijo que abarca toda la pantalla sin permitir scroll */
         .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
@@ -39,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Consola base de 1366x768 perfectamente centrada */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -63,12 +61,11 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 4. Función de escala fija estable (sin listeners de scroll para evitar el zoom)
-    function ajustarEscalaFijaCompleta() {
+    // 4. Función de escala ampliada un poco más sin perder estabilidad
+    function ajustarEscalaAmpliada() {
         const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
-        // Dimensiones estables orientadas siempre en horizontal
         const realWidth = window.innerWidth;
         const realHeight = window.innerHeight;
 
@@ -81,17 +78,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // Math.min asegura que toda la interfaz quepa de un solo vistazo sin cortar nada ni requerir scroll
-        const scale = Math.min(scaleX, scaleY);
+        // Tomamos la escala base y la multiplicamos por 1.12 para ampliarla un poco más y acoplarla mejor
+        const scale = Math.min(scaleX, scaleY) * 1.12;
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    // Escuchamos únicamente los cambios de tamaño generales o rotación de pantalla
-    window.addEventListener('resize', ajustarEscalaFijaCompleta);
+    window.addEventListener('resize', ajustarEscalaAmpliada);
     window.addEventListener('orientationchange', () => {
-        setTimeout(ajustarEscalaFijaCompleta, 300);
+        setTimeout(ajustarEscalaAmpliada, 300);
     });
 
-    ajustarEscalaFijaCompleta();
+    ajustarEscalaAmpliada();
 });
