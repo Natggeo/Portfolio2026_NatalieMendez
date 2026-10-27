@@ -1,4 +1,4 @@
-// solo-movil.js - Escalado máximo horizontal sin marcos negros y con visibilidad total de descripción y menú
+// solo-movil.js - Escalado masivo y agresivo para forzar la visibilidad completa de la descripción y el menú
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return; 
     }
 
-    // 2. Inyectar estilos para pantalla completa horizontal y márgenes internos seguros
+    // 2. Inyectar estilos para pantalla completa horizontal con desplazamiento de seguridad
     const style = document.createElement('style');
     style.innerHTML = `
         html, body {
@@ -39,31 +39,16 @@ document.addEventListener("DOMContentLoaded", function() {
             align-items: center !important;
         }
 
-        /* Consola base de 1366x768 */
+        /* Consola base de 1366x768 desplazada ligeramente hacia arriba para dar aire a la descripción */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
             position: absolute !important;
-            top: 50% !important;
+            top: 48% !important;
             left: 50% !important;
             transform-origin: center center !important;
             box-sizing: border-box !important;
             overflow: visible !important;
-        }
-
-        /* Regla de seguridad móvil para asegurar que la descripción y el menú nunca se salgan */
-        .tv-screen-container header, 
-        .tv-screen-container .menu-hamburguesa,
-        .tv-screen-container [class*="menu"],
-        .tv-screen-container [class*="nav"] {
-            max-top: 15px !important;
-        }
-
-        .tv-screen-container footer, 
-        .tv-screen-container [class*="descripcion"], 
-        .tv-screen-container [class*="info"],
-        .tv-screen-container [class*="detalle"] {
-            margin-bottom: 15px !important;
         }
     `;
     document.head.appendChild(style);
@@ -78,8 +63,8 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 4. Función de escala basada en el ancho máximo para eliminar marcos negros
-    function escalarMaximoHorizontal() {
+    // 4. Función de escala masiva multiplicada para forzar un tamaño grande y visible
+    function escalarMasivoMovil() {
         const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
@@ -92,27 +77,20 @@ document.addEventListener("DOMContentLoaded", function() {
         const baseWidth = 1366;
         const baseHeight = 768;
 
-        // Escalamos tomando como prioridad absoluta el ancho de la pantalla del celular
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // Usamos scaleX para asegurar que cubra todo el ancho sin dejar espacios negros a los lados
-        // y aplicamos un factor equilibrado si la altura es muy reducida
-        let scale = scaleX;
-        
-        // Si la altura escalada supera el alto real de la pantalla, ajustamos ligeramente para que la descripción quepa
-        const alturaCalculada = baseHeight * scale;
-        if (alturaCalculada > altoVentana) {
-            scale = (altoVentana / baseHeight) * 1.05; // Ampliado al máximo posible manteniendo la descripción visible
-        }
+        // Aplicamos un multiplicador masivo (* 1.35) sobre la escala máxima para asegurarnos de que todo resalte y se vea
+        const scale = Math.max(scaleX, scaleY) * 1.35;
 
-        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        // Desplazamos un 1% hacia arriba (-51%) para que la caja de descripción inferior suba a la zona visible
+        container.style.transform = `translate(-50%, -51%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', escalarMaximoHorizontal);
+    window.addEventListener('resize', escalarMasivoMovil);
     window.addEventListener('orientationchange', () => {
-        setTimeout(escalarMaximoHorizontal, 300);
+        setTimeout(escalarMasivoMovil, 300);
     });
 
-    escalarMaximoHorizontal();
+    escalarMasivoMovil();
 });
