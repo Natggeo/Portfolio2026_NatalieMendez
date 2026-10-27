@@ -1,4 +1,4 @@
-// solo-movil.js - Escalado global y unificado para todo el sitio
+// solo-movil.js - Versión limpia y nativa para móviles (sin scale roto para proteger clics y videos)
 (function() {
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
@@ -6,88 +6,47 @@
         return; 
     }
 
-    // Inyectamos los estilos base globales para móvil
+    // Inyectamos un estilo móvil limpio que respeta los eventos táctiles y los videos
     const style = document.createElement('style');
     style.innerHTML = `
+        /* Forzar modo horizontal en la estructura base sin usar scale de JS */
         html, body {
             background-color: #000 !important;
             width: 100vw !important;
-            height: 100vh !important;
-            overflow: hidden !important;
+            min-height: 100vh !important;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
             margin: 0 !important;
             padding: 0 !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
         }
 
-        .mobile-forced-landscape {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            overflow: hidden !important;
-            background-color: #000 !important;
-            z-index: 99999;
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-        }
-
-        .tv-screen-container {
-            width: 1366px !important;
-            height: 768px !important;
-            position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform-origin: center center !important;
+        /* Hacemos que cualquier contenedor principal se adapte de forma fluida y 100% interactiva */
+        .tv-screen-container, 
+        .container, 
+        .container-fluid {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            margin: 0 !important;
+            padding: 10px !important;
             box-sizing: border-box !important;
+            transform: none !important; /* Eliminamos el scale para que los clics y videos funcionen perfectamente */
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+        }
+
+        /* Asegurar que los videos e iframes vuelvan a mostrarse y reproducirse con normalidad */
+        video, iframe, embed, object {
+            max-width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
     `;
     document.head.appendChild(style);
 
-    function aplicarEscalaGlobal() {
-        let tvContainer = document.querySelector('.tv-screen-container');
-        if (!tvContainer) return;
-
-        // Envolvemos el contenedor en el wrapper si no lo está
-        if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'mobile-forced-landscape';
-            tvContainer.parentNode.insertBefore(wrapper, tvContainer);
-            wrapper.appendChild(tvContainer);
-            tvContainer.id = 'scaledForcedContainer';
-        }
-
-        const container = document.getElementById('scaledForcedContainer') || tvContainer;
-
-        const realWidth = window.innerWidth;
-        const realHeight = window.innerHeight;
-
-        const anchoVentana = Math.max(realWidth, realHeight);
-        const altoVentana = Math.min(realWidth, realHeight);
-
-        const baseWidth = 1366;
-        const baseHeight = 768;
-
-        const scaleX = anchoVentana / baseWidth;
-        const scaleY = altoVentana / baseHeight;
-        
-        // Usamos una escala unificada y equilibrada (puedes ajustar el 0.65 si lo quieres un poquito más grande o pequeño)
-        const scale = Math.min(scaleX, scaleY) * 0.65;
-
-            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', aplicarEscalaGlobal);
-    } else {
-        aplicarEscalaGlobal();
-    }
-
-    window.addEventListener('resize', aplicarEscalaGlobal);
-    window.addEventListener('orientationchange', () => {
-        setTimeout(aplicarEscalaGlobal, 400);
-    });
+    console.log("Modo móvil nativo activado: Clics y videos restaurados.");
 })();
