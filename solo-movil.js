@@ -1,4 +1,4 @@
-// solo-movil.js - Ajuste de escala basado en altura para mostrar menú y descripción completos sin cortes
+// solo-movil.js - Ajuste final de escala para mostrar completo el menú superior y la descripción inferior
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Detección estricta de dispositivos móviles
@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", function() {
         tvContainer.id = 'scaledForcedContainer';
     }
 
-    // 4. Función de escala basada en la altura exacta para que nunca se corte el contenido vertical
-    function ajustarEscalaVerticalPerfecta() {
+    // 4. Función con factor de escala optimizado para que la descripción inferior sea 100% visible
+    function ajustarEscalaPerfectaMovil() {
         const container = document.getElementById('scaledForcedContainer') || document.querySelector('.tv-screen-container');
         if (!container) return;
 
@@ -72,17 +72,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const altoVentana = Math.min(realWidth, realHeight);
         const baseHeight = 768;
 
-        // Calculamos la escala tomando como base la altura de la ventana para asegurar que 
-        // el menú superior y la descripción inferior entren siempre en el visor
-        const scale = (altoVentana / baseHeight) * 0.95;
+        // Bajamos el multiplicador a 0.82 para garantizar que sobre espacio arriba y abajo
+        const scale = (altoVentana / baseHeight) * 0.82;
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    window.addEventListener('resize', ajustarEscalaVerticalPerfecta);
+    window.addEventListener('resize', ajustarEscalaPerfectaMovil);
     window.addEventListener('orientationchange', () => {
-        setTimeout(ajustarEscalaVerticalPerfecta, 300);
+        setTimeout(ajustarEscalaPerfectaMovil, 300);
     });
 
-    ajustarEscalaVerticalPerfecta();
+    ajustarEscalaPerfectaMovil();
 });
