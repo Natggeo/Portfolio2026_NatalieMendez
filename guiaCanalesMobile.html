@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gy Arts - Guía EPG Poly-TV (Móvil)</title>
-    
-    <style>
+<style>
         /* Declaración de Tus Fuentes Originales */
         @font-face {
             font-family: 'Chunko';
@@ -23,32 +16,34 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
             background-color: #000;
             color: #F6FFE9;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
             font-family: 'Teko', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
-        /* Contenedor principal (El script externo ajustará su alto y ancho en tiempo real) */
+        /* Contenedor principal a pantalla completa absoluta sin espacios negros */
         .mobile-tv-container {
-            width: 96vw;
-            height: 94vh;
-            max-height: 100%;
+            width: 100vw;
+            height: 100vh;
             background-color: #290087;
-            border: 5px solid #F137A6;
+            border: 4px solid #F137A6;
             outline: 2px solid #F2E0A4;
-            padding: 5px;
+            padding: 4px;
             display: flex;
             gap: 6px;
             box-sizing: border-box;
-            box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
             overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         /* COLUMNA IZQUIERDA: Video arriba, Tarjeta Lavanda abajo */
@@ -56,7 +51,7 @@
             flex: 1.1;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             height: 100%;
             overflow: hidden;
         }
@@ -65,8 +60,8 @@
         .mobile-video-preview {
             flex: 1;
             background-color: #000;
-            border: 3px solid #F2E0A4;
-            border-radius: 5px;
+            border: 2px solid #F2E0A4;
+            border-radius: 4px;
             overflow: hidden;
             position: relative;
             display: flex;
@@ -103,11 +98,11 @@
 
         /* Tarjeta de Información Lavanda (Abajo - Dividida en dos columnas internas) */
         .mobile-info-card {
-            height: 32%;
+            height: 30%;
             background-color: #CAC5E5;
-            border: 3px solid #F2E0A4;
-            border-radius: 5px;
-            padding: 6px 8px;
+            border: 2px solid #F2E0A4;
+            border-radius: 4px;
+            padding: 5px 8px;
             display: grid;
             grid-template-columns: 1fr 1.4fr;
             gap: 6px;
@@ -125,7 +120,7 @@
 
         .mobile-channel-tag {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #F137A6;
             line-height: 1;
             margin-bottom: 1px;
@@ -133,7 +128,7 @@
 
         .mobile-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #290087;
             letter-spacing: 0.3px;
             line-height: 1;
@@ -143,7 +138,7 @@
         }
 
         .mobile-desc {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: #290087;
             line-height: 1.05;
             max-height: 2.2em;
@@ -156,8 +151,8 @@
         .mobile-right-col {
             flex: 1.3;
             background-color: #120638;
-            border: 3px solid #290087;
-            border-radius: 5px;
+            border: 2px solid #290087;
+            border-radius: 4px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -167,11 +162,11 @@
         /* Cabecera Fucsia EPG */
         .mobile-epg-header {
             display: grid;
-            grid-template-columns: 80px repeat(2, 1fr);
+            grid-template-columns: 75px repeat(2, 1fr);
             background-color: #F137A6;
             color: #F6FFE9;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-align: center;
             padding: 4px 0;
             border-bottom: 2px solid #290087;
@@ -193,7 +188,7 @@
         /* Filas de la parrilla */
         .mobile-epg-row {
             display: grid;
-            grid-template-columns: 80px 1fr;
+            grid-template-columns: 75px 1fr;
             flex: 1;
             border-bottom: 2px solid #290087;
             min-height: 0;
@@ -207,7 +202,7 @@
             background-color: #F2E0A4;
             color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -255,133 +250,3 @@
             color: #F6FFE9;
         }
     </style>
-</head>
-<body>
-
-    <div class="mobile-tv-container" id="tvContainer">
-        
-        <!-- COLUMNA IZQUIERDA: VIDEO PREVIEW Y TARJETA LAVANDA -->
-        <div class="mobile-left-col">
-            
-            <!-- Video Preview / Pantalla -->
-            <div class="mobile-video-preview" id="mobileMediaContainer">
-                <a href="index.html" class="btn-regresar-mobile" title="Volver a Inicio">↩</a>
-                <video id="mobileVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
-                    <source src="videos/ShowreelWbsite.mp4" type="video/mp4">
-                </video>
-            </div>
-
-            <!-- Tarjeta Info Lavanda -->
-            <div class="mobile-info-card">
-                <div class="info-left-side">
-                    <div class="mobile-channel-tag" id="mobChannel">CH 102</div>
-                    <div class="mobile-title" id="mobTitle">"SHOWREEL"</div>
-                </div>
-                <div class="mobile-desc" id="mobDesc">
-                    Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.
-                </div>
-            </div>
-
-        </div>
-
-        <!-- COLUMNA DERECHA: PARRILLA EPG COMPACTA -->
-        <div class="mobile-right-col">
-            <div class="mobile-epg-header">
-                <div class="mobile-header-canal">CANAL</div>
-                <div>11:00 PM</div>
-                <div>11:30 PM</div>
-            </div>
-
-            <div class="mobile-epg-scroll-body">
-                
-                <!-- CH 102 -->
-                <div class="mobile-epg-row">
-                    <div class="mobile-epg-channel-num">CH 102</div>
-                    <div class="mobile-epg-subgrid">
-                        <a href="canal.html" class="mobile-program-block row-yellow-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')">
-                            "SHOWREEL"
-                        </a>
-                    </div>
-                </div>
-
-                <!-- CH 50 -->
-                <div class="mobile-epg-row">
-                    <div class="mobile-epg-channel-num">CH 50</div>
-                    <div class="mobile-epg-subgrid">
-                        <a href="diseno.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda y trifolds.', 'video', 'videos/DISEÑO/Tonali.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda y trifolds.', 'video', 'videos/DISEÑO/Tonali.mp4')">
-                            "CANVAS NETWORK"
-                        </a>
-                    </div>
-                </div>
-
-                <!-- CH 51 -->
-                <div class="mobile-epg-row">
-                    <div class="mobile-epg-channel-num">CH 51</div>
-                    <div class="mobile-epg-subgrid">
-                        <a href="animacion.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y Maya 3D.', 'video', 'videos/MotionTv/DESN3.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y Maya 3D.', 'video', 'videos/MotionTv/DESN3.mp4')">
-                            "MOTION-TV"
-                        </a>
-                    </div>
-                </div>
-
-                <!-- CH 52 -->
-                <div class="mobile-epg-row">
-                    <div class="mobile-epg-channel-num">CH 52</div>
-                    <div class="mobile-epg-subgrid">
-                        <a href="ilustracion.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 52', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/proyecto1.jpg')"
-                           onmouseover="actualizarPreviewMovil('CH 52', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/proyecto1.jpg')">
-                            "SKETCH BOX"
-                        </a>
-                    </div>
-                </div>
-
-                <!-- CH 53 -->
-                <div class="mobile-epg-row">
-                    <div class="mobile-epg-channel-num">CH 53</div>
-                    <div class="mobile-epg-subgrid">
-                        <a href="otros.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 53', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos.', 'video', 'videos/otros/videojuegos_demo.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 53', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos.', 'video', 'videos/otros/videojuegos_demo.mp4')">
-                            "PIXEL VISION"
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Script de previsualización táctil -->
-    <script>
-        function actualizarPreviewMovil(canal, titulo, descripcion, tipoMedia, rutaMedia) {
-            document.getElementById('mobChannel').innerText = canal;
-            document.getElementById('mobTitle').innerHTML = titulo;
-            document.getElementById('mobDesc').innerText = descripcion;
-
-            const mediaContainer = document.getElementById('mobileMediaContainer');
-            const botonRegresar = '<a href="index.html" class="btn-regresar-mobile" title="Volver a Inicio">↩</a>';
-
-            if (tipoMedia === 'video') {
-                mediaContainer.innerHTML = botonRegresar +
-                    `<video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
-                        <source src="${rutaMedia}" type="video/mp4">
-                    </video>`;
-            } else if (tipoMedia === 'imagen') {
-                mediaContainer.innerHTML = botonRegresar +
-                    `<img src="${rutaMedia}" alt="Preview" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">`;
-            }
-        }
-    </script>
-
-    <!-- Vinculamos el script externo de ajuste dinámico -->
-    <script src="ajuste-movil.js"></script>
-</body>
-</html>

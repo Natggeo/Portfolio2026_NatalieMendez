@@ -1,24 +1,20 @@
-// ajuste-movil.js - Ajuste automático de pantalla completa para versiones móviles
+// ajuste-movil.js - Limpieza total para que ocupe toda la pantalla real sin barras negras
 (function() {
-    function ajustarAreaMovil() {
+    function asegurarPantallaCompleta() {
         const container = document.getElementById('tvContainer');
         if (!container) return;
 
-        // Obtiene las dimensiones reales y exactas del área visible del navegador móvil
-        const anchoReal = window.innerWidth;
-        const altoReal = window.innerHeight;
-
-        // Aplica el tamaño milimétrico para que encaje perfecto sin desbordarse ni requerir scroll
-        container.style.width = (anchoReal * 0.96) + 'px';
-        container.style.height = (altoReal * 0.94) + 'px';
+        // Forzamos que ocupe el 100% de la ventana sin reducirlo
+        container.style.width = '100vw';
+        container.style.height = '100vh';
     }
 
-    window.addEventListener('resize', ajustarAreaMovil);
-    window.addEventListener('orientationchange', () => setTimeout(ajustarAreaMovil, 300));
+    window.addEventListener('resize', asegurarPantallaCompleta);
+    window.addEventListener('orientationchange', () => setTimeout(asegurarPantallaCompleta, 300));
     
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', ajustarAreaMovil);
+        document.addEventListener('DOMContentLoaded', asegurarPantallaCompleta);
     } else {
-        ajustarAreaMovil();
+        asegurarPantallaCompleta();
     }
 })();
