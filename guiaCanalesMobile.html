@@ -30,39 +30,42 @@
             height: 100vh;
             overflow: hidden;
             font-family: 'Teko', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Contenedor principal que emula el televisor ajustado a la pantalla completa del móvil */
+        /* Contenedor principal que respeta los márgenes exactos del televisor de tu diseño */
         .mobile-tv-container {
-            width: 100vw;
-            height: 100vh;
+            width: 96vw;
+            height: 92vh;
             background-color: #290087;
             border: 5px solid #F137A6;
             outline: 2px solid #F2E0A4;
-            padding: 5px;
+            padding: 6px;
             display: flex;
-            gap: 6px;
+            gap: 8px;
             box-sizing: border-box;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
             overflow: hidden;
         }
 
-        /* COLUMNA IZQUIERDA: Video Preview (Arriba) + Tarjeta Info (Abajo) */
+        /* COLUMNA IZQUIERDA: Video arriba, Tarjeta Lavanda abajo */
         .mobile-left-col {
             flex: 1.1;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
             height: 100%;
             overflow: hidden;
         }
 
-        /* Preview Video Estilo PC */
+        /* Preview Video del canal (Arriba) */
         .mobile-video-preview {
             flex: 1;
             background-color: #000;
-            border: 2px solid #F2E0A4;
-            border-radius: 5px;
+            border: 3px solid #F2E0A4;
+            border-radius: 6px;
             overflow: hidden;
             position: relative;
             display: flex;
@@ -81,10 +84,10 @@
         /* Botón regresar dentro del video */
         .btn-regresar-mobile {
             position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 24px;
-            height: 24px;
+            top: 5px;
+            right: 5px;
+            width: 26px;
+            height: 26px;
             background: rgba(41, 0, 135, 0.7);
             border: 2px solid #F2E0A4;
             border-radius: 4px;
@@ -94,17 +97,25 @@
             align-items: center;
             text-decoration: none;
             z-index: 20;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
         }
 
-        /* Tarjeta de Información Estilo Lavanda (Abajo a la izquierda) - Altura fija estricta para que no se salga */
+        /* Tarjeta de Información Lavanda (Abajo - Dividida en dos columnas internas como tu imagen) */
         .mobile-info-card {
-            height: 38px;
-            flex-shrink: 0;
+            height: 32%;
             background-color: #CAC5E5;
-            border: 2px solid #F2E0A4;
-            border-radius: 5px;
-            padding: 2px 6px;
+            border: 3px solid #F2E0A4;
+            border-radius: 6px;
+            padding: 8px 10px;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .info-left-side {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -113,17 +124,16 @@
 
         .mobile-channel-tag {
             font-family: 'Chunko', sans-serif;
-            font-size: 0.85rem;
+            font-size: 1.3rem;
             color: #F137A6;
             line-height: 1;
-            margin-bottom: 1px;
+            margin-bottom: 2px;
         }
 
         .mobile-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 0.75rem;
+            font-size: 1rem;
             color: #290087;
-            margin-bottom: 1px;
             letter-spacing: 0.3px;
             line-height: 1;
             white-space: nowrap;
@@ -132,20 +142,21 @@
         }
 
         .mobile-desc {
-            font-size: 0.65rem;
+            font-size: 0.72rem;
             color: #290087;
-            line-height: 1;
-            white-space: nowrap;
+            line-height: 1.1;
+            max-height: 2.2em;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: block;
         }
 
-        /* COLUMNA DERECHA: Parrilla EPG con Scroll */
+        /* COLUMNA DERECHA: Parrilla EPG Compacta (Exacta a tu diseño) */
         .mobile-right-col {
             flex: 1.3;
             background-color: #120638;
-            border: 2px solid #290087;
-            border-radius: 5px;
+            border: 3px solid #290087;
+            border-radius: 6px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -155,13 +166,13 @@
         /* Cabecera Fucsia EPG */
         .mobile-epg-header {
             display: grid;
-            grid-template-columns: 75px repeat(2, 1fr);
+            grid-template-columns: 85px repeat(2, 1fr);
             background-color: #F137A6;
             color: #F6FFE9;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             text-align: center;
-            padding: 4px 0;
+            padding: 5px 0;
             border-bottom: 2px solid #290087;
             flex-shrink: 0;
         }
@@ -170,19 +181,21 @@
             border-right: 2px solid #290087;
         }
 
-        /* Contenedor con Scroll para la tabla de canales */
+        /* Cuerpo de la tabla para compactar los canales en pantalla */
         .mobile-epg-scroll-body {
             flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         /* Filas de la parrilla */
         .mobile-epg-row {
             display: grid;
-            grid-template-columns: 75px 1fr;
+            grid-template-columns: 85px 1fr;
+            flex: 1;
             border-bottom: 2px solid #290087;
-            min-height: 38px;
+            min-height: 0;
         }
 
         .mobile-epg-row:last-child {
@@ -193,7 +206,7 @@
             background-color: #F2E0A4;
             color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.85rem;
+            font-size: 1.05rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -213,11 +226,12 @@
             align-items: center;
             text-decoration: none;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             padding: 2px 4px;
             text-align: center;
             cursor: pointer;
             transition: background 0.2s;
+            height: 100%;
         }
 
         .row-yellow-bg {
@@ -245,7 +259,7 @@
 
     <div class="mobile-tv-container">
         
-        <!-- COLUMNA IZQUIERDA: PREVIEW Y DESCRIPCIÓN -->
+        <!-- COLUMNA IZQUIERDA: VIDEO PREVIEW Y TARJETA LAVANDA -->
         <div class="mobile-left-col">
             
             <!-- Video Preview / Pantalla -->
@@ -256,16 +270,20 @@
                 </video>
             </div>
 
-            <!-- Tarjeta Info Lavanda -->
+            <!-- Tarjeta Info Lavanda (Diseño de 2 columnas como tu imagen) -->
             <div class="mobile-info-card">
-                <div class="mobile-channel-tag" id="mobChannel">CH 102</div>
-                <div class="mobile-title" id="mobTitle">POLY-TV "SHOWREEL"</div>
-                <div class="mobile-desc" id="mobDesc">Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.</div>
+                <div class="info-left-side">
+                    <div class="mobile-channel-tag" id="mobChannel">CH 102</div>
+                    <div class="mobile-title" id="mobTitle">"SHOWREEL"</div>
+                </div>
+                <div class="mobile-desc" id="mobDesc">
+                    Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.
+                </div>
             </div>
 
         </div>
 
-        <!-- COLUMNA DERECHA: PARRILLA EPG CON SCROLL -->
+        <!-- COLUMNA DERECHA: PARRILLA EPG COMPACTA -->
         <div class="mobile-right-col">
             <div class="mobile-epg-header">
                 <div class="mobile-header-canal">CANAL</div>
@@ -280,8 +298,8 @@
                     <div class="mobile-epg-channel-num">CH 102</div>
                     <div class="mobile-epg-subgrid">
                         <a href="canal.html" class="mobile-program-block row-yellow-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 102', 'POLY-TV &quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 102', 'POLY-TV &quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')">
+                           ontouchstart="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')">
                             "SHOWREEL"
                         </a>
                     </div>
