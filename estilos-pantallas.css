@@ -75,7 +75,6 @@ body {
         position: absolute !important;
         top: 50% !important;
         left: 50% !important;
-        transform: none !important;
         transform-origin: center center !important;
         border: 12px solid #F137A6 !important;
         outline: 6px solid #F2E0A4 !important;
