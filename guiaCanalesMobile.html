@@ -35,16 +35,17 @@
             align-items: center;
         }
 
-        /* Contenedor principal que respeta los márgenes exactos del televisor de tu diseño */
+        /* Contenedor principal (El script externo ajustará su alto y ancho en tiempo real) */
         .mobile-tv-container {
             width: 96vw;
-            height: 92vh;
+            height: 94vh;
+            max-height: 100%;
             background-color: #290087;
             border: 5px solid #F137A6;
             outline: 2px solid #F2E0A4;
-            padding: 6px;
+            padding: 5px;
             display: flex;
-            gap: 8px;
+            gap: 6px;
             box-sizing: border-box;
             box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
             overflow: hidden;
@@ -55,7 +56,7 @@
             flex: 1.1;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
             height: 100%;
             overflow: hidden;
         }
@@ -65,7 +66,7 @@
             flex: 1;
             background-color: #000;
             border: 3px solid #F2E0A4;
-            border-radius: 6px;
+            border-radius: 5px;
             overflow: hidden;
             position: relative;
             display: flex;
@@ -84,10 +85,10 @@
         /* Botón regresar dentro del video */
         .btn-regresar-mobile {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 26px;
-            height: 26px;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
             background: rgba(41, 0, 135, 0.7);
             border: 2px solid #F2E0A4;
             border-radius: 4px;
@@ -97,19 +98,19 @@
             align-items: center;
             text-decoration: none;
             z-index: 20;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
-        /* Tarjeta de Información Lavanda (Abajo - Dividida en dos columnas internas como tu imagen) */
+        /* Tarjeta de Información Lavanda (Abajo - Dividida en dos columnas internas) */
         .mobile-info-card {
             height: 32%;
             background-color: #CAC5E5;
             border: 3px solid #F2E0A4;
-            border-radius: 6px;
-            padding: 8px 10px;
+            border-radius: 5px;
+            padding: 6px 8px;
             display: grid;
             grid-template-columns: 1fr 1.4fr;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
             flex-shrink: 0;
             overflow: hidden;
@@ -124,15 +125,15 @@
 
         .mobile-channel-tag {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #F137A6;
             line-height: 1;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
 
         .mobile-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #290087;
             letter-spacing: 0.3px;
             line-height: 1;
@@ -142,21 +143,21 @@
         }
 
         .mobile-desc {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: #290087;
-            line-height: 1.1;
+            line-height: 1.05;
             max-height: 2.2em;
             overflow: hidden;
             text-overflow: ellipsis;
             display: block;
         }
 
-        /* COLUMNA DERECHA: Parrilla EPG Compacta (Exacta a tu diseño) */
+        /* COLUMNA DERECHA: Parrilla EPG Compacta */
         .mobile-right-col {
             flex: 1.3;
             background-color: #120638;
             border: 3px solid #290087;
-            border-radius: 6px;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -166,13 +167,13 @@
         /* Cabecera Fucsia EPG */
         .mobile-epg-header {
             display: grid;
-            grid-template-columns: 85px repeat(2, 1fr);
+            grid-template-columns: 80px repeat(2, 1fr);
             background-color: #F137A6;
             color: #F6FFE9;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
-            padding: 5px 0;
+            padding: 4px 0;
             border-bottom: 2px solid #290087;
             flex-shrink: 0;
         }
@@ -192,7 +193,7 @@
         /* Filas de la parrilla */
         .mobile-epg-row {
             display: grid;
-            grid-template-columns: 85px 1fr;
+            grid-template-columns: 80px 1fr;
             flex: 1;
             border-bottom: 2px solid #290087;
             min-height: 0;
@@ -206,7 +207,7 @@
             background-color: #F2E0A4;
             color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 1.05rem;
+            font-size: 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -226,7 +227,7 @@
             align-items: center;
             text-decoration: none;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             padding: 2px 4px;
             text-align: center;
             cursor: pointer;
@@ -257,7 +258,7 @@
 </head>
 <body>
 
-    <div class="mobile-tv-container">
+    <div class="mobile-tv-container" id="tvContainer">
         
         <!-- COLUMNA IZQUIERDA: VIDEO PREVIEW Y TARJETA LAVANDA -->
         <div class="mobile-left-col">
@@ -270,7 +271,7 @@
                 </video>
             </div>
 
-            <!-- Tarjeta Info Lavanda (Diseño de 2 columnas como tu imagen) -->
+            <!-- Tarjeta Info Lavanda -->
             <div class="mobile-info-card">
                 <div class="info-left-side">
                     <div class="mobile-channel-tag" id="mobChannel">CH 102</div>
@@ -358,7 +359,7 @@
 
     </div>
 
-    <!-- Script para actualizar la vista previa al tocar los canales en móvil -->
+    <!-- Script de previsualización táctil -->
     <script>
         function actualizarPreviewMovil(canal, titulo, descripcion, tipoMedia, rutaMedia) {
             document.getElementById('mobChannel').innerText = canal;
@@ -379,5 +380,8 @@
             }
         }
     </script>
+
+    <!-- Vinculamos el script externo de ajuste dinámico -->
+    <script src="ajuste-movil.js"></script>
 </body>
 </html>
