@@ -98,14 +98,13 @@
             border: 3px solid #290087;
         }
 
-        /* Bloquea clics en el iframe de YouTube para que no aparezcan controles */
+        /* Controles de YouTube habilitados y interactivos */
         .project-display-area iframe, #youtubePlayer {
             width: 100%;
             height: 100%;
             object-fit: contain;
             background-color: #05020a;
             border: none;
-            pointer-events: none;
         }
 
         /* Flechas de Navegación */
@@ -566,15 +565,13 @@
                 videoId: proj.recurso,
                 playerVars: {
                     'autoplay': 1,
-                    'controls': 0,
-                    'disablekb': 1,
-                    'fs': 0,
-                    'iv_load_policy': 3,
-                    'modestbranding': 1,
+                    'controls': 1,       /* Controles visibles y funcionales */
+                    'disablekb': 0,      /* Teclado habilitado */
+                    'fs': 1,             /* Pantalla completa permitida */
                     'playsinline': 1,
                     'rel': 0,
-                    'loop': 0,
-                    'vq': 'hd1080' // Fuerza directiva de calidad máxima inicial
+                    'loop': 1,           /* Habilita repetición */
+                    'playlist': proj.recurso /* Obligatorio para que funcione el loop en YouTube */
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -584,12 +581,11 @@
         }
 
         function onPlayerReady(event) {
-            event.target.mute();
-            event.target.setPlaybackQuality('hd1080'); // Forzar explícitamente HD 1080p
             event.target.playVideo();
         }
 
         function onPlayerStateChange(event) {
+            // Fuerza el reinicio en bucle si por alguna razón llega al estado ENDED
             if (event.data === YT.PlayerState.ENDED) {
                 player.seekTo(0);
                 player.playVideo();
@@ -607,10 +603,8 @@
             if (player && typeof player.loadVideoById === 'function') {
                 player.loadVideoById({
                     videoId: proj.recurso,
-                    suggestedQuality: 'hd1080' // Fuerza máxima calidad al cambiar de video con las flechas
+                    suggestedQuality: 'hd1080'
                 });
-                player.mute();
-                player.setPlaybackQuality('hd1080');
             }
         }
 
