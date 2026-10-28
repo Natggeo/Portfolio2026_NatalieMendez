@@ -1,3 +1,4 @@
+
 /* ==========================================
    1. ESTILOS BASE PARA COMPUTADORAS (PC)
    Pantalla completa real, sin márgenes ni marcos alrededor
@@ -15,7 +16,7 @@ body {
     align-items: center;
 }
 
-/* El contenedor del televisor ahora abarca absolutamente toda la pantalla en PC */
+/* El contenedor del televisor abarca toda la pantalla en PC */
 .tv-screen-container {
     width: 100vw !important;
     height: 100vh !important;
@@ -36,7 +37,7 @@ body {
 
 /* ==========================================
    2. VERSIÓN PARA DISPOSITIVOS MÓVILES
-   Mantiene el escalado horizontal automático sin scroll
+   JavaScript controla el escalado
    ========================================== */
 @media screen and (max-width: 900px) {
     body {
@@ -44,13 +45,15 @@ body {
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        margin: 0;
         padding: 0;
         position: fixed;
         top: 0;
         left: 0;
     }
 
-    .scaler-wrapper {
+    .scaler-wrapper,
+    .mobile-forced-landscape {
         width: 100vw !important;
         height: 100vh !important;
         position: fixed !important;
@@ -64,7 +67,6 @@ body {
         align-items: center !important;
     }
 
-    /* En móviles vuelve a usar el formato de consola fija escalada */
     .tv-screen-container {
         width: 1366px !important;
         height: 768px !important;
@@ -73,9 +75,10 @@ body {
         position: absolute !important;
         top: 50% !important;
         left: 50% !important;
-        transform: translate(-50%, -50%) !important;
+        transform: none !important;
         transform-origin: center center !important;
         border: 12px solid #F137A6 !important;
         outline: 6px solid #F2E0A4 !important;
+        box-sizing: border-box !important;
     }
 }
