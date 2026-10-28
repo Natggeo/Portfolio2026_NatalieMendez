@@ -108,7 +108,7 @@
             pointer-events: none;
         }
 
-        /* Flechas de Navegación (con z-index alto para que queden sobre el video) */
+        /* Flechas de Navegación */
         .nav-arrow {
             position: absolute;
             top: 50%;
@@ -424,14 +424,14 @@
 
         <!-- Área Central del Proyecto -->
         <div class="project-display-area">
-            <!-- Flecha Izquierda con onclick directo restaurado -->
+            <!-- Flecha Izquierda -->
             <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="proyectoAnterior()">
 
             <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
                 <div id="youtubePlayer"></div>
             </div>
 
-            <!-- Flecha Derecha con onclick directo restaurado -->
+            <!-- Flecha Derecha -->
             <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="proyectoSiguiente()">
         </div>
 
@@ -560,7 +560,6 @@
         let indiceActual = 0;
         let player;
 
-        // Inicializa el reproductor de YouTube
         function onYouTubeIframeAPIReady() {
             const proj = proyectosAnimacion[indiceActual];
             player = new YT.Player('youtubePlayer', {
@@ -574,7 +573,8 @@
                     'modestbranding': 1,
                     'playsinline': 1,
                     'rel': 0,
-                    'loop': 0
+                    'loop': 0,
+                    'vq': 'hd1080' // Fuerza directiva de calidad máxima inicial
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -585,11 +585,10 @@
 
         function onPlayerReady(event) {
             event.target.mute();
-            event.target.setPlaybackQuality('hd1080');
+            event.target.setPlaybackQuality('hd1080'); // Forzar explícitamente HD 1080p
             event.target.playVideo();
         }
 
-        // Bucle perfecto sin cortes al terminar el video
         function onPlayerStateChange(event) {
             if (event.data === YT.PlayerState.ENDED) {
                 player.seekTo(0);
@@ -597,7 +596,6 @@
             }
         }
 
-        // Actualiza textos, etiquetas y cambia el video de YouTube al usar las flechas
         function cargarProyectoActual() {
             const proj = proyectosAnimacion[indiceActual];
             document.getElementById('projectTitle').innerText = proj.titulo;
@@ -609,9 +607,10 @@
             if (player && typeof player.loadVideoById === 'function') {
                 player.loadVideoById({
                     videoId: proj.recurso,
-                    suggestedQuality: 'hd1080'
+                    suggestedQuality: 'hd1080' // Fuerza máxima calidad al cambiar de video con las flechas
                 });
                 player.mute();
+                player.setPlaybackQuality('hd1080');
             }
         }
 
