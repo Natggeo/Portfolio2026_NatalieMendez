@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- REDIRECCIÓN MÓVIL EXCLUSIVA: 
+         Si el sitio se abre desde un celular real, lo manda automáticamente a la versión 
+         móvil dedicada (guiaCanalesMobile.html) y deja esta versión de PC 100% intacta. -->
+    <script>
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            window.location.replace('guiaCanalesMobile.html');
+        }
+    </script>
+
     <link rel="stylesheet" href="estilos-pantallas.css">
 
     <meta charset="UTF-8">
@@ -351,8 +360,6 @@
             }
         }
     </script>
-
-    <script src="solo-movil.js"></script>
 
 </body>
 </html>
