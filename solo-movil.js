@@ -78,7 +78,7 @@
         const scaleY = altoVentana / baseHeight;
 
         // Ajustar el televisor para que quepa en la pantalla móvil
-        const scale = Math.min(scaleX, scaleY) * 0.95;
+        const scale = Math.min(scaleX, scaleY);
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
