@@ -1,7 +1,8 @@
-
- // solo-movil.js - Escalado horizontal para dispositivos móviles
+ // solo-movil.js - Ajuste de escala para dispositivos móviles
 (function() {
-    const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
+    const esMovil =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        || window.innerWidth <= 900;
 
     if (!esMovil) {
         return;
@@ -11,14 +12,11 @@
     style.innerHTML = `
         html, body {
             background-color: #000 !important;
-            width: 100vw !important;
-            height: 100vh !important;
+            width: 100% !important;
+            height: 100% !important;
             overflow: hidden !important;
             margin: 0 !important;
             padding: 0 !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
         }
 
         .mobile-forced-landscape {
@@ -48,10 +46,10 @@
     document.head.appendChild(style);
 
     function inicializarModoMovil() {
-        let tvContainer = document.querySelector('.tv-screen-container');
+        const tvContainer = document.querySelector('.tv-screen-container');
 
         if (!tvContainer) {
-            setTimeout(inicializarModoMovil, 50);
+            setTimeout(inicializarModoMovil, 100);
             return;
         }
 
@@ -63,24 +61,24 @@
             tvContainer.id = 'scaledForcedContainer';
         }
 
-        const container = document.getElementById('scaledForcedContainer') || tvContainer;
+        const container =
+            document.getElementById('scaledForcedContainer') || tvContainer;
 
+        // Medir el espacio real disponible en la ventana
         const anchoDisponible = document.documentElement.clientWidth;
         const altoDisponible = document.documentElement.clientHeight;
-
-        const anchoVentana = Math.max(anchoDisponible, altoDisponible);
-        const altoVentana = Math.min(anchoDisponible, altoDisponible);
 
         const baseWidth = 1366;
         const baseHeight = 768;
 
-        const scaleX = anchoVentana / baseWidth;
-        const scaleY = altoVentana / baseHeight;
-
-        // Ajustar el televisor para que quepa en la pantalla móvil
+        // Calcular una escala que permita mostrar la televisión completa
+        const scaleX = anchoDisponible / baseWidth;
+        const scaleY = altoDisponible / baseHeight;
         const scale = Math.min(scaleX, scaleY);
 
-        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        // Centrar y escalar la televisión
+        container.style.transform =
+            `translate(-50%, -50%) scale(${scale})`;
     }
 
     if (document.readyState === 'loading') {
