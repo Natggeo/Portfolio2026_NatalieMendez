@@ -562,19 +562,22 @@
         ];
 
         let indiceActual = 0;
-        let player;
+        let player = null;
+        let apiLoaded = false;
 
         function onYouTubeIframeAPIReady() {
-            const proj = proyectosDiseno[indiceActual];
-            if (proj.tipo === "youtube") {
-                crearReproductorYouTube(proj.recurso);
-            }
+            apiLoaded = true;
+            cargarProyectoActual();
         }
 
         function crearReproductorYouTube(videoId) {
             const mediaContainer = document.getElementById('mediaContainer');
             mediaContainer.innerHTML = '<div id="youtubePlayer" style="width:100%; height:100%;"></div>';
             
+            if (player && typeof player.destroy === 'function') {
+                player.destroy();
+            }
+
             player = new YT.Player('youtubePlayer', {
                 videoId: videoId,
                 playerVars: {
@@ -602,12 +605,14 @@
             const mediaContainer = document.getElementById('mediaContainer');
             
             if (proj.tipo === "youtube") {
-                if (player && typeof player.loadVideoById === 'function') {
-                    player.loadVideoById(proj.recurso);
-                } else {
+                if (apiLoaded) {
                     crearReproductorYouTube(proj.recurso);
                 }
             } else if (proj.tipo === "video") {
+                if (player && typeof player.destroy === 'function') {
+                    player.destroy();
+                    player = null;
+                }
                 mediaContainer.innerHTML = `<video id="disenoVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain;"><source src="${proj.recurso}" type="video/mp4"></video>`;
                 
                 const vid = document.getElementById('disenoVideo');
@@ -627,7 +632,9 @@
         }
 
         window.addEventListener('load', () => {
-            cargarProyectoActual();
+            if (apiLoaded) {
+                cargarProyectoActual();
+            }
         });
     </script>
 
