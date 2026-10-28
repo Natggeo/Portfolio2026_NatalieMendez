@@ -76,8 +76,8 @@
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
         
-        // PROBAMOS ESCALA MÁS PEQUEÑA (0.72) para ver la televisión completa con margen alrededor
-        const scale = Math.min(scaleX, scaleY) * 0.72;
+        // Ajustar el televisor para que quepa completo en la pantalla móvil
+        const scale = Math.min(scaleX, scaleY) * 0.95;
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
