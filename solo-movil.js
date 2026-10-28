@@ -1,16 +1,14 @@
-// solo-movil.js - Escalado y menú para dispositivos móviles
+/* solo-movil.js - Ajuste de escala para dispositivos móviles */
 (function() {
     const esMovil =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
         || window.innerWidth <= 900;
 
-    // No modificar la versión de escritorio
     if (!esMovil) {
         return;
     }
 
     const style = document.createElement('style');
-
     style.innerHTML = `
         html, body {
             background-color: #000 !important;
@@ -21,7 +19,6 @@
             padding: 0 !important;
         }
 
-        /* Contenedor de la pantalla móvil */
         .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
@@ -36,7 +33,6 @@
             align-items: center !important;
         }
 
-        /* Diseño original del televisor */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -47,7 +43,7 @@
             box-sizing: border-box !important;
         }
 
-        /* Menú desplegable */
+        /* Ajustes del menú en móviles */
         .menu-overlay {
             position: fixed !important;
             inset: 0 !important;
@@ -59,14 +55,15 @@
             overflow: auto !important;
         }
 
+        /* Menú más pequeño, inspirado en los ajustes de un televisor */
         .menu-modal-container {
-            width: 100% !important;
-            height: 100% !important;
-            max-width: 900px !important;
-            max-height: 560px !important;
+            width: 85% !important;
+            height: 80% !important;
+            max-width: 760px !important;
+            max-height: 460px !important;
             gap: 8px !important;
             margin: auto !important;
-            flex-shrink: 0 !important;
+            flex-shrink: 1 !important;
         }
 
         .menu-sidebar {
@@ -124,7 +121,6 @@
             right: 2px !important;
         }
 
-        /* Facilitar los toques en el botón hamburguesa */
         .btn-menu-icon {
             cursor: pointer !important;
             touch-action: manipulation;
@@ -135,66 +131,50 @@
     document.head.appendChild(style);
 
     function inicializarModoMovil() {
-        const tvContainer =
-            document.querySelector('.tv-screen-container');
+        const tvContainer = document.querySelector('.tv-screen-container');
 
         if (!tvContainer) {
             setTimeout(inicializarModoMovil, 100);
             return;
         }
 
-        // Crear el contenedor móvil una sola vez
-        if (
-            !tvContainer.parentElement.classList.contains(
-                'mobile-forced-landscape'
-            )
-        ) {
+        if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
             const wrapper = document.createElement('div');
             wrapper.className = 'mobile-forced-landscape';
-
             tvContainer.parentNode.insertBefore(wrapper, tvContainer);
             wrapper.appendChild(tvContainer);
             tvContainer.id = 'scaledForcedContainer';
         }
 
         const container =
-            document.getElementById('scaledForcedContainer')
-            || tvContainer;
+            document.getElementById('scaledForcedContainer') || tvContainer;
 
-        // Medir el espacio disponible
-        const anchoDisponible =
-            document.documentElement.clientWidth;
-
-        const altoDisponible =
-            document.documentElement.clientHeight;
+        // Medir el espacio real disponible en la ventana
+        const anchoDisponible = document.documentElement.clientWidth;
+        const altoDisponible = document.documentElement.clientHeight;
 
         const baseWidth = 1366;
         const baseHeight = 768;
 
-        // Calcular la escala para que el televisor quepa completo
+        // Calcular una escala que permita mostrar la televisión completa
         const scaleX = anchoDisponible / baseWidth;
         const scaleY = altoDisponible / baseHeight;
         const scale = Math.min(scaleX, scaleY);
 
-        // Centrar y escalar el televisor
+        // Centrar y escalar la televisión
         container.style.transform =
             `translate(-50%, -50%) scale(${scale})`;
     }
 
-    // Inicializar cuando el documento esté listo
     if (document.readyState === 'loading') {
-        document.addEventListener(
-            'DOMContentLoaded',
-            inicializarModoMovil
-        );
+        document.addEventListener('DOMContentLoaded', inicializarModoMovil);
     } else {
         inicializarModoMovil();
     }
 
-    // Recalcular al cambiar el tamaño u orientación
     window.addEventListener('resize', inicializarModoMovil);
 
-    window.addEventListener('orientationchange', function() {
+    window.addEventListener('orientationchange', () => {
         setTimeout(inicializarModoMovil, 400);
     });
 })();
