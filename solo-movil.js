@@ -1,4 +1,4 @@
-/* solo-movil.js - Ajuste de escala para dispositivos móviles */
+/* solo-movil.js - Experiencia de televisión para móviles */
 (function() {
     const esMovil =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
@@ -9,6 +9,7 @@
     }
 
     const style = document.createElement('style');
+
     style.innerHTML = `
         html, body {
             background-color: #000 !important;
@@ -19,10 +20,10 @@
             padding: 0 !important;
         }
 
+        /* Contenedor de la televisión */
         .mobile-forced-landscape {
             position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
+            inset: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
             overflow: hidden !important;
@@ -43,7 +44,7 @@
             box-sizing: border-box !important;
         }
 
-        /* Ajustes del menú en móviles */
+        /* Menú de ajustes estilo televisión */
         .menu-overlay {
             position: fixed !important;
             inset: 0 !important;
@@ -55,7 +56,6 @@
             overflow: auto !important;
         }
 
-        /* Menú más pequeño, inspirado en los ajustes de un televisor */
         .menu-modal-container {
             width: 85% !important;
             height: 80% !important;
@@ -126,12 +126,108 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
+
+        /* Pantalla que aparece cuando el móvil está en vertical */
+        .rotate-phone-screen {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: #000 !important;
+            color: #fff !important;
+            z-index: 100002 !important;
+            display: none;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 24px !important;
+            box-sizing: border-box !important;
+            font-family: Arial, sans-serif !important;
+        }
+
+        .rotate-phone-icon {
+            font-size: 64px !important;
+            line-height: 1 !important;
+            margin-bottom: 28px !important;
+            display: inline-block !important;
+            animation: phone-rotation 2s ease-in-out infinite !important;
+        }
+
+        .rotate-phone-title {
+            color: #fff !important;
+            font-size: 22px !important;
+            font-weight: bold !important;
+            margin: 0 0 12px !important;
+        }
+
+        .rotate-phone-message {
+            color: #bdbdbd !important;
+            font-size: 15px !important;
+            line-height: 1.5 !important;
+            max-width: 300px !important;
+            margin: 0 !important;
+        }
+
+        @keyframes phone-rotation {
+            0%, 20% {
+                transform: rotate(0deg);
+            }
+            60%, 85% {
+                transform: rotate(-90deg);
+            }
+            100% {
+                transform: rotate(-90deg);
+            }
+        }
+
+        /* La televisión solo se muestra en horizontal */
+        @media (orientation: portrait) {
+            .mobile-forced-landscape {
+                display: none !important;
+            }
+
+            .rotate-phone-screen {
+                display: flex !important;
+            }
+        }
+
+        @media (orientation: landscape) {
+            .rotate-phone-screen {
+                display: none !important;
+            }
+        }
     `;
 
     document.head.appendChild(style);
 
+    /* Crear la pantalla de orientación */
+    function crearPantallaRotacion() {
+        if (document.getElementById('rotatePhoneScreen')) {
+            return;
+        }
+
+        const pantalla = document.createElement('div');
+        pantalla.id = 'rotatePhoneScreen';
+        pantalla.className = 'rotate-phone-screen';
+
+        pantalla.innerHTML = `
+            <div class="rotate-phone-icon" aria-hidden="true">📱</div>
+            <h2 class="rotate-phone-title">
+                Gira tu teléfono
+            </h2>
+            <p class="rotate-phone-message">
+                Coloca tu dispositivo en horizontal para disfrutar
+                de la experiencia completa de televisión.
+            </p>
+        `;
+
+        document.body.appendChild(pantalla);
+    }
+
     function inicializarModoMovil() {
-        const tvContainer = document.querySelector('.tv-screen-container');
+        const tvContainer =
+            document.querySelector('.tv-screen-container');
 
         if (!tvContainer) {
             setTimeout(inicializarModoMovil, 100);
@@ -141,6 +237,7 @@
         if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
             const wrapper = document.createElement('div');
             wrapper.className = 'mobile-forced-landscape';
+
             tvContainer.parentNode.insertBefore(wrapper, tvContainer);
             wrapper.appendChild(tvContainer);
             tvContainer.id = 'scaledForcedContainer';
@@ -149,32 +246,43 @@
         const container =
             document.getElementById('scaledForcedContainer') || tvContainer;
 
-        // Medir el espacio real disponible en la ventana
+        // Usar el espacio disponible en la pantalla
         const anchoDisponible = document.documentElement.clientWidth;
         const altoDisponible = document.documentElement.clientHeight;
 
         const baseWidth = 1366;
         const baseHeight = 768;
 
-        // Calcular una escala que permita mostrar la televisión completa
+        // Mantener la proporción original de la televisión
         const scaleX = anchoDisponible / baseWidth;
         const scaleY = altoDisponible / baseHeight;
         const scale = Math.min(scaleX, scaleY);
 
-        // Centrar y escalar la televisión
         container.style.transform =
             `translate(-50%, -50%) scale(${scale})`;
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', inicializarModoMovil);
-    } else {
+    function actualizarOrientacion() {
+        crearPantallaRotacion();
         inicializarModoMovil();
     }
 
-    window.addEventListener('resize', inicializarModoMovil);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', actualizarOrientacion);
+    } else {
+        actualizarOrientacion();
+    }
+
+    window.addEventListener('resize', actualizarOrientacion);
 
     window.addEventListener('orientationchange', () => {
-        setTimeout(inicializarModoMovil, 400);
+        setTimeout(actualizarOrientacion, 400);
     });
+
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener(
+            'resize',
+            actualizarOrientacion
+        );
+    }
 })();
