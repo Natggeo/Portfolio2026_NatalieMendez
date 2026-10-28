@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gy Arts - Motion TV (Móvil)</title>
+    
+    <style>
+        /* Declaración de fuentes */
+        @font-face {
+            font-family: 'Chunko';
+            src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Teko';
+            src: url('fonts/Teko-Regular.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background-color: #290087;
+            color: #F6FFE9;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        /* Contenedor Televisor adaptado a pantalla completa absoluta móvil */
+        .tv-screen-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #CAC5E5;
+            border: 4px solid #F137A6;
+            padding: 5px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+            outline: 2px solid #F2E0A4;
+            display: flex;
+            gap: 6px;
+            overflow: hidden;
+        }
+
+        /* COLUMNA IZQUIERDA: Área Central del Proyecto con marco fucsia y flechas */
+        .project-display-area {
+            flex: 1.4;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 4px;
+            background-color: #000;
+            border: 3px solid #F137A6;
+            height: 100%;
+        }
+
+        .project-display-area video, .project-display-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: #05020a;
+        }
+
+        /* Flechas de Navegación táctiles laterales (< y >) */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px !important;
+            height: 40px !important;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 50;
+            user-select: none;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .nav-arrow:hover {
+            opacity: 1 !important;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .arrow-left { left: 4px; }
+        .arrow-right { right: 4px; }
+
+        /* COLUMNA DERECHA: Panel Lateral de Información y Controles */
+        .tv-side-panel {
+            flex: 1;
+            background-color: #290087;
+            border: 2px solid #F2E0A4;
+            border-radius: 4px;
+            padding: 6px 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            color: #F6FFE9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .channel-logo-box {
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.2rem;
+            color: #F137A6;
+            line-height: 1;
+        }
+
+        /* BOTÓN MENÚ HAMBURGUESA ESQUINA SUPERIOR DERECHA */
+        .btn-menu-icon {
+            width: 30px;
+            height: 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            background: rgba(41, 0, 135, 0.4);
+            padding: 5px;
+            border-radius: 4px;
+            border: 1.5px solid #F2E0A4;
+        }
+
+        .btn-menu-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #F6FFE9;
+            border-radius: 2px;
+        }
+
+        .btn-menu-icon:hover, .btn-menu-icon.active-btn {
+            opacity: 1 !important;
+            transform: scale(1.05);
+        }
+
+        .project-info-box { 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1px;
+            margin: 2px 0;
+        }
+
+        .project-title {
+            font-family: 'Chunko', sans-serif;
+            font-size: 0.95rem;
+            color: #F2E0A4;
+            line-height: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .project-description {
+            font-size: 0.66rem;
+            line-height: 1.05;
+            color: #F6FFE9;
+            max-height: 2.4em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+
+        /* Contenedor de Etiquetas (Píldoras) en esquina inferior derecha */
+        .project-tags-container {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+            justify-content: flex-end;
+        }
+
+        .project-tag-pill {
+            background-color: #F2E0A4;
+            color: #290087;
+            font-family: 'Teko', sans-serif;
+            font-size: 0.7rem;
+            line-height: 1;
+            padding: 1px 5px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            border: 1px solid #F137A6;
+            white-space: nowrap;
+        }
+
+        /* MODAL / OVERLAY OSD (Adaptado a móvil) */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 8, 30, 0.92);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .menu-modal-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            gap: 8px;
+            position: relative;
+        }
+
+        .menu-sidebar {
+            width: 65px;
+            background-color: #120c1f;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+            gap: 8px;
+            border: 2px solid #F2E0A4;
+        }
+
+        .sidebar-icon-item {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #ffffff;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-icon-item.active {
+            border: 2px solid #F137A6;
+            background: rgba(241, 55, 166, 0.15);
+        }
+
+        .menu-content-card {
+            flex: 1;
+            background-color: #1a084c;
+            border-radius: 6px;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            color: #F6FFE9;
+            border: 2px solid #F137A6;
+            overflow-y: auto;
+        }
+
+        .menu-header-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-transform: lowercase;
+            line-height: 1;
+        }
+
+        .menu-main-name {
+            font-family: 'Chunko', sans-serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            line-height: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .menu-body-layout {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .menu-photo-placeholder {
+            width: 110px;
+            height: 110px;
+            background-color: #f2f2f2;
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .menu-photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-text-bio {
+            font-family: 'Teko', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.15;
+            color: #ffffff;
+            text-align: justify;
+        }
+
+        .inputs-osd-panel {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: #120c1f;
+            border: 2px solid #F2E0A4;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .inputs-osd-title {
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.2rem;
+            color: #F2E0A4;
+            border-bottom: 2px dashed #F137A6;
+            padding-bottom: 4px;
+        }
+
+        .input-option-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1a084c;
+            border: 2px solid #F137A6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #F6FFE9;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .input-tag {
+            font-family: 'Chunko', sans-serif;
+            background-color: #F137A6;
+            color: #F6FFE9;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .btn-close-menu {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #F137A6;
+            color: #F6FFE9;
+            font-family: 'Chunko', sans-serif;
+            border: 2px solid #F2E0A4;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 110;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tv-screen-container" id="tvContainer">
+        
+        <!-- BOTÓN DE MENÚ HAMBURGUESA -->
+        <div class="btn-menu-icon" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Área Central del Proyecto con Flechas -->
+        <div class="project-display-area">
+            <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="proyectoAnterior()">
+
+            <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+                <!-- Contenido dinámico -->
+            </div>
+
+            <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="proyectoSiguiente()">
+        </div>
+
+        <!-- Panel Lateral Derecho -->
+        <div class="tv-side-panel">
+            <div class="panel-header-row">
+                <div id="channelLogo" class="channel-logo-box">MOTION-TV</div>
+            </div>
+
+            <div class="project-info-box">
+                <div id="projectTitle" class="project-title">Motion Graphics</div>
+                <div id="projectDesc" class="project-description">
+                    Formé parte de la campaña promocional para el videojuego "Estrilda the Bewitched", desarrollando piezas dinámicas y recursos visuales animados.
+                </div>
+            </div>
+
+            <!-- Palabras clave en la esquina derecha -->
+            <div id="projectTags" class="project-tags-container"></div>
+        </div>
+
+    </div>
+
+    <!-- MODAL / MENU DESPLEGABLE -->
+    <div id="menuOverlay" class="menu-overlay">
+        <div class="menu-modal-container">
+            
+            <button class="btn-close-menu" id="closeMenuBtn">✕</button>
+
+            <div class="menu-sidebar">
+                <div class="sidebar-icon-item active" id="btnPerfil" title="Perfil / Bio" onclick="mostrarSeccion('bio')">👤</div>
+                <div class="sidebar-icon-item" title="Favoritos">⭐</div>
+                <div class="sidebar-icon-item" title="Buscar">🔍</div>
+                <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
+                <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
+                <div class="sidebar-icon-item" id="btnInputs" title="Entradas Video / HDMI" onclick="mostrarSeccion('inputs')">📡</div>
+            </div>
+
+            <div class="menu-content-card" id="cardBio">
+                <div class="menu-header-title">conoce sobre</div>
+                <h1 class="menu-main-name">NATALIE</h1>
+                
+                <div class="menu-body-layout">
+                    <div class="menu-photo-placeholder">
+                        <img src="img/natalie_bio.jpg" alt="Natalie" onerror="this.parentNode.innerHTML='<span style=\'color:#1a084c; font-weight:bold; font-size:1rem;\'>[FOTO]</span>'">
+                    </div>
+                    
+                    <div class="menu-text-bio">
+                        <p>En animación y desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. Desde el trazo conceptual y modelos 3D hasta el storyboard, disfruto conectar ideas con historias con alma.</p>
+                        <p>Hablo español, inglés (intermedio) y japonés (básico). Cada proyecto es un universo creativo diseñado para comunicar y emocionar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-content-card" id="cardInputs" style="display: none;">
+                <div class="menu-header-title">seleccionar fuente</div>
+                <h1 class="menu-main-name">ENTRADAS / SOURCE</h1>
+                
+                <div class="inputs-osd-panel" style="display: flex;">
+                    <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
+                    
+                    <a href="guiaCanalesMobile.html" class="input-option-item">
+                        <span>📺 TV - Guía EPG de Canales</span>
+                        <span class="input-tag">SINTONIZADOR</span>
+                    </a>
+
+                    <a href="habilidades.html" class="input-option-item">
+                        <span>🔌 HDMI 1 - Wii Menu (Habilidades)</span>
+                        <span class="input-tag">CONSOLA</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+        menuBtn.addEventListener('click', () => {
+            menuOverlay.style.display = 'flex';
+            menuBtn.classList.add('active-btn');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            menuOverlay.style.display = 'none';
+            menuBtn.classList.remove('active-btn');
+        });
+
+        function mostrarSeccion(seccion) {
+            const cardBio = document.getElementById('cardBio');
+            const cardInputs = document.getElementById('cardInputs');
+            const btnPerfil = document.getElementById('btnPerfil');
+            const btnInputs = document.getElementById('btnInputs');
+
+            if (seccion === 'inputs') {
+                cardBio.style.display = 'none';
+                cardInputs.style.display = 'flex';
+                btnPerfil.classList.remove('active');
+                btnInputs.classList.add('active');
+            } else {
+                cardBio.style.display = 'flex';
+                cardInputs.style.display = 'none';
+                btnInputs.classList.remove('active');
+                btnPerfil.classList.add('active');
+            }
+        }
+
+        const proyectosAnimacion = [
+            {
+                titulo: "Motion Graphics",
+                tags: ["MOTION GRAPHICS", "CAMPAÑA PROMOCIONAL", "ESTRILDA THE BEWITCHED"],
+                recurso: "videos/MotionTv/DESN3.mp4",
+                tipo: "video",
+                descripcion: "Formé parte de la campaña promocional para el videojuego \"Estrilda the Bewitched\", desarrollando piezas dinámicas y recursos visuales animados."
+            },
+            {
+                titulo: "3D Simulations",
+                tags: ["3D SIMULATIONS", "AUTODESK MAYA", "ILUMINACIÓN", "TEXTURIZADO"],
+                recurso: "videos/MotionTv/POLY3.mp4",
+                tipo: "video",
+                descripcion: "Simulación 3D en Autodesk Maya donde exploré el uso de dinámicas para lograr que la pelota derribara los dominós, integrando además un cuidado diseño de texturas e iluminación."
+            }
+        ];
+
+        let indiceActual = 0;
+
+        function cargarProyectoActual() {
+            const proj = proyectosAnimacion[indiceActual];
+            document.getElementById('projectTitle').innerText = proj.titulo;
+            document.getElementById('projectDesc').innerText = proj.descripcion;
+            
+            const tagsContainer = document.getElementById('projectTags');
+            tagsContainer.innerHTML = proj.tags.map(tag => `<span class="project-tag-pill">${tag}</span>`).join('');
+
+            const mediaContainer = document.getElementById('mediaContainer');
+            
+            if (proj.tipo === "video") {
+                mediaContainer.innerHTML = `<video id="motionVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${proj.recurso}" type="video/mp4"></video>`;
+                
+                const vid = document.getElementById('motionVideo');
+                vid.load();
+                vid.play().catch(e => console.log("Autoplay bloqueado:", e));
+            } else {
+                mediaContainer.innerHTML = `<img id="canalImagen" src="${proj.recurso}" alt="${proj.titulo}" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">`;
+            }
+        }
+
+        function proyectoSiguiente() {
+            indiceActual = (indiceActual + 1) % proyectosAnimacion.length;
+            cargarProyectoActual();
+        }
+
+        function proyectoAnterior() {
+            indiceActual = (indiceActual - 1 + proyectosAnimacion.length) % proyectosAnimacion.length;
+            cargarProyectoActual();
+        }
+
+        cargarProyectoActual();
+    </script>
+
+    <!-- Vinculación del script externo para cálculo y ajuste móvil limpio -->
+    <script src="ajuste-movil.js"></script>
+</body>
+</html>
