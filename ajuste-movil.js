@@ -1,20 +1,20 @@
-// ajuste-movil.js - Limpieza total para que ocupe toda la pantalla real sin barras negras
+// ajuste-movil.js - Ocupación absoluta del 100% de la pantalla sin espacios
 (function() {
-    function asegurarPantallaCompleta() {
+    function forzarPantallaCompletaReal() {
         const container = document.getElementById('tvContainer');
         if (!container) return;
 
-        // Forzamos que ocupe el 100% de la ventana sin reducirlo
-        container.style.width = '100vw';
-        container.style.height = '100vh';
+        // Fijamos las dimensiones exactas del área gráfica visible de la ventana
+        container.style.width = window.innerWidth + 'px';
+        container.style.height = window.innerHeight + 'px';
     }
 
-    window.addEventListener('resize', asegurarPantallaCompleta);
-    window.addEventListener('orientationchange', () => setTimeout(asegurarPantallaCompleta, 300));
+    window.addEventListener('resize', forzarPantallaCompletaReal);
+    window.addEventListener('orientationchange', () => setTimeout(forzarPantallaCompletaReal, 300));
     
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', asegurarPantallaCompleta);
+        document.addEventListener('DOMContentLoaded', forzarPantallaCompletaReal);
     } else {
-        asegurarPantallaCompleta();
+        forzarPantallaCompletaReal();
     }
 })();

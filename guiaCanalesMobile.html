@@ -1,4 +1,11 @@
-<style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gy Arts - Guía EPG Poly-TV (Móvil)</title>
+    
+    <style>
         /* Declaración de Tus Fuentes Originales */
         @font-face {
             font-family: 'Chunko';
@@ -17,21 +24,26 @@
         }
 
         html, body {
-            background-color: #000;
+            background-color: #290087;
             color: #F6FFE9;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             font-family: 'Teko', sans-serif;
             position: fixed;
             top: 0;
             left: 0;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Contenedor principal a pantalla completa absoluta sin espacios negros */
+        /* Contenedor principal a pantalla completa absoluta sin espacios ni barras negras */
         .mobile-tv-container {
-            width: 100vw;
-            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: #290087;
             border: 4px solid #F137A6;
             outline: 2px solid #F2E0A4;
@@ -41,9 +53,6 @@
             box-sizing: border-box;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
             overflow: hidden;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
 
         /* COLUMNA IZQUIERDA: Video arriba, Tarjeta Lavanda abajo */
@@ -250,3 +259,133 @@
             color: #F6FFE9;
         }
     </style>
+</head>
+<body>
+
+    <div class="mobile-tv-container" id="tvContainer">
+        
+        <!-- COLUMNA IZQUIERDA: VIDEO PREVIEW Y TARJETA LAVANDA -->
+        <div class="mobile-left-col">
+            
+            <!-- Video Preview / Pantalla -->
+            <div class="mobile-video-preview" id="mobileMediaContainer">
+                <a href="index.html" class="btn-regresar-mobile" title="Volver a Inicio">↩</a>
+                <video id="mobileVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
+                    <source src="videos/ShowreelWbsite.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- Tarjeta Info Lavanda -->
+            <div class="mobile-info-card">
+                <div class="info-left-side">
+                    <div class="mobile-channel-tag" id="mobChannel">CH 102</div>
+                    <div class="mobile-title" id="mobTitle">"SHOWREEL"</div>
+                </div>
+                <div class="mobile-desc" id="mobDesc">
+                    Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA: PARRILLA EPG COMPACTA -->
+        <div class="mobile-right-col">
+            <div class="mobile-epg-header">
+                <div class="mobile-header-canal">CANAL</div>
+                <div>11:00 PM</div>
+                <div>11:30 PM</div>
+            </div>
+
+            <div class="mobile-epg-scroll-body">
+                
+                <!-- CH 102 -->
+                <div class="mobile-epg-row">
+                    <div class="mobile-epg-channel-num">CH 102</div>
+                    <div class="mobile-epg-subgrid">
+                        <a href="canal.html" class="mobile-program-block row-yellow-bg"
+                           ontouchstart="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')">
+                            "SHOWREEL"
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CH 50 -->
+                <div class="mobile-epg-row">
+                    <div class="mobile-epg-channel-num">CH 50</div>
+                    <div class="mobile-epg-subgrid">
+                        <a href="diseno.html" class="mobile-program-block row-dark-bg"
+                           ontouchstart="actualizarPreviewMovil('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda y trifolds.', 'video', 'videos/DISEÑO/Tonali.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda y trifolds.', 'video', 'videos/DISEÑO/Tonali.mp4')">
+                            "CANVAS NETWORK"
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CH 51 -->
+                <div class="mobile-epg-row">
+                    <div class="mobile-epg-channel-num">CH 51</div>
+                    <div class="mobile-epg-subgrid">
+                        <a href="animacion.html" class="mobile-program-block row-dark-bg"
+                           ontouchstart="actualizarPreviewMovil('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y Maya 3D.', 'video', 'videos/MotionTv/DESN3.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y Maya 3D.', 'video', 'videos/MotionTv/DESN3.mp4')">
+                            "MOTION-TV"
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CH 52 -->
+                <div class="mobile-epg-row">
+                    <div class="mobile-epg-channel-num">CH 52</div>
+                    <div class="mobile-epg-subgrid">
+                        <a href="ilustracion.html" class="mobile-program-block row-dark-bg"
+                           ontouchstart="actualizarPreviewMovil('CH 52', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/proyecto1.jpg')"
+                           onmouseover="actualizarPreviewMovil('CH 52', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/proyecto1.jpg')">
+                            "SKETCH BOX"
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CH 53 -->
+                <div class="mobile-epg-row">
+                    <div class="mobile-epg-channel-num">CH 53</div>
+                    <div class="mobile-epg-subgrid">
+                        <a href="otros.html" class="mobile-program-block row-dark-bg"
+                           ontouchstart="actualizarPreviewMovil('CH 53', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos.', 'video', 'videos/otros/videojuegos_demo.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 53', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos.', 'video', 'videos/otros/videojuegos_demo.mp4')">
+                            "PIXEL VISION"
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script de previsualización táctil -->
+    <script>
+        function actualizarPreviewMovil(canal, titulo, descripcion, tipoMedia, rutaMedia) {
+            document.getElementById('mobChannel').innerText = canal;
+            document.getElementById('mobTitle').innerHTML = titulo;
+            document.getElementById('mobDesc').innerText = descripcion;
+
+            const mediaContainer = document.getElementById('mobileMediaContainer');
+            const botonRegresar = '<a href="index.html" class="btn-regresar-mobile" title="Volver a Inicio">↩</a>';
+
+            if (tipoMedia === 'video') {
+                mediaContainer.innerHTML = botonRegresar +
+                    `<video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
+                        <source src="${rutaMedia}" type="video/mp4">
+                    </video>`;
+            } else if (tipoMedia === 'imagen') {
+                mediaContainer.innerHTML = botonRegresar +
+                    `<img src="${rutaMedia}" alt="Preview" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">`;
+            }
+        }
+    </script>
+
+    <!-- Vinculación del script externo para cálculo y ajuste móvil limpio -->
+    <script src="ajuste-movil.js"></script>
+</body>
+</html>
