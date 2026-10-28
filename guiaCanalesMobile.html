@@ -32,18 +32,19 @@
             font-family: 'Teko', sans-serif;
         }
 
-        /* Contenedor principal que emula el televisor adaptado a la pantalla completa horizontal del móvil */
+        /* Contenedor principal que emula el televisor ajustado a la pantalla completa del móvil */
         .mobile-tv-container {
             width: 100vw;
             height: 100vh;
             background-color: #290087;
-            border: 8px solid #F137A6;
-            outline: 4px solid #F2E0A4;
-            padding: 8px;
+            border: 6px solid #F137A6;
+            outline: 3px solid #F2E0A4;
+            padding: 6px;
             display: flex;
             gap: 8px;
             box-sizing: border-box;
             box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+            overflow: hidden;
         }
 
         /* COLUMNA IZQUIERDA: Video Preview (Arriba) + Tarjeta Info (Abajo) */
@@ -51,16 +52,16 @@
             flex: 1.1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             height: 100%;
         }
 
         /* Preview Video Estilo PC */
         .mobile-video-preview {
-            flex: 1.2;
+            flex: 1.35;
             background-color: #000;
             border: 3px solid #F2E0A4;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
             position: relative;
             display: flex;
@@ -80,35 +81,36 @@
             position: absolute;
             top: 5px;
             right: 5px;
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             background: rgba(41, 0, 135, 0.7);
             border: 2px solid #F2E0A4;
-            border-radius: 5px;
+            border-radius: 4px;
             color: #F6FFE9;
             display: flex;
             justify-content: center;
             align-items: center;
             text-decoration: none;
             z-index: 20;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         /* Tarjeta de Información Estilo Lavanda (Abajo a la izquierda) */
         .mobile-info-card {
-            flex: 1;
+            flex: 0.85;
             background-color: #CAC5E5;
             border: 3px solid #F2E0A4;
-            border-radius: 8px;
-            padding: 10px 12px;
+            border-radius: 6px;
+            padding: 6px 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            overflow: hidden;
         }
 
         .mobile-channel-tag {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: #F137A6;
             line-height: 1;
             margin-bottom: 2px;
@@ -116,17 +118,17 @@
 
         .mobile-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: #290087;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             letter-spacing: 0.5px;
-            line-height: 1.1;
+            line-height: 1;
         }
 
         .mobile-desc {
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             color: #290087;
-            line-height: 1.1;
+            line-height: 1.05;
         }
 
         /* COLUMNA DERECHA: Parrilla EPG con Scroll */
@@ -134,10 +136,11 @@
             flex: 1.3;
             background-color: #120638;
             border: 3px solid #290087;
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            height: 100%;
         }
 
         /* Cabecera Fucsia EPG */
@@ -147,9 +150,9 @@
             background-color: #F137A6;
             color: #F6FFE9;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
-            padding: 6px 0;
+            padding: 5px 0;
             border-bottom: 2px solid #290087;
             flex-shrink: 0;
         }
@@ -170,7 +173,7 @@
             display: grid;
             grid-template-columns: 80px 1fr;
             border-bottom: 2px solid #290087;
-            min-height: 45px;
+            min-height: 42px;
         }
 
         .mobile-epg-row:last-child {
@@ -181,7 +184,7 @@
             background-color: #F2E0A4;
             color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -201,7 +204,7 @@
             align-items: center;
             text-decoration: none;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             padding: 4px 6px;
             text-align: center;
             cursor: pointer;
@@ -299,7 +302,7 @@
                     </div>
                 </div>
 
-                <!-- CANALES ADICIONALES DE PRUEBA PARA VER EL SCROLL VERTICAL -->
+                <!-- CANALES ADICIONALES PARA VER EL SCROLL -->
                 <div class="mobile-epg-row">
                     <div class="mobile-epg-channel-num">CH 52</div>
                     <div class="mobile-epg-subgrid">
