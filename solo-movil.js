@@ -1,9 +1,10 @@
-// solo-movil.js - Prueba de escala reducida para encontrar el tamaño perfecto sin recortes
+
+ // solo-movil.js - Escalado horizontal para dispositivos móviles
 (function() {
     const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
     if (!esMovil) {
-        return; 
+        return;
     }
 
     const style = document.createElement('style');
@@ -48,7 +49,7 @@
 
     function inicializarModoMovil() {
         let tvContainer = document.querySelector('.tv-screen-container');
-        
+
         if (!tvContainer) {
             setTimeout(inicializarModoMovil, 50);
             return;
@@ -64,19 +65,19 @@
 
         const container = document.getElementById('scaledForcedContainer') || tvContainer;
 
-        const realWidth = window.innerWidth;
-        const realHeight = window.innerHeight;
+        const anchoDisponible = document.documentElement.clientWidth;
+        const altoDisponible = document.documentElement.clientHeight;
 
-        const anchoVentana = Math.max(realWidth, realHeight);
-        const altoVentana = Math.min(realWidth, realHeight);
+        const anchoVentana = Math.max(anchoDisponible, altoDisponible);
+        const altoVentana = Math.min(anchoDisponible, altoDisponible);
 
         const baseWidth = 1366;
         const baseHeight = 768;
 
         const scaleX = anchoVentana / baseWidth;
         const scaleY = altoVentana / baseHeight;
-        
-        // Ajustar el televisor para que quepa completo en la pantalla móvil
+
+        // Ajustar el televisor para que quepa en la pantalla móvil
         const scale = Math.min(scaleX, scaleY) * 0.95;
 
         container.style.transform = `translate(-50%, -50%) scale(${scale})`;
@@ -89,6 +90,7 @@
     }
 
     window.addEventListener('resize', inicializarModoMovil);
+
     window.addEventListener('orientationchange', () => {
         setTimeout(inicializarModoMovil, 400);
     });
