@@ -98,11 +98,12 @@
             border: 3px solid #290087;
         }
 
-        .project-display-area video, .project-display-area img {
+        .project-display-area video, .project-display-area img, .project-display-area iframe {
             width: 100%;
             height: 100%;
             object-fit: contain;
             background-color: #05020a;
+            border: none;
         }
 
         /* Flechas de Navegación */
@@ -536,15 +537,15 @@
             {
                 titulo: "Motion Graphics",
                 tags: ["MOTION GRAPHICS", "CAMPAÑA PROMOCIONAL", "ESTRILDA THE BEWITCHED"],
-                recurso: "videos/motionTv/desn3.mp4",
-                tipo: "video",
+                recurso: "6dfuG4DCpeo",
+                tipo: "youtube",
                 descripcion: "Formé parte de la campaña promocional para el videojuego \"Estrilda the Bewitched\", desarrollando piezas dinámicas y recursos visuales animados."
             },
             {
                 titulo: "3D Simulations",
                 tags: ["3D SIMULATIONS", "AUTODESK MAYA", "ILUMINACIÓN", "TEXTURIZADO"],
-                recurso: "videos/motionTv/poly3.mp4",
-                tipo: "video",
+                recurso: "HGFLhoMetdQ",
+                tipo: "youtube",
                 descripcion: "Simulación 3D en Autodesk Maya donde exploré el uso de dinámicas para lograr que la pelota derribara los dominós, integrando además un cuidado diseño de texturas e iluminación."
             }
         ];
@@ -561,7 +562,9 @@
 
             const mediaContainer = document.getElementById('mediaContainer');
             
-            if (proj.tipo === "video") {
+            if (proj.tipo === "youtube") {
+                mediaContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${proj.recurso}?autoplay=1&mute=1&loop=1&playlist=${proj.recurso}&controls=0&showinfo=0&autohide=1&modestbranding=1&disablekb=1" allow="autoplay" style="width:100%; height:100%; border:none;"></iframe>`;
+            } else if (proj.tipo === "video") {
                 mediaContainer.innerHTML = `<video id="motionVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain;"><source src="${proj.recurso}" type="video/mp4"></video>`;
                 
                 const vid = document.getElementById('motionVideo');
