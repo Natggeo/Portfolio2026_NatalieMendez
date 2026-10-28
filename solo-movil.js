@@ -1,9 +1,10 @@
-// solo-movil.js - Ajuste de escala y menú para dispositivos móviles
+// solo-movil.js - Escalado y menú para dispositivos móviles
 (function() {
     const esMovil =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
         || window.innerWidth <= 900;
 
+    // No modificar la versión de escritorio
     if (!esMovil) {
         return;
     }
@@ -20,6 +21,7 @@
             padding: 0 !important;
         }
 
+        /* Contenedor de la pantalla móvil */
         .mobile-forced-landscape {
             position: fixed !important;
             top: 0 !important;
@@ -34,6 +36,7 @@
             align-items: center !important;
         }
 
+        /* Diseño original del televisor */
         .tv-screen-container {
             width: 1366px !important;
             height: 768px !important;
@@ -44,22 +47,26 @@
             box-sizing: border-box !important;
         }
 
-        /* Ajustes del menú en móviles */
+        /* Menú desplegable */
         .menu-overlay {
             position: fixed !important;
             inset: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
+            width: 100% !important;
+            height: 100% !important;
             padding: 10px !important;
             z-index: 100000 !important;
+            box-sizing: border-box !important;
+            overflow: auto !important;
         }
 
         .menu-modal-container {
             width: 100% !important;
-            height: 95% !important;
-            max-width: none !important;
-            max-height: none !important;
+            height: 100% !important;
+            max-width: 900px !important;
+            max-height: 560px !important;
             gap: 8px !important;
+            margin: auto !important;
+            flex-shrink: 0 !important;
         }
 
         .menu-sidebar {
@@ -117,7 +124,7 @@
             right: 2px !important;
         }
 
-        /* Facilitar el uso táctil del botón hamburguesa */
+        /* Facilitar los toques en el botón hamburguesa */
         .btn-menu-icon {
             cursor: pointer !important;
             touch-action: manipulation;
@@ -128,32 +135,43 @@
     document.head.appendChild(style);
 
     function inicializarModoMovil() {
-        const tvContainer = document.querySelector('.tv-screen-container');
+        const tvContainer =
+            document.querySelector('.tv-screen-container');
 
         if (!tvContainer) {
             setTimeout(inicializarModoMovil, 100);
             return;
         }
 
-        if (!tvContainer.parentElement.classList.contains('mobile-forced-landscape')) {
+        // Crear el contenedor móvil una sola vez
+        if (
+            !tvContainer.parentElement.classList.contains(
+                'mobile-forced-landscape'
+            )
+        ) {
             const wrapper = document.createElement('div');
             wrapper.className = 'mobile-forced-landscape';
+
             tvContainer.parentNode.insertBefore(wrapper, tvContainer);
             wrapper.appendChild(tvContainer);
             tvContainer.id = 'scaledForcedContainer';
         }
 
         const container =
-            document.getElementById('scaledForcedContainer') || tvContainer;
+            document.getElementById('scaledForcedContainer')
+            || tvContainer;
 
-        // Medir el espacio real disponible en la ventana
-        const anchoDisponible = document.documentElement.clientWidth;
-        const altoDisponible = document.documentElement.clientHeight;
+        // Medir el espacio disponible
+        const anchoDisponible =
+            document.documentElement.clientWidth;
+
+        const altoDisponible =
+            document.documentElement.clientHeight;
 
         const baseWidth = 1366;
         const baseHeight = 768;
 
-        // Calcular una escala para mostrar el televisor completo
+        // Calcular la escala para que el televisor quepa completo
         const scaleX = anchoDisponible / baseWidth;
         const scaleY = altoDisponible / baseHeight;
         const scale = Math.min(scaleX, scaleY);
@@ -163,15 +181,20 @@
             `translate(-50%, -50%) scale(${scale})`;
     }
 
+    // Inicializar cuando el documento esté listo
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', inicializarModoMovil);
+        document.addEventListener(
+            'DOMContentLoaded',
+            inicializarModoMovil
+        );
     } else {
         inicializarModoMovil();
     }
 
+    // Recalcular al cambiar el tamaño u orientación
     window.addEventListener('resize', inicializarModoMovil);
 
-    window.addEventListener('orientationchange', () => {
+    window.addEventListener('orientationchange', function() {
         setTimeout(inicializarModoMovil, 400);
     });
 })();
