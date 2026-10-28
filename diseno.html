@@ -426,7 +426,7 @@
             <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="proyectoAnterior()">
 
             <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
-                <!-- Contenedor dinámico -->
+                <!-- Contenido dinámico -->
             </div>
 
             <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="proyectoSiguiente()">
@@ -565,7 +565,6 @@
         let player;
 
         function onYouTubeIframeAPIReady() {
-            // Inicialización diferida por si arranca con video local
             const proj = proyectosDiseno[indiceActual];
             if (proj.tipo === "youtube") {
                 crearReproductorYouTube(proj.recurso);
@@ -627,7 +626,6 @@
             cargarProyectoActual();
         }
 
-        // Carga inicial al abrir la página
         window.addEventListener('load', () => {
             cargarProyectoActual();
         });
