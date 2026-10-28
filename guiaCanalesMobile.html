@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="estilos-pantallas.css">
+
+    <title>Gy Arts - Guía EPG Poly-TV</title>
+
+    <style>
+        /* ==========================================
+           FUENTES
+           ========================================== */
+
+        @font-face {
+            font-family: 'Chunko';
+            src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Teko';
+            src: url('fonts/Teko-Regular.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ==========================================
+           CONTENEDOR DEL TELEVISOR
+           ========================================== */
+
+        .tv-screen-container {
+            background-color: #290087;
+            border: 12px solid #F137A6;
+            padding: 15px;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.6);
+            outline: 6px solid #F2E0A4;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* ==========================================
+           SECCIÓN DE INFORMACIÓN Y PREVISUALIZACIÓN
+           ========================================== */
+
+        .epg-top-section {
+            display: flex;
+            gap: 15px;
+            height: 52%;
+        }
+
+        .epg-info-card {
+            flex: 1;
+            min-width: 0;
+            background-color: #CAC5E5;
+            border: 3px solid #F2E0A4;
+            border-radius: 10px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .epg-channel-tag {
+            font-family: 'Chunko', sans-serif;
+            font-size: 3rem;
+            color: #F137A6;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .epg-title {
+            font-family: 'Chunko', sans-serif;
+            font-size: 2.2rem;
+            color: #290087;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .epg-desc {
+            font-size: 1.3rem;
+            color: #290087;
+            line-height: 1.2;
+        }
+
+        /* ==========================================
+           VISTA PREVIA DE VIDEO O IMAGEN
+           ========================================== */
+
+        .epg-video-preview {
+            width: 48%;
+            background-color: #000;
+            border: 3px solid #F2E0A4;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .epg-video-preview video,
+        .epg-video-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-regresar-top {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            background: rgba(41, 0, 135, 0.6);
+            border: 2px solid #F2E0A4;
+            border-radius: 6px;
+            color: #F6FFE9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            z-index: 20;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .btn-regresar-top:hover {
+            opacity: 1;
+            background-color: #F137A6;
+        }
+
+        /* ==========================================
+           PARRILLA DE CANALES
+           ========================================== */
+
+        .epg-grid-container {
+            flex: 1;
+            min-width: 0;
+            background-color: #120638;
+            border: 3px solid #290087;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Encabezado */
+
+        .epg-grid-header {
+            display: grid;
+            grid-template-columns: 210px repeat(3, 1fr);
+            background-color: #F137A6;
+            color: #F6FFE9;
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.4rem;
+            text-align: center;
+            padding: 8px 0;
+            border-bottom: 2px solid #290087;
+        }
+
+        .header-canal-label {
+            background-color: #F137A6;
+            border-right: 2px solid #290087;
+        }
+
+        /* Filas */
+
+        .epg-row {
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            flex: 1;
+            min-height: 0;
+            border-bottom: 2px solid #290087;
+        }
+
+        .epg-row:last-child {
+            border-bottom: none;
+        }
+
+        .epg-channel-num {
+            background-color: #F2E0A4;
+            color: #290087;
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 2px solid #290087;
+        }
+
+        .epg-programs-subgrid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            height: 100%;
+            min-width: 0;
+        }
+
+        /* Bloques de programas */
+
+        .epg-program-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.3rem;
+            padding: 5px 10px;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-right: 2px solid #290087;
+            min-width: 0;
+        }
+
+        .epg-program-block:last-child {
+            border-right: none;
+        }
+
+        /* Fila amarilla: CH 102 */
+
+        .row-yellow-bg {
+            background-color: #F2E0A4;
+            color: #290087;
+        }
+
+        .row-yellow-bg:hover {
+            background-color: #F137A6;
+            color: #F6FFE9;
+        }
+
+        /* Filas oscuras: CH 50 y CH 51 */
+
+        .row-dark-bg {
+            background-color: #120638;
+            color: #F6FFE9;
+        }
+
+        .row-dark-bg:hover {
+            background-color: #F137A6;
+            color: #F6FFE9;
+        }
+
+        .span-full {
+            grid-column: span 2;
+        }
+
+        /* ==========================================
+           VERSIÓN MÓVIL: GUÍA DE CANALES
+           Exclusivo de esta página
+           ========================================== */
+
+        body {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /*
+           El tamaño base de 1366 x 768 px lo controla
+           solo-movil.js. Aquí modificamos su contenido.
+        */
+
+        .tv-screen-container {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 12px;
+            padding: 12px;
+            overflow: hidden;
+        }
+
+        /* IZQUIERDA: previsualización e información */
+
+        .epg-top-section {
+            flex: 0 0 42%;
+            width: 42%;
+            min-width: 0;
+            min-height: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+        }
+
+        /* Previsualización arriba */
+
+        .epg-video-preview {
+            width: 100%;
+            height: auto;
+            flex: 0 0 42%;
+            min-width: 0;
+            min-height: 0;
+        }
+
+        /* Información debajo */
+
+        .epg-info-card {
+            flex: 1 1 0;
+            min-width: 0;
+            min-height: 0;
+            padding: 12px;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+
+        .epg-channel-tag {
+            font-size: 2rem;
+        }
+
+        .epg-title {
+            font-size: 1.6rem;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .epg-desc {
+            font-size: 1.1rem;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }
+
+        /* DERECHA: programación */
+
+        .epg-grid-container {
+            flex: 1 1 0;
+            width: auto;
+            min-width: 0;
+            min-height: 0;
+        }
+
+        /* Encabezado de horarios */
+
+        .epg-grid-header {
+            grid-template-columns: 100px repeat(3, minmax(0, 1fr));
+            font-size: 1rem;
+        }
+
+        /* Filas de canales */
+
+        .epg-row {
+            grid-template-columns: 100px minmax(0, 1fr);
+            flex: 1 1 0;
+            min-height: 0;
+        }
+
+        .epg-channel-num {
+            font-size: 1.2rem;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+
+        .epg-programs-subgrid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            min-width: 0;
+            min-height: 0;
+        }
+
+        .epg-program-block {
+            min-width: 0;
+            padding: 5px;
+            font-size: 1rem;
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tv-screen-container">
+
+        <!-- COLUMNA IZQUIERDA: PREVISUALIZACIÓN E INFORMACIÓN -->
+
+        <div class="epg-top-section">
+
+            <div class="epg-info-card">
+                <div class="epg-channel-tag" id="previewChannel">
+                    CH 102
+                </div>
+
+                <div class="epg-title" id="previewTitle">
+                    POLY-TV "SHOWREEL"
+                </div>
+
+                <div class="epg-desc" id="previewDesc">
+                    Selecciona un bloque en la guía de televisión interactiva
+                    para sintonizar los proyectos de Natalie.
+                </div>
+            </div>
+
+            <div class="epg-video-preview" id="previewMediaContainer">
+
+                <a href="index.html"
+                   class="btn-regresar-top"
+                   title="Volver a Inicio">↩</a>
+
+                <video id="previewVideo"
+                       autoplay
+                       loop
+                       muted
+                       playsinline>
+                    <source src="videos/ShowreelWbsite.mp4"
+                            type="video/mp4">
+                </video>
+
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: PARRILLA DE CANALES -->
+
+        <div class="epg-grid-container">
+
+            <div class="epg-grid-header">
+                <div class="header-canal-label">CANAL</div>
+                <div>11:00 PM</div>
+                <div>11:30 PM</div>
+                <div>12:00 PM</div>
+            </div>
+
+            <!-- CH 102: SHOWREEL -->
+
+            <div class="epg-row">
+                <div class="epg-channel-num">CH 102</div>
+
+                <div class="epg-programs-subgrid">
+
+                    <a href="canal.html"
+                       class="epg-program-block row-yellow-bg span-full"
+                       onmouseover="actualizarPreview(
+                           'CH 102',
+                           'POLY-TV &quot;SHOWREEL&quot;',
+                           'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.',
+                           'video',
+                           'videos/ShowreelWbsite.mp4'
+                       )">
+                        "SHOWREEL"
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CH 50: DISEÑO Y VIDEOJUEGOS -->
+
+            <div class="epg-row">
+                <div class="epg-channel-num">CH 50</div>
+
+                <div class="epg-programs-subgrid">
+
+                    <a href="diseno.html"
+                       class="epg-program-block row-dark-bg"
+                       onmouseover="actualizarPreview(
+                           'CH 50',
+                           '&quot;CANVAS NETWORK&quot;',
+                           'Explora proyectos de diseño como Tonali, afiches de Estrilda the Bewitched y el trifold de derechos humanos.',
+                           'video',
+                           'videos/DISEÑO/Tonali.mp4'
+                       )">
+                        "CANVAS NETWORK"
+                    </a>
+
+                    <a href="otros.html"
+                       class="epg-program-block row-dark-bg"
+                       onmouseover="actualizarPreview(
+                           'CH 50',
+                           '&quot;PIXEL VISION&quot;',
+                           'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos Interactivos.',
+                           'video',
+                           'videos/otros/videojuegos_demo.mp4'
+                       )">
+                        "PIXEL VISION"
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CH 51: ANIMACIÓN E ILUSTRACIÓN -->
+
+            <div class="epg-row">
+                <div class="epg-channel-num">CH 51</div>
+
+                <div class="epg-programs-subgrid">
+
+                    <a href="animacion.html"
+                       class="epg-program-block row-dark-bg"
+                       onmouseover="actualizarPreview(
+                           'CH 51',
+                           '&quot;MOTION-TV&quot;',
+                           'Motion Graphics para la campaña de Estrilda the Bewitched y simulaciones 3D en Autodesk Maya.',
+                           'video',
+                           'videos/MotionTv/DESN3.mp4'
+                       )">
+                        "MOTION-TV"
+                    </a>
+
+                    <a href="ilustracion.html"
+                       class="epg-program-block row-dark-bg"
+                       onmouseover="actualizarPreview(
+                           'CH 51',
+                           '&quot;SKETCH BOX&quot;',
+                           'Galería de Concept Art, Diseño de Personajes y Fondos 2D.',
+                           'imagen',
+                           'img/ilustracion/proyecto1.jpg'
+                       )">
+                        "SKETCH BOX"
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- VISTA PREVIA DINÁMICA -->
+
+    <script>
+        function actualizarPreview(
+            canal,
+            titulo,
+            descripcion,
+            tipoMedia,
+            rutaMedia
+        ) {
+            document.getElementById('previewChannel').innerText = canal;
+            document.getElementById('previewTitle').innerHTML = titulo;
+            document.getElementById('previewDesc').innerText = descripcion;
+
+            const mediaContainer =
+                document.getElementById('previewMediaContainer');
+
+            const botonRegresar =
+                '<a href="index.html" class="btn-regresar-top" title="Volver a Inicio">↩</a>';
+
+            if (tipoMedia === 'video') {
+                mediaContainer.innerHTML = botonRegresar +
+                    `<video autoplay loop muted playsinline
+                        style="width:100%; height:100%; object-fit:cover;">
+                        <source src="${rutaMedia}" type="video/mp4">
+                    </video>`;
+
+            } else if (tipoMedia === 'imagen') {
+                mediaContainer.innerHTML = botonRegresar +
+                    `<img src="${rutaMedia}"
+                        alt="Preview"
+                        style="width:100%; height:100%; object-fit:contain;"
+                        onerror="this.src='img/natalie_bio.jpg'">`;
+            }
+        }
+    </script>
+
+    <script src="solo-movil.js"></script>
+
+</body>
+</html>
