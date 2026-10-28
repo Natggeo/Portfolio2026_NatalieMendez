@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    
-    <link rel="stylesheet" href="estilos-pantallas.css">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos-pantallas.css">
     <title>Gy Arts - Canal Diseño</title>
     
     <style>
@@ -414,13 +412,6 @@
 
 <body>
     <div class="tv-screen-container">
-        <!-- Todo el contenido de tu página (menús, botones, televisión, descripciones) va aquí adentro -->
-    </div>
-</body>
-
-<body>
-
-    <div class="tv-screen-container">
         
         <!-- BOTÓN DE MENÚ HAMBURGUESA -->
         <div class="btn-menu-icon" id="menuBtn">
@@ -444,9 +435,9 @@
         <div class="tv-bottom-panel">
             <div id="channelLogo" class="channel-logo-box">DESIGN-TV</div>
             <div class="project-info-box">
-                <div id="projectTitle" class="project-title">"Tonali"</div>
+                <div id="projectTitle" class="project-title">Motion Graphics</div>
                 <div id="projectDesc" class="project-description">
-                    En este proyecto conceptualicé y desarrollé la identidad de una casa creativa ficticia, desde su branding hasta campañas publicitarias en Illustrator, Blender, After Effects y Canva. Aprendí a estructurar un sistema visual coherente e integrar flujos 2D, 3D y animación en una marca sólida.
+                    Formé parte de la campaña promocional para el videojuego "Estrilda the Bewitched", desarrollando piezas dinámicas y recursos visuales animados.
                 </div>
             </div>
             <!-- Palabras clave en la esquina inferior derecha -->
@@ -493,7 +484,7 @@
                 <div class="inputs-osd-panel" style="display: flex;">
                     <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
                     
-                    <a href="index.html" class="input-option-item">
+                    <a href="guiaCanales.html" class="input-option-item">
                         <span>📺 TV - Guía EPG de Canales</span>
                         <span class="input-tag">SINTONIZADOR</span>
                     </a>
@@ -579,7 +570,7 @@
             const mediaContainer = document.getElementById('mediaContainer');
             
             if (proj.tipo === "video") {
-                mediaContainer.innerHTML = `<video id="disenoVideo" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:contain;"><source src="${proj.recurso}" type="video/mp4"></video>`;
+                mediaContainer.innerHTML = `<video id="disenoVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain;"><source src="${proj.recurso}" type="video/mp4"></video>`;
                 
                 const vid = document.getElementById('disenoVideo');
                 vid.load();
@@ -603,7 +594,6 @@
     </script>
 
     <script src="solo-movil.js"></script>
-
     
 </body>
 </html>

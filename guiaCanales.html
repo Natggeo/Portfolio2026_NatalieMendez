@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    
     <link rel="stylesheet" href="estilos-pantallas.css">
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gy Arts - Guía EPG Poly-TV</title>
-    
+
     <style>
         /* Declaración de Fuentes */
         @font-face {
             font-family: 'Chunko';
             src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
         }
+
         @font-face {
             font-family: 'Teko';
             src: url('fonts/Teko-Regular.ttf') format('truetype');
@@ -25,7 +25,7 @@
             box-sizing: border-box;
         }
 
-        /* Contenedor Marco Televisor (El script global se encarga de dimensionarlo y escalarlo) */
+        /* Contenedor Marco Televisor */
         .tv-screen-container {
             background-color: #290087;
             border: 12px solid #F137A6;
@@ -91,7 +91,8 @@
             align-items: center;
         }
 
-        .epg-video-preview video, .epg-video-preview img {
+        .epg-video-preview video,
+        .epg-video-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -228,20 +229,18 @@
 </head>
 
 <body>
-    <div class="tv-screen-container">
-        <!-- Todo el contenido de tu página (menús, botones, televisión, descripciones) va aquí adentro -->
-    </div>
-</body>
-
-<body>
 
     <div class="tv-screen-container">
-        
+
         <!-- PARTE SUPERIOR (INFO + PREVIEW) -->
         <div class="epg-top-section">
             <div class="epg-info-card">
                 <div class="epg-channel-tag" id="previewChannel">CH 102</div>
-                <div class="epg-title" id="previewTitle">POLY-TV "SHOWREEL"</div>
+
+                <div class="epg-title" id="previewTitle">
+                    POLY-TV "SHOWREEL"
+                </div>
+
                 <div class="epg-desc" id="previewDesc">
                     Selecciona un bloque en la guía de televisión interactiva para sintonizar los proyectos de Natalie.
                 </div>
@@ -249,6 +248,7 @@
 
             <div class="epg-video-preview" id="previewMediaContainer">
                 <a href="index.html" class="btn-regresar-top" title="Volver a Inicio">↩</a>
+
                 <video id="previewVideo" autoplay loop muted playsinline>
                     <source src="videos/ShowreelWbsite.mp4" type="video/mp4">
                 </video>
@@ -257,7 +257,7 @@
 
         <!-- PARRILLA DE CANALES -->
         <div class="epg-grid-container">
-            
+
             <div class="epg-grid-header">
                 <div class="header-canal-label">CANAL</div>
                 <div>11:00 PM</div>
@@ -268,9 +268,13 @@
             <!-- CH 102 (Showreel / Modelado 3D) -->
             <div class="epg-row">
                 <div class="epg-channel-num">CH 102</div>
+
                 <div class="epg-programs-subgrid">
-                    <a href="canal.html" class="epg-program-block row-yellow-bg span-full" 
-                       onmouseover="actualizarPreview('CH 102', 'POLY-TV &quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')">
+                    <a
+                        href="canal.html"
+                        class="epg-program-block row-yellow-bg span-full"
+                        onmouseover="actualizarPreview('CH 102', 'POLY-TV &quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')"
+                    >
                         "SHOWREEL"
                     </a>
                 </div>
@@ -279,13 +283,21 @@
             <!-- CH 50 (Diseño / Canvas Network) -->
             <div class="epg-row">
                 <div class="epg-channel-num">CH 50</div>
+
                 <div class="epg-programs-subgrid">
-                    <a href="diseno.html" class="epg-program-block row-dark-bg" 
-                       onmouseover="actualizarPreview('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda the Bewitched y el trifold de derechos humanos.', 'video', 'videos/DISEÑO/Tonali.mp4')">
+                    <a
+                        href="diseno.html"
+                        class="epg-program-block row-dark-bg"
+                        onmouseover="actualizarPreview('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda the Bewitched y el trifold de derechos humanos.', 'video', 'videos/DISEÑO/Tonali.mp4')"
+                    >
                         "CANVAS NETWORK"
                     </a>
-                    <a href="otros.html" class="epg-program-block row-dark-bg" 
-                       onmouseover="actualizarPreview('CH 50', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos Interactivos.', 'video', 'videos/otros/videojuegos_demo.mp4')">
+
+                    <a
+                        href="otros.html"
+                        class="epg-program-block row-dark-bg"
+                        onmouseover="actualizarPreview('CH 50', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos Interactivos.', 'video', 'videos/otros/videojuegos_demo.mp4')"
+                    >
                         "PIXEL VISION"
                     </a>
                 </div>
@@ -294,20 +306,27 @@
             <!-- CH 51 (Motion TV / Animación) -->
             <div class="epg-row">
                 <div class="epg-channel-num">CH 51</div>
+
                 <div class="epg-programs-subgrid">
-                    <a href="animacion.html" class="epg-program-block row-dark-bg" 
-                       onmouseover="actualizarPreview('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y simulaciones 3D en Autodesk Maya.', 'video', 'videos/MotionTv/DESN3.mp4')">
+                    <a
+                        href="animacion.html"
+                        class="epg-program-block row-dark-bg"
+                        onmouseover="actualizarPreview('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y simulaciones 3D en Autodesk Maya.', 'video', 'videos/MotionTv/DESN3.mp4')"
+                    >
                         "MOTION-TV"
                     </a>
-                    <a href="ilustracion.html" class="epg-program-block row-dark-bg" 
-                       onmouseover="actualizarPreview('CH 51', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/proyecto1.jpg')">
+
+                    <a
+                        href="ilustracion.html"
+                        class="epg-program-block row-dark-bg"
+                        onmouseover="actualizarPreview('CH 51', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/proyecto1.jpg')"
+                    >
                         "SKETCH BOX"
                     </a>
                 </div>
             </div>
 
         </div>
-
     </div>
 
     <!-- Script de Vista Previa Dinámica -->
@@ -318,15 +337,16 @@
             document.getElementById('previewDesc').innerText = descripcion;
 
             const mediaContainer = document.getElementById('previewMediaContainer');
-            const botonRegresar = '<a href="index.html" class="btn-regresar-top" title="Volver a Inicio">↩</a>';
+            const botonRegresar =
+                '<a href="index.html" class="btn-regresar-top" title="Volver a Inicio">↩</a>';
 
             if (tipoMedia === 'video') {
-                mediaContainer.innerHTML = botonRegresar + 
+                mediaContainer.innerHTML = botonRegresar +
                     `<video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
                         <source src="${rutaMedia}" type="video/mp4">
                     </video>`;
             } else if (tipoMedia === 'imagen') {
-                mediaContainer.innerHTML = botonRegresar + 
+                mediaContainer.innerHTML = botonRegresar +
                     `<img src="${rutaMedia}" alt="Preview" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">`;
             }
         }
