@@ -98,12 +98,13 @@
             border: 3px solid #290087;
         }
 
-        .project-display-area video, .project-display-area img, .project-display-area iframe {
+        .project-display-area video, .project-display-area img, .project-display-area iframe, #youtubePlayer {
             width: 100%;
             height: 100%;
             object-fit: contain;
             background-color: #05020a;
             border: none;
+            pointer-events: none; /* Bloquea clics y evita que aparezcan controles */
         }
 
         /* Flechas de Navegación */
@@ -425,7 +426,8 @@
             <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="proyectoAnterior()">
 
             <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
-                <!-- Contenido dinámico -->
+                <!-- Contenedor donde la API inyectará el reproductor limpio -->
+                <div id="youtubePlayer"></div>
             </div>
 
             <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="proyectoSiguiente()">
@@ -491,13 +493,16 @@
 
                     <a href="habilidades.html" class="input-option-item">
                         <span>🔌 HDMI 1 - Wii Menu (Habilidades & Software)</span>
-                        <span class="input-tag">CONSOLA</span>
+                        <span class="input-tag">HDmi</span>
                     </a>
                 </div>
             </div>
 
         </div>
     </div>
+
+    <!-- Script de la API de YouTube -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
         const menuBtn = document.getElementById('menuBtn');
@@ -551,6 +556,44 @@
         ];
 
         let indiceActual = 0;
+        let player;
+
+        // Esta función la llama automáticamente la API de YouTube cuando carga
+        function onYouTubeIframeAPIReady() {
+            const proj = proyectosAnimacion[indiceActual];
+            player = new YT.Player('youtubePlayer', {
+                videoId: proj.recurso,
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'iv_load_policy': 3,
+                    'modestbranding': 1,
+                    'playsinline': 1,
+                    'rel': 0,
+                    'loop': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.mute(); // Silencia obligatoriamente para permitir el autoplay
+            event.target.setPlaybackQuality('hd1080'); // Fuerza la máxima calidad
+            event.target.playVideo();
+        }
+
+        // Detecta cuando el video termina para repetirlo al instante SIN recargar el reproductor
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                player.seekTo(0);
+                player.playVideo();
+            }
+        }
 
         function cargarProyectoActual() {
             const proj = proyectosAnimacion[indiceActual];
@@ -560,18 +603,13 @@
             const tagsContainer = document.getElementById('projectTags');
             tagsContainer.innerHTML = proj.tags.map(tag => `<span class="project-tag-pill">${tag}</span>`).join('');
 
-            const mediaContainer = document.getElementById('mediaContainer');
-            
-            if (proj.tipo === "youtube") {
-                mediaContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${proj.recurso}?autoplay=1&mute=1&loop=1&playlist=${proj.recurso}&controls=0&showinfo=0&autohide=1&modestbranding=1&disablekb=1" allow="autoplay" style="width:100%; height:100%; border:none;"></iframe>`;
-            } else if (proj.tipo === "video") {
-                mediaContainer.innerHTML = `<video id="motionVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain;"><source src="${proj.recurso}" type="video/mp4"></video>`;
-                
-                const vid = document.getElementById('motionVideo');
-                vid.load();
-                vid.play().catch(e => console.log("Autoplay bloqueado:", e));
-            } else {
-                mediaContainer.innerHTML = `<img id="canalImagen" src="${proj.recurso}" alt="${proj.titulo}" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">`;
+            // Si el reproductor ya existe, solo cargamos y reproducimos el nuevo video con calidad alta
+            if (player && typeof player.loadVideoById === 'function') {
+                player.loadVideoById({
+                    videoId: proj.recurso,
+                    suggestedQuality: 'hd1080'
+                });
+                player.mute();
             }
         }
 
@@ -584,8 +622,6 @@
             indiceActual = (indiceActual - 1 + proyectosAnimacion.length) % proyectosAnimacion.length;
             cargarProyectoActual();
         }
-
-        cargarProyectoActual();
     </script>
 
     <script src="solo-movil.js"></script>
