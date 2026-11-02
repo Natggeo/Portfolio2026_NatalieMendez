@@ -1,17 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="estilos-pantallas.css">
     <title>Gy Arts - Canal Otros / Interactivo (Móvil)</title>
-    
+
     <style>
-        /* Declaración de fuentes */
+        /* DECLARACIÓN DE FUENTES */
         @font-face {
             font-family: 'Chunko';
             src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
         }
+
         @font-face {
             font-family: 'Teko';
             src: url('fonts/Teko-Regular.ttf') format('truetype');
@@ -36,7 +37,7 @@
             left: 0;
         }
 
-        /* Contenedor Televisor adaptado a pantalla completa absoluta móvil */
+        /* CONTENEDOR TELEVISOR */
         .tv-screen-container {
             position: absolute;
             top: 0;
@@ -53,7 +54,7 @@
             overflow: hidden;
         }
 
-        /* COLUMNA IZQUIERDA: Área Central del Proyecto con marco fucsia y flechas */
+        /* ÁREA CENTRAL DEL PROYECTO */
         .project-display-area {
             flex: 1.4;
             position: relative;
@@ -67,14 +68,15 @@
             height: 100%;
         }
 
-        .project-display-area video, .project-display-area img {
+        .project-display-area video,
+        .project-display-area img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             background-color: #05020a;
         }
 
-        /* Flechas de Navegación táctiles laterales (< y >) */
+        /* FLECHAS DE NAVEGACIÓN */
         .nav-arrow {
             position: absolute;
             top: 50%;
@@ -94,10 +96,15 @@
             transform: translateY(-50%) scale(1.1);
         }
 
-        .arrow-left { left: 4px; }
-        .arrow-right { right: 4px; }
+        .arrow-left {
+            left: 4px;
+        }
 
-        /* COLUMNA DERECHA: Panel Lateral de Información y Controles */
+        .arrow-right {
+            right: 4px;
+        }
+
+        /* PANEL LATERAL DERECHO */
         .tv-side-panel {
             flex: 1;
             background-color: #290087;
@@ -113,10 +120,12 @@
             overflow: hidden;
         }
 
+        /* ENCABEZADO: LOGO Y MENÚ */
         .panel-header-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            flex-shrink: 0;
         }
 
         .channel-logo-box {
@@ -126,7 +135,7 @@
             line-height: 1;
         }
 
-        /* BOTÓN MENÚ HAMBURGUESA ESQUINA SUPERIOR DERECHA */
+        /* BOTÓN MENÚ HAMBURGUESA */
         .btn-menu-icon {
             width: 30px;
             height: 26px;
@@ -150,12 +159,23 @@
             border-radius: 2px;
         }
 
-        .btn-menu-icon:hover, .btn-menu-icon.active-btn {
+        .btn-menu-icon:hover,
+        .btn-menu-icon.active-btn {
             opacity: 1 !important;
             transform: scale(1.05);
         }
 
-        .project-info-box { 
+        /* INFORMACIÓN DEL PROYECTO: CENTRADA VERTICALMENTE */
+        .project-details-group {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .project-info-box {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -183,7 +203,29 @@
             display: block;
         }
 
-        /* MODAL / OVERLAY OSD (Adaptado a móvil) */
+        /* NAVEGACIÓN INFERIOR */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            width: 100%;
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        .bottom-nav button {
+            flex: 1;
+            background: #F137A6;
+            color: #F6FFE9;
+            border: 1px solid #F2E0A4;
+            border-radius: 4px;
+            padding: 3px 2px;
+            font-family: 'Chunko', sans-serif;
+            font-size: 0.55rem;
+            cursor: pointer;
+        }
+
+        /* MODAL / OVERLAY */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -338,6 +380,7 @@
             font-size: 0.8rem;
         }
 
+        /* BOTÓN CERRAR MENÚ */
         .btn-close-menu {
             position: absolute;
             top: 8px;
@@ -358,87 +401,163 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="tv-screen-container" id="tvContainer">
-        
-        <!-- BOTÓN DE MENÚ HAMBURGUESA -->
-        <div class="btn-menu-icon" id="menuBtn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
 
-        <!-- Área Central de Proyectos con Flechas -->
+        <!-- ÁREA CENTRAL DE PROYECTOS -->
         <div class="project-display-area">
-            <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="proyectoAnterior()">
 
-            <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
-                <video id="canalVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
+            <img src="img/felcha izq.png"
+                 alt="Anterior"
+                 class="nav-arrow arrow-left"
+                 onclick="proyectoAnterior()">
+
+            <div id="mediaContainer"
+                 style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+
+                <video id="canalVideo"
+                       autoplay
+                       loop
+                       muted
+                       playsinline
+                       style="width:100%; height:100%; object-fit:cover;">
                     <source src="videos/otros/videojuegos_demo.mp4" type="video/mp4">
                 </video>
+
             </div>
 
-            <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="proyectoSiguiente()">
+            <img src="img/felcha derch.png"
+                 alt="Siguiente"
+                 class="nav-arrow arrow-right"
+                 onclick="proyectoSiguiente()">
+
         </div>
 
-        <!-- Panel Lateral Derecho -->
+        <!-- PANEL LATERAL DERECHO -->
         <div class="tv-side-panel">
+
+            <!-- ENCABEZADO: LOGO Y MENÚ -->
             <div class="panel-header-row">
-                <div id="channelLogo" class="channel-logo-box">EXTRA-TV</div>
+
+                <div id="channelLogo" class="channel-logo-box">
+                    EXTRA-TV
+                </div>
+
+                <div class="btn-menu-icon" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
             </div>
 
-            <div class="project-info-box">
-                <div id="projectTitle" class="project-title">Videojuegos & Prototipos Interactivos</div>
-                <div id="projectDesc" class="project-description">
-                    Desarrollo de mecánicas 2D/3D, interfaces de usuario (UI/UX) e interacción en Unity y motores interactivos.
+            <!-- INFORMACIÓN CENTRAL DEL PROYECTO -->
+            <div class="project-details-group">
+
+                <div class="project-info-box">
+
+                    <div id="projectTitle" class="project-title">
+                        Videojuegos & Prototipos Interactivos
+                    </div>
+
+                    <div id="projectDesc" class="project-description">
+                        Desarrollo de mecánicas 2D/3D, interfaces de usuario (UI/UX) e interacción en Unity y motores interactivos.
+                    </div>
+
                 </div>
+
             </div>
+
+            <!-- NAVEGACIÓN INFERIOR -->
+            <div class="bottom-nav">
+
+                <button onclick="window.location.href='guiaCanalesMobile.html'">
+                    GUÍA
+                </button>
+
+                <button onclick="window.location.href='index.html'">
+                    INICIO
+                </button>
+
+                <button onclick="abrirInputsMenu()">
+                    INPUTS
+                </button>
+
+            </div>
+
         </div>
 
     </div>
 
-    <!-- MODAL / MENU DESPLEGABLE -->
+    <!-- MODAL / MENÚ DESPLEGABLE -->
     <div id="menuOverlay" class="menu-overlay">
+
         <div class="menu-modal-container">
-            
+
             <button class="btn-close-menu" id="closeMenuBtn">✕</button>
 
-            <!-- Sidebar lateral negro -->
+            <!-- BARRA LATERAL -->
             <div class="menu-sidebar">
-                <div class="sidebar-icon-item active" id="btnPerfil" title="Perfil / Bio" onclick="mostrarSeccion('bio')">👤</div>
+
+                <div class="sidebar-icon-item active"
+                     id="btnPerfil"
+                     title="Perfil / Bio"
+                     onclick="mostrarSeccion('bio')">👤</div>
+
                 <div class="sidebar-icon-item" title="Favoritos">⭐</div>
                 <div class="sidebar-icon-item" title="Buscar">🔍</div>
                 <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
                 <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
-                <div class="sidebar-icon-item" id="btnInputs" title="Entradas Video / HDMI" onclick="mostrarSeccion('inputs')">📡</div>
+
+                <div class="sidebar-icon-item"
+                     id="btnInputs"
+                     title="Entradas Video / HDMI"
+                     onclick="mostrarSeccion('inputs')">📡</div>
+
             </div>
 
-            <!-- Tarjeta "Conoce sobre NATALIE" -->
+            <!-- TARJETA BIO -->
             <div class="menu-content-card" id="cardBio">
+
                 <div class="menu-header-title">conoce sobre</div>
                 <h1 class="menu-main-name">NATALIE</h1>
-                
+
                 <div class="menu-body-layout">
+
                     <div class="menu-photo-placeholder">
-                        <img src="img/natalie_bio.jpg" alt="Natalie" onerror="this.parentNode.innerHTML='<span style=\'color:#1a084c; font-weight:bold; font-size:1rem;\'>[FOTO]</span>'">
+                        <img src="img/natalie_bio.jpg"
+                             alt="Natalie"
+                             onerror="this.parentNode.innerHTML='<span style=\'color:#1a084c; font-weight:bold; font-size:1rem;\'>[FOTO]</span>'">
                     </div>
-                    
+
                     <div class="menu-text-bio">
-                        <p>En animación y desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. Desde el trazo conceptual, la estructura de un modelo 3D y la fluidez del storyboard, hasta el trabajo colaborativo en equipo, disfruto conectar ideas con historias que impacten.</p>
-                        <p>Mi experiencia en atención al cliente me ha enseñado a escuchar activamente, adaptarme a dinámicas exigentes y entender las necesidades del público o cliente final. Hablo español, inglés (intermedio) y japonés (básico). Para mí, un proyecto nunca es solo un encargo; es un universo creativo con alma propia diseñado para comunicar, emocionar y cobrar vida.</p>
+
+                        <p>
+                            En animación y desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. Desde el trazo conceptual, la estructura de un modelo 3D y la fluidez del storyboard, hasta el trabajo colaborativo en equipo, disfruto conectar ideas con historias que impacten.
+                        </p>
+
+                        <p>
+                            Mi experiencia en atención al cliente me ha enseñado a escuchar activamente, adaptarme a dinámicas exigentes y entender las necesidades del público o cliente final. Hablo español, inglés (intermedio) y japonés (básico). Para mí, un proyecto nunca es solo un encargo; es un universo creativo con alma propia diseñado para comunicar, emocionar y cobrar vida.
+                        </p>
+
                     </div>
                 </div>
             </div>
 
-            <!-- Sección de Entradas OSD -->
+            <!-- TARJETA INPUTS -->
             <div class="menu-content-card" id="cardInputs" style="display: none;">
+
                 <div class="menu-header-title">seleccionar fuente</div>
                 <h1 class="menu-main-name">ENTRADAS / SOURCE</h1>
-                
+
                 <div class="inputs-osd-panel" style="display: flex;">
-                    <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
-                    
+
+                    <div class="inputs-osd-title">
+                        ENTRADAS DISPONIBLES
+                    </div>
+
                     <a href="guiaCanalesMobile.html" class="input-option-item">
                         <span>📺 TV - Guía EPG de Canales</span>
                         <span class="input-tag">SINTONIZADOR</span>
@@ -448,6 +567,7 @@
                         <span>🔌 HDMI 1 - Wii Menu (Habilidades & Software)</span>
                         <span class="input-tag">CONSOLA</span>
                     </a>
+
                 </div>
             </div>
 
@@ -455,6 +575,7 @@
     </div>
 
     <script>
+        /* ELEMENTOS DEL MENÚ */
         const menuBtn = document.getElementById('menuBtn');
         const menuOverlay = document.getElementById('menuOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -469,69 +590,118 @@
             menuBtn.classList.remove('active-btn');
         });
 
+        /* ABRIR MENÚ DIRECTAMENTE EN INPUTS */
+        function abrirInputsMenu() {
+            menuOverlay.style.display = 'flex';
+            menuBtn.classList.add('active-btn');
+            mostrarSeccion('inputs');
+        }
+
+        /* CAMBIAR ENTRE SECCIONES DEL MENÚ */
         function mostrarSeccion(seccion) {
+
             const cardBio = document.getElementById('cardBio');
             const cardInputs = document.getElementById('cardInputs');
             const btnPerfil = document.getElementById('btnPerfil');
             const btnInputs = document.getElementById('btnInputs');
 
             if (seccion === 'inputs') {
+
                 cardBio.style.display = 'none';
                 cardInputs.style.display = 'flex';
+
                 btnPerfil.classList.remove('active');
                 btnInputs.classList.add('active');
+
             } else {
+
                 cardBio.style.display = 'flex';
                 cardInputs.style.display = 'none';
+
                 btnInputs.classList.remove('active');
                 btnPerfil.classList.add('active');
+
             }
         }
 
-        // ARRAY DE PROYECTOS INTERACTIVOS Y OTROS
+        /* ARRAY DE PROYECTOS INTERACTIVOS Y OTROS */
         const proyectosOtros = [
+
             {
                 titulo: "Videojuegos & Prototipos Interactivos",
                 recurso: "videos/otros/videojuegos_demo.mp4",
                 tipo: "video",
                 descripcion: "Desarrollo de mecánicas 2D/3D, interfaces de usuario (UI/UX) e interacción en Unity y motores interactivos."
             },
+
             {
                 titulo: "Diseño de Interfaces & Apps",
                 recurso: "img/otros/ui_ux_proyecto.jpg",
                 tipo: "imagen",
                 descripcion: "Diseño de experiencia de usuario, maquetación mobile y prototipado para aplicaciones interactivas."
             }
+
         ];
 
         let indiceActual = 0;
 
+        /* CARGAR PROYECTO ACTUAL */
         function cargarProyectoActual() {
+
             const proj = proyectosOtros[indiceActual];
+
             document.getElementById('projectTitle').innerText = proj.titulo;
             document.getElementById('projectDesc').innerText = proj.descripcion;
-            
+
             const mediaContainer = document.getElementById('mediaContainer');
-            
+
             if (proj.tipo === "video") {
-                mediaContainer.innerHTML = `<video id="canalVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${proj.recurso}" type="video/mp4"></video>`;
+
+                mediaContainer.innerHTML = `
+                    <video id="canalVideo"
+                           autoplay
+                           loop
+                           muted
+                           playsinline
+                           style="width:100%; height:100%; object-fit:cover;">
+                        <source src="${proj.recurso}" type="video/mp4">
+                    </video>`;
+
             } else {
-                mediaContainer.innerHTML = `<img id="canalImagen" src="${proj.recurso}" alt="${proj.titulo}" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">`;
+
+                mediaContainer.innerHTML = `
+                    <img id="canalImagen"
+                         src="${proj.recurso}"
+                         alt="${proj.titulo}"
+                         style="width:100%; height:100%; object-fit:contain;"
+                         onerror="this.src='img/natalie_bio.jpg'">`;
+
             }
         }
 
+        /* SIGUIENTE PROYECTO */
         function proyectoSiguiente() {
+
             indiceActual = (indiceActual + 1) % proyectosOtros.length;
             cargarProyectoActual();
+
         }
 
+        /* PROYECTO ANTERIOR */
         function proyectoAnterior() {
+
             indiceActual = (indiceActual - 1 + proyectosOtros.length) % proyectosOtros.length;
             cargarProyectoActual();
+
         }
+
+        /* CARGAR PRIMER PROYECTO */
+        cargarProyectoActual();
+
     </script>
 
-    <!-- Vinculación del script externo para cálculo y ajuste móvil limpio -->
+    <!-- AJUSTE DE DISEÑO MÓVIL -->
     <script src="ajuste-movil.js"></script>
+
 </body>
 </html>
