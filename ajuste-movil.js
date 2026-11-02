@@ -1,4 +1,4 @@
-// ajuste-movil.js - Ocupación absoluta y aviso de rotación vertical
+// ajuste-movil.js - Ocupación absoluta y pantalla de advertencia estilo minimalista
 (function() {
     // 1. TU CÓDIGO ORIGINAL: Forzar pantalla completa real
     function forzarPantallaCompletaReal() {
@@ -20,7 +20,7 @@
     }
 
 
-    // 2. NUEVO COMPONENTE: Pantalla de aviso de rotación (separado y seguro)
+    // 2. NUEVO COMPONENTE: Pantalla de aviso idéntica a tu referencia con el teléfono animado
     function gestionarAvisoVertical() {
         let aviso = document.getElementById('aviso-girar-pantalla');
         
@@ -29,14 +29,12 @@
             aviso = document.createElement('div');
             aviso.id = 'aviso-girar-pantalla';
             aviso.innerHTML = `
-                <div class="aviso-content">
-                    <div class="aviso-icon">📱 ⟳ 🖥️</div>
-                    <h2>¡GIRA TU DISPOSITIVO!</h2>
-                    <p>Para disfrutar de la experiencia retro completa en tu pantalla de TV, por favor coloca tu teléfono en posición horizontal.</p>
-                </div>
+                <div class="aviso-telefono-icon"></div>
+                <h2>Gira tu teléfono</h2>
+                <p>Coloca tu dispositivo en horizontal para disfrutar de la experiencia completa de televisión.</p>
             `;
             
-            // Estilos retro integrados con tu paleta de colores
+            // Estilos CSS exactos basados en la imagen que compartiste
             const estilo = document.createElement('style');
             estilo.innerHTML = `
                 #aviso-girar-pantalla {
@@ -45,56 +43,84 @@
                     left: 0;
                     width: 100vw;
                     height: 100vh;
-                    background-color: #290087;
-                    color: #F6FFE9;
+                    background-color: #000000;
+                    color: #FFFFFF;
                     z-index: 99999;
                     display: none;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
-                    padding: 20px;
+                    padding: 30px;
                     text-align: center;
-                    border: 6px solid #F137A6;
                     box-sizing: border-box;
-                    box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+                    font-family: 'Teko', sans-serif;
                 }
-                #aviso-girar-pantalla .aviso-content {
-                    background-color: #1a084c;
-                    border: 3px solid #F2E0A4;
-                    border-radius: 12px;
-                    padding: 25px 20px;
-                    max-width: 320px;
-                    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+                
+                /* Diseño del teléfono estilizadamente ilustrado con CSS puro */
+                #aviso-girar-pantalla .aviso-telefono-icon {
+                    width: 42px;
+                    height: 76px;
+                    background: linear-gradient(135deg, #a5f3fc, #38bdf8);
+                    border: 3px solid #e0f2fe;
+                    border-radius: 10px;
+                    margin-bottom: 25px;
+                    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+                    position: relative;
+                    animation: rotarTelefonoAnimado 3s infinite ease-in-out;
+                    transform-origin: center center;
                 }
-                #aviso-girar-pantalla .aviso-icon {
-                    font-size: 2.8rem;
-                    margin-bottom: 12px;
-                    animation: animacionGirar 2s infinite ease-in-out;
+                
+                /* Detalle de la camarita/altavoz del teléfono */
+                #aviso-girar-pantalla .aviso-telefono-icon::before {
+                    content: '';
+                    position: absolute;
+                    top: 6px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 10px;
+                    height: 3px;
+                    background-color: #0284c7;
+                    border-radius: 2px;
                 }
+
                 #aviso-girar-pantalla h2 {
                     font-family: 'Chunko', sans-serif;
-                    font-size: 1.6rem;
-                    color: #F2E0A4;
-                    margin-bottom: 8px;
-                    letter-spacing: 1px;
+                    font-size: 1.8rem;
+                    color: #FFFFFF;
+                    margin-bottom: 12px;
+                    letter-spacing: 0.5px;
+                    font-weight: normal;
                 }
+
                 #aviso-girar-pantalla p {
                     font-family: 'Teko', sans-serif;
                     font-size: 1.25rem;
-                    line-height: 1.15;
-                    color: #F6FFE9;
+                    line-height: 1.2;
+                    color: #A1A1AA;
+                    max-width: 280px;
                 }
-                @keyframes animacionGirar {
-                    0% { transform: rotate(0deg); }
-                    50% { transform: rotate(90deg); }
-                    100% { transform: rotate(0deg); }
+
+                /* Animación continua de rotación de vertical a horizontal */
+                @keyframes rotarTelefonoAnimado {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    35% {
+                        transform: rotate(90deg);
+                    }
+                    65% {
+                        transform: rotate(90deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
                 }
             `;
             document.head.appendChild(estilo);
             document.body.appendChild(aviso);
         }
 
-        // Mostrar u ocultar dependiendo de si está en vertical u horizontal
+        // Mostrar u ocultar dependiendo de si el teléfono está en vertical u horizontal
         if (window.innerHeight > window.innerWidth) {
             aviso.style.display = 'flex';
         } else {
@@ -102,11 +128,11 @@
         }
     }
 
-    // Escuchar eventos para el aviso
+    // Escuchar eventos de cambio de orientación y tamaño
     window.addEventListener('resize', gestionarAvisoVertical);
     window.addEventListener('orientationchange', () => setTimeout(gestionarAvisoVertical, 300));
     window.addEventListener('DOMContentLoaded', gestionarAvisoVertical);
     
-    // Verificación inicial
+    // Verificación inicial al cargar
     setTimeout(gestionarAvisoVertical, 50);
 })();
