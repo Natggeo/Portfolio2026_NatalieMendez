@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gy Arts - Contáctame & Créditos (Móvil)</title>
+    
+    <style>
+        /* Declaración de fuentes */
+        @font-face {
+            font-family: 'Chunko';
+            src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Teko';
+            src: url('fonts/Teko-Regular.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background-color: #000;
+            color: #F6FFE9;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        /* Contenedor a Pantalla Completa Móvil */
+        .tv-screen-container {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* BOTÓN DE MENÚ HAMBURGUESA ESQUINA SUPERIOR DERECHA */
+        .btn-menu-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 60;
+            background: rgba(41, 0, 135, 0.4);
+            padding: 6px;
+            border-radius: 6px;
+            border: 1.5px solid #F2E0A4;
+        }
+
+        .btn-menu-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #F6FFE9;
+            border-radius: 2px;
+        }
+
+        .btn-menu-icon:hover, .btn-menu-icon.active-btn {
+            opacity: 1 !important;
+            transform: scale(1.05);
+        }
+
+        /* Área Central del Video a Pantalla Completa Ajustada */
+        .project-display-area {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .project-display-area video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #000;
+        }
+
+        /* Botones en Esquina Inferior Izquierda */
+        .project-tags-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            z-index: 50;
+        }
+
+        .project-tag-pill {
+            background-color: #FFFFFF;
+            color: #290087;
+            font-family: 'Teko', sans-serif;
+            font-size: 1rem;
+            line-height: 1;
+            padding: 5px 10px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #290087;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            white-space: nowrap;
+            text-decoration: none;
+            opacity: 0.6;
+            transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .project-tag-pill:hover {
+            opacity: 1 !important;
+            background-color: #F2E0A4;
+            color: #290087;
+            transform: scale(1.05);
+        }
+
+        /* MODAL / MENU DESPLEGABLE MÓVIL */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 8, 30, 0.92);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .menu-modal-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            gap: 8px;
+            position: relative;
+        }
+
+        .menu-sidebar {
+            width: 65px;
+            background-color: #120c1f;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+            gap: 8px;
+            border: 2px solid #F2E0A4;
+        }
+
+        .sidebar-icon-item {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #ffffff;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-icon-item.active {
+            border: 2px solid #F137A6;
+            background: rgba(241, 55, 166, 0.15);
+        }
+
+        .sidebar-icon-item:hover:not(.active) {
+            color: #F2E0A4;
+            transform: scale(1.05);
+        }
+
+        .menu-content-card {
+            flex: 1;
+            background-color: #1a084c;
+            border-radius: 6px;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            color: #F6FFE9;
+            border: 2px solid #F137A6;
+            overflow-y: auto;
+        }
+
+        .menu-header-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-transform: lowercase;
+            line-height: 1;
+        }
+
+        .menu-main-name {
+            font-family: 'Chunko', sans-serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            line-height: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .menu-body-layout {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .menu-photo-placeholder {
+            width: 110px;
+            height: 110px;
+            background-color: #f2f2f2;
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .menu-photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-text-bio {
+            font-family: 'Teko', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.15;
+            color: #ffffff;
+            text-align: justify;
+        }
+
+        .inputs-osd-panel {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: #120c1f;
+            border: 2px solid #F2E0A4;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .inputs-osd-title {
+            font-family: 'Chunko', sans-serif;
+            font-size: 1.2rem;
+            color: #F2E0A4;
+            border-bottom: 2px dashed #F137A6;
+            padding-bottom: 4px;
+        }
+
+        .input-option-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1a084c;
+            border: 2px solid #F137A6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #F6FFE9;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .input-tag {
+            font-family: 'Chunko', sans-serif;
+            background-color: #F137A6;
+            color: #F6FFE9;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .btn-close-menu {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #F137A6;
+            color: #F6FFE9;
+            font-family: 'Chunko', sans-serif;
+            border: 2px solid #F2E0A4;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 110;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tv-screen-container">
+        
+        <!-- BOTÓN DE MENÚ HAMBURGUESA -->
+        <div class="btn-menu-icon" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Área Central del Video a Pantalla Completa -->
+        <div class="project-display-area">
+            <video id="creditosVideo" autoplay muted playsinline>
+                <source src="videos/pantallacreditos.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <!-- Botones en la esquina inferior izquierda (Apuntando a la versión móvil) -->
+        <div class="project-tags-container">
+            <a href="mailto:tu-correo@ejemplo.com" class="project-tag-pill">✉ Correo</a>
+            <a href="https://www.behance.net/natalievelasco2" target="_blank" class="project-tag-pill">🎨 Behance</a>
+            <a href="index.html" class="project-tag-pill">🏠 Home</a>
+        </div>
+
+    </div>
+
+    <!-- MODAL / MENU DESPLEGABLE -->
+    <div id="menuOverlay" class="menu-overlay">
+        <div class="menu-modal-container">
+            
+            <button class="btn-close-menu" id="closeMenuBtn">✕</button>
+
+            <div class="menu-sidebar">
+                <div class="sidebar-icon-item active" id="btnPerfil" title="Perfil / Bio" onclick="mostrarSeccion('bio')">👤</div>
+                <div class="sidebar-icon-item" title="Favoritos">⭐</div>
+                <div class="sidebar-icon-item" title="Buscar">🔍</div>
+                <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
+                <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
+                <div class="sidebar-icon-item" id="btnInputs" title="Entradas Video / HDMI" onclick="mostrarSeccion('inputs')">📡</div>
+            </div>
+
+            <div class="menu-content-card" id="cardBio">
+                <div class="menu-header-title">conoce sobre</div>
+                <h1 class="menu-main-name">NATALIE</h1>
+                
+                <div class="menu-body-layout">
+                    <div class="menu-photo-placeholder">
+                        <img src="img/natalie_bio.jpg" alt="Natalie" onerror="this.parentNode.innerHTML='<span style=\'color:#1a084c; font-weight:bold; font-size:1rem;\'>[FOTO]</span>'">
+                    </div>
+                    
+                    <div class="menu-text-bio">
+                        <p>En el mundo de la animación y el desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. No me limito a una sola disciplina, desde el trazo conceptual, la estructura de un modelo 3D y la fluidez del storyboard, hasta el trabajo colaborativo en equipo, disfruto conectar ideas con historias que impacten.</p>
+                        <p>Mi experiencia en atención al cliente me ha enseñado a escuchar activamente, adaptarme a dinámicas exigentes y entender las necesidades del público o cliente final. Hablo español, inglés (intermedio) y japonés (básico). Para mí, un proyecto nunca es solo un encargo; es un universo creativo con alma propia diseñado para comunicar, emocionar y cobrar vida.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-content-card" id="cardInputs" style="display: none;">
+                <div class="menu-header-title">seleccionar fuente</div>
+                <h1 class="menu-main-name">ENTRADAS / SOURCE</h1>
+                
+                <div class="inputs-osd-panel" style="display: flex;">
+                    <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
+                    
+                    <a href="guiaCanalesMobile.html" class="input-option-item">
+                        <span>📺 TV - Guía EPG de Canales</span>
+                        <span class="input-tag">SINTONIZADOR</span>
+                    </a>
+
+                    <a href="habilidadesMobile.html" class="input-option-item">
+                        <span>🔌 HDMI 1 - Wii Menu (Habilidades & Software)</span>
+                        <span class="input-tag">CONSOLA</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+        menuBtn.addEventListener('click', () => {
+            menuOverlay.style.display = 'flex';
+            menuBtn.classList.add('active-btn');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            menuOverlay.style.display = 'none';
+            menuBtn.classList.remove('active-btn');
+        });
+
+        function mostrarSeccion(seccion) {
+            const cardBio = document.getElementById('cardBio');
+            const cardInputs = document.getElementById('cardInputs');
+            const btnPerfil = document.getElementById('btnPerfil');
+            const btnInputs = document.getElementById('btnInputs');
+
+            if (seccion === 'inputs') {
+                cardBio.style.display = 'none';
+                cardInputs.style.display = 'flex';
+                btnPerfil.classList.remove('active');
+                btnInputs.classList.add('active');
+            } else {
+                cardBio.style.display = 'flex';
+                cardInputs.style.display = 'none';
+                btnInputs.classList.remove('active');
+                btnPerfil.classList.add('active');
+            }
+        }
+    </script>
+
+    <!-- Script de ajuste móvil -->
+    <script src="ajuste-movil.js"></script>
+    
+</body>
+</html>
