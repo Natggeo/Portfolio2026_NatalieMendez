@@ -1,0 +1,145 @@
+/* =========================================
+   GY ARTS - EFECTO CRT
+   ========================================= */
+
+#crt-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99999;
+    overflow: hidden;
+    background: transparent;
+}
+
+/* LÍNEAS DE ESCANEO */
+#crt-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0.30) 3px,
+        rgba(0, 0, 0, 0.30) 4px
+    );
+    opacity: 0.85;
+}
+
+/* VIÑETA DE TELEVISOR */
+#crt-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 45%,
+        rgba(0, 0, 0, 0.20) 75%,
+        rgba(0, 0, 0, 0.65) 100%
+    );
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.55);
+}
+
+/* SEPARACIÓN RGB */
+.crt-rgb {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to right,
+        rgba(255, 0, 0, 0.055) 0px,
+        rgba(0, 255, 0, 0.055) 1px,
+        rgba(0, 0, 255, 0.055) 2px,
+        transparent 3px
+    );
+    opacity: 0.65;
+}
+
+/* REFLEJO DEL CRISTAL */
+.crt-reflection {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        125deg,
+        rgba(255, 255, 255, 0.13) 0%,
+        transparent 22%,
+        transparent 70%,
+        rgba(255, 255, 255, 0.04) 100%
+    );
+    opacity: 0.75;
+}
+
+/* =========================================
+   NUEVO: GLOW CRT PARA TEXTOS
+   ========================================= */
+
+/* Textos principales */
+body :is(
+    h1, h2, h3, h4, h5, h6,
+    p, a, button, span,
+    strong, em, label, li
+):not(#crt-overlay *) {
+    text-shadow:
+        0 0 1px rgba(255, 255, 255, 0.95),
+        0 0 3px rgba(255, 255, 255, 0.65),
+        0 0 6px rgba(255, 255, 255, 0.40),
+        0 0 12px rgba(130, 180, 255, 0.22),
+        1px 0 2px rgba(255, 50, 100, 0.18),
+        -1px 0 2px rgba(0, 180, 255, 0.18);
+}
+
+/* =========================================
+   NUEVO: GLOW PARA ELEMENTOS GRÁFICOS
+   ========================================= */
+
+/* Imágenes, iconos y gráficos */
+body img,
+body svg {
+    filter:
+        drop-shadow(0 0 2px rgba(255, 255, 255, 0.45))
+        drop-shadow(0 0 5px rgba(120, 180, 255, 0.22))
+        drop-shadow(0 0 3px rgba(255, 70, 130, 0.12));
+}
+
+/* =========================================
+   PARPADEO CRT
+   ========================================= */
+
+@keyframes crt-flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.96;
+    }
+}
+
+#crt-overlay {
+    animation: crt-flicker 0.12s infinite;
+}
+
+/* MOVIMIENTO DE LÍNEAS */
+@keyframes crt-scan {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(4px);
+    }
+}
+
+#crt-overlay::before {
+    animation: crt-scan 0.15s linear infinite;
+}
+
+/* ACCESIBILIDAD */
+@media (prefers-reduced-motion: reduce) {
+    #crt-overlay,
+    #crt-overlay::before {
+        animation: none;
+    }
+}
+

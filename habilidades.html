@@ -1,13 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    
     <link rel="stylesheet" href="estilos-pantallas.css">
-    
+
+    <!-- Efecto CRT -->
+    <link rel="stylesheet" href="CRT/crt-overlay.css">
+    <script src="CRT/crt-overlay.js" defer></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gy Arts - HDMI 1 (Wii Menu - Habilidades)</title>
-    
+
     <style>
         /* Declaración de Fuentes */
         @font-face {
@@ -257,15 +261,9 @@
 </head>
 
 <body>
-    <div class="tv-screen-container">
-        <!-- Todo el contenido de tu página (menús, botones, televisión, descripciones) va aquí adentro -->
-    </div>
-</body>
-
-<body>
 
     <div class="tv-screen-container">
-        
+
         <!-- Botón Regresar al canal -->
         <a href="guiaCanales.html" class="btn-regresar-home" title="Volver al Canal">↩</a>
 
@@ -277,12 +275,12 @@
 
         <!-- Área Principal con Flechas y Parrilla -->
         <div class="wii-main-area">
-            
+
             <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="cambiarPagina(-1)">
 
             <!-- PÁGINA 1 DE CANALES (3x2) -->
             <div class="wii-grid-page" id="page1">
-                
+
                 <!-- Krita -->
                 <div class="wii-channel-card">
                     <div class="channel-logo-container">
@@ -335,7 +333,7 @@
 
             <!-- PÁGINA 2 DE CANALES (3x2) -->
             <div class="wii-grid-page" id="page2" style="display: none;">
-                
+
                 <!-- Autodesk Maya -->
                 <div class="wii-channel-card">
                     <div class="channel-logo-container">
@@ -450,10 +448,9 @@
             }
         }
     </script>
-    
-    <!-- Script global de escalado horizontal automático -->
 
+    <!-- Script global de escalado horizontal automático -->
     <script src="solo-movil.js"></script>
-    
+
 </body>
 </html>

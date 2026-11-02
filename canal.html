@@ -3,6 +3,10 @@
 <head>
     
     <link rel="stylesheet" href="estilos-pantallas.css">
+
+    <!-- Efecto CRT -->
+    <link rel="stylesheet" href="CRT/crt-overlay.css">
+    <script src="CRT/crt-overlay.js" defer></script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,13 +105,11 @@
             border: 3px solid #290087;
         }
 
-        /* Ajuste para el iframe del Showreel con controles habilitados */
-        .project-display-area iframe {
+        .project-display-area video {
             width: 100%;
             height: 100%;
             object-fit: contain;
             background-color: #05020a;
-            border: none;
         }
 
         /* Panel Inferior */
@@ -403,15 +405,11 @@
             <span></span>
         </div>
 
-        <!-- Área Central del Video Showreel con YouTube (Controles y audio habilitados) -->
+        <!-- Área Central del Video Showreel -->
         <div class="project-display-area">
-            <iframe src="https://www.youtube.com/embed/QvidNzu1Wb4?si=jWVx_z320TJ6nwjs" 
-                title="YouTube video player" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" 
-                allowfullscreen>
-            </iframe>
+            <video id="showreelVideo" playsinline style="width:100%; height:100%; object-fit:contain;">
+                <source src="videos/ShowreelWbsite.mp4" type="video/mp4">
+            </video>
         </div>
 
         <!-- Panel Inferior -->
@@ -520,9 +518,24 @@
                 btnPerfil.classList.add('active');
             }
         }
+
+        /* LÓGICA DE REPRODUCCIÓN DEL SHOWREEL CON PAUSA DE 5 SEGUNDOS */
+        const video = document.getElementById('showreelVideo');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            video.play().catch(e => console.log("Autoplay bloqueado por el navegador:", e));
+        });
+
+        video.addEventListener('ended', () => {
+            setTimeout(() => {
+                video.currentTime = 0;
+                video.play().catch(e => console.log("Error al reiniciar video:", e));
+            }, 5000);
+        });
     </script>
 
     <script src="solo-movil.js"></script>
-    
+
+  
 </body>
 </html>

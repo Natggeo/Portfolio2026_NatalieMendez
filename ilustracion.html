@@ -1,13 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    
-    <link rel="stylesheet" href="estilos-pantallas.css">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gy Arts - Canal Ilustración</title>
-    
+
+    <link rel="stylesheet" href="estilos-pantallas.css">
+
+    <!-- Efecto CRT -->
+    <link rel="stylesheet" href="CRT/crt-overlay.css">
+    <script src="CRT/crt-overlay.js" defer></script>
+
     <style>
         /* Declaración de fuentes */
         @font-face {
@@ -54,7 +58,7 @@
             position: relative;
         }
 
-        /* BOTÓN MENÚ HAMBURGUESA ESQUINA SUPERIOR DERECHA */
+        /* BOTÓN MENÚ HAMBURGUESA */
         .btn-menu-icon {
             position: absolute;
             top: 25px;
@@ -82,7 +86,8 @@
             border-radius: 4px;
         }
 
-        .btn-menu-icon:hover, .btn-menu-icon.active-btn {
+        .btn-menu-icon:hover,
+        .btn-menu-icon.active-btn {
             opacity: 0.77 !important;
             transform: scale(1.08);
         }
@@ -101,7 +106,8 @@
             border: 3px solid #290087;
         }
 
-        .project-display-area video, .project-display-area img {
+        .project-display-area video,
+        .project-display-area img {
             width: 100%;
             height: 100%;
             object-fit: contain;
@@ -154,7 +160,7 @@
             text-align: center;
         }
 
-        .project-info-box { 
+        .project-info-box {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -177,7 +183,7 @@
             max-width: 80%;
         }
 
-        /* Contenedor fijado en la Esquina Inferior Derecha */
+        /* Etiquetas de proyectos */
         .project-tags-container {
             position: absolute;
             bottom: 10px;
@@ -414,14 +420,7 @@
 
 <body>
     <div class="tv-screen-container">
-        <!-- Todo el contenido de tu página (menús, botones, televisión, descripciones) va aquí adentro -->
-    </div>
-</body>
 
-<body>
-
-    <div class="tv-screen-container">
-        
         <!-- BOTÓN DE MENÚ HAMBURGUESA -->
         <div class="btn-menu-icon" id="menuBtn">
             <span></span>
@@ -431,54 +430,67 @@
 
         <!-- Área Central de Proyectos -->
         <div class="project-display-area">
-            <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="proyectoAnterior()">
+            <img src="img/felcha izq.png" alt="Anterior"
+                 class="nav-arrow arrow-left"
+                 onclick="proyectoAnterior()">
 
             <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
-                <img id="canalImagen" src="img/ilustracion/portada_comic.jpg" alt="Portada de Comic" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='img/natalie_bio.jpg'">
+                <img id="canalImagen"
+                     src="img/ilustracion/portada_comic.jpg"
+                     alt="Portada de Comic"
+                     style="width:100%; height:100%; object-fit:contain;"
+                     onerror="this.src='img/natalie_bio.jpg'">
             </div>
 
-            <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="proyectoSiguiente()">
+            <img src="img/felcha derch.png" alt="Siguiente"
+                 class="nav-arrow arrow-right"
+                 onclick="proyectoSiguiente()">
         </div>
 
         <!-- Panel Inferior -->
         <div class="tv-bottom-panel">
             <div id="channelLogo" class="channel-logo-box">ILUSTRA-TV</div>
+
             <div class="project-info-box">
                 <div id="projectTitle" class="project-title">Portada de Comic</div>
                 <div id="projectDesc" class="project-description">
                     Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales. Esta portada está inspirada en la leyenda de los duendes, a partir de bocetos y diseño de personajes, logré el acabado final en Krita y Canva, aprendiendo sobre narrativa visual, flujo creativo y composición editorial.
                 </div>
             </div>
-            <!-- Palabras clave en la esquina inferior derecha -->
+
             <div id="projectTags" class="project-tags-container"></div>
         </div>
-
     </div>
 
     <!-- MODAL / MENU DESPLEGABLE -->
     <div id="menuOverlay" class="menu-overlay">
         <div class="menu-modal-container">
-            
+
             <button class="btn-close-menu" id="closeMenuBtn">✕</button>
 
             <div class="menu-sidebar">
-                <div class="sidebar-icon-item active" id="btnPerfil" title="Perfil / Bio" onclick="mostrarSeccion('bio')">👤</div>
+                <div class="sidebar-icon-item active" id="btnPerfil"
+                     title="Perfil / Bio"
+                     onclick="mostrarSeccion('bio')">👤</div>
                 <div class="sidebar-icon-item" title="Favoritos">⭐</div>
                 <div class="sidebar-icon-item" title="Buscar">🔍</div>
                 <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
                 <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
-                <div class="sidebar-icon-item" id="btnInputs" title="Entradas Video / HDMI" onclick="mostrarSeccion('inputs')">📡</div>
+                <div class="sidebar-icon-item" id="btnInputs"
+                     title="Entradas Video / HDMI"
+                     onclick="mostrarSeccion('inputs')">📡</div>
             </div>
 
             <div class="menu-content-card" id="cardBio">
                 <div class="menu-header-title">conoce sobre</div>
                 <h1 class="menu-main-name">NATALIE</h1>
-                
+
                 <div class="menu-body-layout">
                     <div class="menu-photo-placeholder">
-                        <img src="img/natalie_bio.jpg" alt="Natalie" onerror="this.parentNode.innerHTML='<span style=\'color:#1a084c; font-weight:bold; font-size:1.5rem;\'>[FOTO]</span>'">
+                        <img src="img/natalie_bio.jpg" alt="Natalie"
+                             onerror="this.parentNode.innerHTML='<span style=\'color:#1a084c; font-weight:bold; font-size:1.5rem;\'>[FOTO]</span>'">
                     </div>
-                    
+
                     <div class="menu-text-bio">
                         <p>En el mundo de la animación y el desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. No me limito a una sola disciplina, desde el trazo conceptual, la estructura de un modelo 3D y la fluidez del storyboard, hasta el trabajo colaborativo en equipo, disfruto conectar ideas con historias que impacten.</p>
                         <p>Mi experiencia en atención al cliente me ha enseñado a escuchar activamente, adaptarme a dinámicas exigentes y entender las necesidades del público o cliente final. Hablo español, inglés (intermedio) y japonés (básico). Para mí, un proyecto nunca es solo un encargo; es un universo creativo con alma propia diseñado para comunicar, emocionar y cobrar vida.</p>
@@ -489,11 +501,11 @@
             <div class="menu-content-card" id="cardInputs" style="display: none;">
                 <div class="menu-header-title">seleccionar fuente</div>
                 <h1 class="menu-main-name">ENTRADAS / SOURCE</h1>
-                
+
                 <div class="inputs-osd-panel" style="display: flex;">
                     <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
-                    
-                    <a href="index.html" class="input-option-item">
+
+                    <a href="guiaCanales.html" class="input-option-item">
                         <span>📺 TV - Guía EPG de Canales</span>
                         <span class="input-tag">SINTONIZADOR</span>
                     </a>
@@ -504,7 +516,6 @@
                     </a>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -542,7 +553,7 @@
             }
         }
 
-        // ARRAY DE PROYECTOS DE ILUSTRACIÓN EXTRAÍDOS DE TUS IMÁGENES
+        // ARRAY DE PROYECTOS DE ILUSTRACIÓN
         const proyectosIlustracion = [
             {
                 titulo: "Portada de Comic",
@@ -578,13 +589,17 @@
 
         function cargarProyectoActual() {
             const proj = proyectosIlustracion[indiceActual];
+
             document.getElementById('projectTitle').innerText = proj.titulo;
             document.getElementById('projectDesc').innerText = proj.descripcion;
-            
+
             const tagsContainer = document.getElementById('projectTags');
-            tagsContainer.innerHTML = proj.tags.map(tag => `<span class="project-tag-pill">${tag}</span>`).join('');
+            tagsContainer.innerHTML = proj.tags
+                .map(tag => `<span class="project-tag-pill">${tag}</span>`)
+                .join('');
 
             const mediaContainer = document.getElementById('mediaContainer');
+
             if (proj.tipo === "video") {
                 mediaContainer.innerHTML = `<video id="canalVideo" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain;"><source src="${proj.recurso}" type="video/mp4"></video>`;
             } else {
@@ -606,7 +621,5 @@
     </script>
 
     <script src="solo-movil.js"></script>
-
-
 </body>
 </html>
