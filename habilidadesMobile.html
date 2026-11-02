@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gy Arts - Canal de Software / Habilidades (Móvil)</title>
+    <title>Gy Arts - HDMI 1 (Wii Menu - Habilidades Móvil)</title>
 
     <style>
-        /* Declaración de fuentes */
+        /* Declaración de Fuentes */
         @font-face {
             font-family: 'Chunko';
             src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
         }
-
         @font-face {
             font-family: 'Teko';
             src: url('fonts/Teko-Regular.ttf') format('truetype');
@@ -36,147 +35,409 @@
             left: 0;
         }
 
-        /* CONTENEDOR PRINCIPAL DEL TELEVISOR (Mismo estándar que tus otras páginas móviles) */
+        /* Contenedor Televisor Móvil */
         .tv-screen-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #CAC5E5;
-            border: 4px solid #F137A6;
-            padding: 5px;
+            background-color: #CAC5E5; /* Lavanda de fondo */
+            border: 4px solid #F137A6; /* Marco Rosa */
+            padding: 6px;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
-            outline: 2px solid #F2E0A4;
+            outline: 2px solid #F2E0A4; /* Borde Amarillo */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             overflow: hidden;
         }
 
-        /* CABECERA ESTILO CANAL HDMI */
-        .hdm-header {
+        /* BOTÓN REGRESAR EN LA ESQUINA SUPERIOR DERECHA */
+        .btn-regresar-home {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 28px;
+            background: rgba(41, 0, 135, 0.5);
+            border: 1.5px solid #F2E0A4;
+            border-radius: 6px;
+            color: #F6FFE9;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 60;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .btn-regresar-home:hover {
+            opacity: 1 !important;
+            transform: scale(1.05);
+            background-color: #F137A6;
+            color: #F6FFE9;
+        }
+
+        /* Encabezado OSD Estilo Wii */
+        .wii-header {
             background-color: #290087;
             border: 2px solid #F2E0A4;
-            border-radius: 4px;
-            padding: 4px 8px;
+            border-radius: 6px;
+            padding: 4px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: #F6FFE9;
+            flex-shrink: 0;
+            margin-right: 38px; /* Espacio para que no choque con el botón de regresar */
+        }
+
+        .wii-title {
             font-family: 'Chunko', sans-serif;
             font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .hdm-title {
             color: #F2E0A4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* ÁREA CENTRAL DE CANALES / HABILIDADES (Estilo menú Wii) */
-        .habilidades-grid-area {
+        .wii-time {
+            font-size: 1rem;
+            color: #F6FFE9;
+        }
+
+        /* Área Central donde están la parrilla y las flechas */
+        .wii-main-area {
             flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4px 28px;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        /* FLECHAS DE NAVEGACIÓN LATERALES */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px !important;
+            height: 32px !important;
+            cursor: pointer;
+            opacity: 0.75;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 60;
+            user-select: none;
+            filter: drop-shadow(0px 2px 3px rgba(41, 0, 135, 0.7));
+        }
+
+        .nav-arrow:hover {
+            opacity: 1 !important;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .arrow-left { left: 2px; }
+        .arrow-right { right: 2px; }
+
+        /* Contenedor de Páginas de Canales (3x2) */
+        .wii-grid-page {
+            width: 100%;
+            height: 100%;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(2, 1fr);
             gap: 6px;
-            margin: 4px 0;
-            min-height: 0;
+            align-items: center;
         }
 
-        .habilidad-card {
-            background-color: #1a084c;
-            border: 2px solid #F137A6;
-            border-radius: 4px;
+        /* Tarjeta de Canal Wii */
+        .wii-channel-card {
+            background: #ffffff;
+            border: 2.5px solid #290087;
+            border-radius: 10px;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
             position: relative;
-            padding: 3px;
+            overflow: hidden;
+            padding: 0;
         }
 
-        .habilidad-card img, 
-        .habilidad-card video {
+        .wii-channel-card:hover {
+            border-color: #F137A6;
+            box-shadow: 0 0 12px #F137A6;
+        }
+
+        /* Contenedor e Imagen del Logo del Software */
+        .channel-logo-container {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            background-color: #05020a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* BOTONES INFERIORES (Idénticos a disenoMobile.html) */
-        .bottom-nav-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
+        .channel-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Etiqueta flotante con el nombre del programa */
+        .channel-name-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(41, 0, 135, 0.85);
+            color: #F6FFE9;
+            font-family: 'Chunko', sans-serif;
+            font-size: 0.65rem;
+            text-align: center;
+            padding: 1px 0;
+            border-top: 1.5px solid #F2E0A4;
+        }
+
+        /* Barra Inferior Estilo Wii (Adaptada a móvil) */
+        .wii-bottom-panel {
+            background-color: #290087;
+            border: 2px solid #F2E0A4;
+            border-radius: 6px;
+            padding: 4px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 44px;
             flex-shrink: 0;
         }
 
-        .bottom-nav-btn {
+        .wii-btn-round {
+            width: 32px;
+            height: 32px;
             background-color: #CAC5E5;
+            border: 2px solid #F2E0A4;
+            border-radius: 50%;
             color: #290087;
-            font-family: 'Chunko', sans-serif;
-            font-size: 0.7rem;
-            text-align: center;
-            padding: 4px 2px;
-            border-radius: 4px;
-            border: 1.5px solid #F2E0A4;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.2s ease;
-            white-space: nowrap;
         }
 
-        .bottom-nav-btn:hover {
+        .wii-btn-round:hover {
             background-color: #F137A6;
             color: #F6FFE9;
+            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
 
-    <div class="tv-screen-container" id="tvContainer">
+    <div class="tv-screen-container">
 
-        <!-- CABECERA DE CANAL -->
-        <div class="hdm-header">
-            <div class="hdm-title">HDMI 1 - CANALES DE SOFTWARE</div>
-            <div id="relojTv">12:05 AM</div>
+        <!-- Botón Regresar al canal -->
+        <a href="guiaCanalesMobile.html" class="btn-regresar-home" title="Volver al Canal">↩</a>
+
+        <!-- Encabezado OSD -->
+        <header class="wii-header">
+            <div class="wii-title">HDMI 1 - SOFTWARE</div>
+            <div class="wii-time" id="clock">12:00 PM</div>
+        </header>
+
+        <!-- Área Principal con Flechas y Parrilla -->
+        <div class="wii-main-area">
+
+            <img src="img/felcha izq.png" alt="Anterior" class="nav-arrow arrow-left" onclick="cambiarPagina(-1)">
+
+            <!-- PÁGINA 1 DE CANALES (3x2) -->
+            <div class="wii-grid-page" id="page1">
+
+                <!-- Krita -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/kritaLOGO.png" alt="Krita" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/kritaLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">KRITA</div>
+                </div>
+
+                <!-- Blender -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/BlenderLOGO.png" alt="Blender" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/BlenderLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">BLENDER</div>
+                </div>
+
+                <!-- ZBrush -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/ZbrushLOGO.png" alt="ZBrush" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/ZbrushLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">ZBRUSH</div>
+                </div>
+
+                <!-- Unity -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/UnityLOGO.png" alt="Unity" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/UnityLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">UNITY</div>
+                </div>
+
+                <!-- After Effects -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/AfterLOGO.png" alt="After Effects" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/AfterLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">AFTER EFFECTS</div>
+                </div>
+
+                <!-- Illustrator -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/IllustradorLOGO.png" alt="Illustrator" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/IllustradorLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">ILLUSTRATOR</div>
+                </div>
+
+            </div>
+
+            <!-- PÁGINA 2 DE CANALES (3x2) -->
+            <div class="wii-grid-page" id="page2" style="display: none;">
+
+                <!-- Autodesk Maya -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/AutoDeskMayaLOGO.png" alt="Maya" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/AutoDeskMayaLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">MAYA</div>
+                </div>
+
+                <!-- Substance Painter -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/SubstanceLOGO.png" alt="Substance" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/SubstanceLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">SUBSTANCE</div>
+                </div>
+
+                <!-- DaVinci Resolve -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/DavinciLOGO.png" alt="DaVinci" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/DavinciLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">DAVINCI</div>
+                </div>
+
+                <!-- Premiere Pro -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/PremiereLOGO.png" alt="Premiere Pro" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/PremiereLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">PREMIERE PRO</div>
+                </div>
+
+                <!-- Canva -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/CanvaLOGO.png" alt="Canva" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/CanvaLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">CANVA</div>
+                </div>
+
+                <!-- VS Code -->
+                <div class="wii-channel-card">
+                    <div class="channel-logo-container">
+                        <img src="img/habilidades/VisualstudioCodeLOGO.png" alt="VS Code" class="channel-logo-img" onerror="probarJpg(this, 'img/habilidades/VisualstudioCodeLOGO')">
+                    </div>
+                    <div class="channel-name-overlay">VS CODE</div>
+                </div>
+
+            </div>
+
+            <img src="img/felcha derch.png" alt="Siguiente" class="nav-arrow arrow-right" onclick="cambiarPagina(1)">
+
         </div>
 
-        <!-- CUADRÍCULA DE HABILIDADES (Estilo Menú Wii) -->
-        <div class="habilidades-grid-area">
-            <div class="habilidad-card">
-                <img src="img/habilidades/krita.jpg" alt="Krita" onerror="this.src='img/natalie_bio.jpg'">
+        <!-- Panel Inferior Estilo Wii -->
+        <footer class="wii-bottom-panel">
+            <a href="guiaCanalesMobile.html" class="wii-btn-round" title="Guía EPG">📺</a>
+            <span style="font-family:'Chunko'; color:#F2E0A4; font-size:0.9rem;">PAGE <span id="pageNum">1</span> / 2</span>
+            <div style="display: flex; gap: 6px; align-items: center;">
+                <a href="ContactameMobile.html" class="wii-btn-round" title="Contáctame">📞</a>
+                <a href="index.html" class="wii-btn-round" title="Inicio">🏠</a>
             </div>
-            <div class="habilidad-card">
-                <img src="img/habilidades/blender.jpg" alt="Blender" onerror="this.src='img/natalie_bio.jpg'">
-            </div>
-            <div class="habilidad-card">
-                <img src="img/habilidades/zbrush.jpg" alt="ZBrush" onerror="this.src='img/natalie_bio.jpg'">
-            </div>
-            <div class="habilidad-card">
-                <img src="img/habilidades/unity.jpg" alt="Unity" onerror="this.src='img/natalie_bio.jpg'">
-            </div>
-            <div class="habilidad-card">
-                <img src="img/habilidades/aftereffects.jpg" alt="After Effects" onerror="this.src='img/natalie_bio.jpg'">
-            </div>
-            <div class="habilidad-card">
-                <img src="img/habilidades/illustrator.jpg" alt="Illustrator" onerror="this.src='img/natalie_bio.jpg'">
-            </div>
-        </div>
-
-        <!-- BOTONES INFERIORES -->
-        <div class="bottom-nav-buttons">
-            <a href="guiaCanalesMobile.html" class="bottom-nav-btn">GUÍA</a>
-            <a href="index.html" class="bottom-nav-btn">INICIO</a>
-            <a href="disenoMobile.html" class="bottom-nav-btn">INPUTS</a>
-        </div>
+        </footer>
 
     </div>
 
-    <!-- SCRIPT DE AJUSTE MÓVIL GLOBAL (Sin modificar, igual que tus otras páginas) -->
+    <!-- Script de reloj, paginación y prueba de extensiones -->
+    <script>
+        function actualizarReloj() {
+            const ahora = new Date();
+            let horas = ahora.getHours();
+            let minutos = ahora.getMinutes();
+            const ampm = horas >= 12 ? 'PM' : 'AM';
+            horas = horas % 12;
+            horas = horas ? horas : 12;
+            minutos = minutos < 10 ? '0' + minutos : minutos;
+            document.getElementById('clock').innerText = horas + ':' + minutos + ' ' + ampm;
+        }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
+
+        let paginaActual = 1;
+
+        function cambiarPagina(direccion) {
+            const page1 = document.getElementById('page1');
+            const page2 = document.getElementById('page2');
+            const pageNum = document.getElementById('pageNum');
+
+            if (direccion === 1 && paginaActual === 1) {
+                paginaActual = 2;
+                page1.style.display = 'none';
+                page2.style.display = 'grid';
+                pageNum.innerText = '2';
+            } else if (direccion === -1 && paginaActual === 2) {
+                paginaActual = 1;
+                page2.style.display = 'none';
+                page1.style.display = 'grid';
+                pageNum.innerText = '1';
+            }
+        }
+
+        function probarJpg(imgElem, basePath) {
+            if (!imgElem.dataset.intentos) {
+                imgElem.dataset.intentos = "1";
+                imgElem.src = basePath + ".jpg";
+            } else if (imgElem.dataset.intentos === "1") {
+                imgElem.dataset.intentos = "2";
+                imgElem.src = basePath + ".jpeg";
+            } else if (imgElem.dataset.intentos === "2") {
+                imgElem.dataset.intentos = "3";
+                imgElem.src = basePath + ".png";
+            }
+        }
+    </script>
+
+    <!-- Script de ajuste móvil -->
     <script src="ajuste-movil.js"></script>
 
 </body>
