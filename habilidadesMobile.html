@@ -23,40 +23,14 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            background-color: #290087;
-            color: #F6FFE9;
-            font-family: 'Teko', sans-serif;
-            font-size: 1.1rem;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-
-        /* Contenedor Televisor adaptado a pantalla completa absoluta móvil y centrado */
+        /* Estilos específicos adaptados a la distribución interna del grid de habilidades */
         .tv-screen-container {
-            width: 100vw;
-            height: 100vh;
-            max-width: 100%;
-            max-height: 100%;
+            font-family: 'Teko', sans-serif;
+            color: #F6FFE9;
             background-color: #CAC5E5;
-            border: 4px solid #F137A6;
-            padding: 5px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
-            outline: 2px solid #F2E0A4;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-sizing: border-box;
-            overflow: hidden;
         }
 
         /* Cabecera estilo HDMI / Canal */
@@ -64,13 +38,13 @@
             background-color: #290087;
             border: 2px solid #F2E0A4;
             border-radius: 4px;
-            padding: 4px 8px;
+            padding: 8px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: #F6FFE9;
             font-family: 'Chunko', sans-serif;
-            font-size: 1rem;
+            font-size: 1.2rem;
             flex-shrink: 0;
         }
 
@@ -78,28 +52,28 @@
             color: #F2E0A4;
         }
 
-        /* Grid de habilidades / software */
+        /* Grid de habilidades / software de 3 columnas x 2 filas */
         .habilidades-grid {
             flex: 1;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(2, 1fr);
-            gap: 6px;
-            margin: 5px 0;
+            gap: 12px;
+            margin: 12px 0;
             min-height: 0;
         }
 
         .habilidad-card {
             background-color: #1a084c;
-            border: 2px solid #F137A6;
-            border-radius: 4px;
+            border: 3px solid #F137A6;
+            border-radius: 6px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             position: relative;
-            padding: 4px;
+            padding: 6px;
         }
 
         .habilidad-card img, .habilidad-card video {
@@ -108,11 +82,11 @@
             object-fit: contain;
         }
 
-        /* Barra de navegación inferior */
+        /* Barra de navegación inferior de 3 botones */
         .bottom-nav-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
+            gap: 8px;
             flex-shrink: 0;
         }
 
@@ -120,11 +94,11 @@
             background-color: #CAC5E5;
             color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.95rem;
             text-align: center;
-            padding: 4px 2px;
+            padding: 8px 4px;
             border-radius: 4px;
-            border: 1.5px solid #F2E0A4;
+            border: 2px solid #F2E0A4;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -139,6 +113,7 @@
 </head>
 
 <body>
+    <!-- Contenedor principal que el script global y el CSS escalan y posicionan -->
     <div class="tv-screen-container" id="tvContainer">
         
         <!-- Cabecera -->
@@ -147,7 +122,7 @@
             <div id="relojTv">12:05 AM</div>
         </div>
 
-        <!-- Grid de Habilidades (Ejemplo de tarjetas) -->
+        <!-- Grid de Habilidades (6 tarjetas) -->
         <div class="habilidades-grid">
             <div class="habilidad-card">
                 <img src="img/habilidades/krita.jpg" alt="Krita" onerror="this.src='img/natalie_bio.jpg'">
@@ -178,7 +153,7 @@
 
     </div>
 
-    <!-- Script de comprobación de imágenes opcional -->
+    <!-- Script de comprobación de imágenes alternativas -->
     <script>
         function probarJpg(imgElem, basePath) {
             if (!imgElem.dataset.intentos) {
@@ -194,7 +169,7 @@
         }
     </script>
 
-    <!-- Vinculación del script externo para cálculo y ajuste móvil limpio -->
+    <!-- Vinculación del script global de ajuste móvil existente -->
     <script src="ajuste-movil.js"></script>
 </body>
 </html>
