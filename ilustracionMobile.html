@@ -7,7 +7,7 @@
     <title>Gy Arts - Canal Ilustración (Móvil)</title>
 
     <style>
-        /* Declaración de fuentes */
+        /* DECLARACIÓN DE FUENTES */
         @font-face {
             font-family: 'Chunko';
             src: url('fonts/Chunko Bold Demo.ttf') format('truetype');
@@ -120,10 +120,12 @@
             overflow: hidden;
         }
 
+        /* ENCABEZADO: LOGO Y MENÚ */
         .panel-header-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            flex-shrink: 0;
         }
 
         .channel-logo-box {
@@ -163,13 +165,22 @@
             transform: scale(1.05);
         }
 
-        /* INFORMACIÓN DEL PROYECTO */
+        /* GRUPO CENTRAL DE INFORMACIÓN */
+        .project-details-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+            gap: 5px;
+        }
+
         .project-info-box {
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 1px;
-            margin: 2px 0;
+            margin: 0;
         }
 
         .project-title {
@@ -212,6 +223,28 @@
             text-transform: uppercase;
             border: 1px solid #F137A6;
             white-space: nowrap;
+        }
+
+        /* NAVEGACIÓN INFERIOR */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            width: 100%;
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        .bottom-nav button {
+            flex: 1;
+            background: #F137A6;
+            color: #F6FFE9;
+            border: 1px solid #F2E0A4;
+            border-radius: 4px;
+            padding: 3px 2px;
+            font-family: 'Chunko', sans-serif;
+            font-size: 0.55rem;
+            cursor: pointer;
         }
 
         /* MODAL / OVERLAY */
@@ -388,35 +421,16 @@
             align-items: center;
             z-index: 110;
         }
-
-        /* NAVEGACIÓN INFERIOR */
-        .bottom-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 4px;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        .bottom-nav button {
-            flex: 1;
-            background: #F137A6;
-            color: #F6FFE9;
-            border: 1px solid #F2E0A4;
-            border-radius: 4px;
-            padding: 3px 2px;
-            font-family: 'Chunko', sans-serif;
-            font-size: 0.55rem;
-            cursor: pointer;
-        }
     </style>
 </head>
 
 <body>
+
     <div class="tv-screen-container" id="tvContainer">
 
         <!-- ÁREA CENTRAL DEL PROYECTO -->
         <div class="project-display-area">
+
             <img src="img/felcha izq.png"
                  alt="Anterior"
                  class="nav-arrow arrow-left"
@@ -431,37 +445,57 @@
                  alt="Siguiente"
                  class="nav-arrow arrow-right"
                  onclick="proyectoSiguiente()">
+
         </div>
 
         <!-- PANEL LATERAL DERECHO -->
         <div class="tv-side-panel">
 
+            <!-- ENCABEZADO: LOGO Y MENÚ -->
             <div class="panel-header-row">
-                <div id="channelLogo" class="channel-logo-box">ILUSTRA-TV</div>
 
-                <!-- MENÚ HAMBURGUESA -->
+                <div id="channelLogo" class="channel-logo-box">
+                    ILUSTRA-TV
+                </div>
+
                 <div class="btn-menu-icon" id="menuBtn">
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
+
             </div>
 
-            <div class="project-info-box">
-                <div id="projectTitle" class="project-title">Portada de Comic</div>
+            <!-- INFORMACIÓN CENTRAL DEL PROYECTO -->
+            <div class="project-details-group">
 
-                <div id="projectDesc" class="project-description">
-                    Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales.
+                <div class="project-info-box">
+                    <div id="projectTitle" class="project-title">
+                        Portada de Comic
+                    </div>
+
+                    <div id="projectDesc" class="project-description">
+                        Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales.
+                    </div>
                 </div>
-            </div>
 
-            <div id="projectTags" class="project-tags-container"></div>
+                <div id="projectTags" class="project-tags-container"></div>
+
+            </div>
 
             <!-- NAVEGACIÓN INFERIOR -->
             <div class="bottom-nav">
-                <button onclick="window.location.href='guiaCanalesMobile.html'">GUÍA</button>
-                <button onclick="window.location.href='index.html'">INICIO</button>
-                <button onclick="abrirInputsMenu()">INPUTS</button>
+                <button onclick="window.location.href='guiaCanalesMobile.html'">
+                    GUÍA
+                </button>
+
+                <button onclick="window.location.href='index.html'">
+                    INICIO
+                </button>
+
+                <button onclick="abrirInputsMenu()">
+                    INPUTS
+                </button>
             </div>
 
         </div>
@@ -469,11 +503,13 @@
 
     <!-- MODAL / MENÚ DESPLEGABLE -->
     <div id="menuOverlay" class="menu-overlay">
+
         <div class="menu-modal-container">
 
             <button class="btn-close-menu" id="closeMenuBtn">✕</button>
 
             <div class="menu-sidebar">
+
                 <div class="sidebar-icon-item active"
                      id="btnPerfil"
                      title="Perfil / Bio"
@@ -488,14 +524,17 @@
                      id="btnInputs"
                      title="Entradas Video / HDMI"
                      onclick="mostrarSeccion('inputs')">📡</div>
+
             </div>
 
             <!-- SECCIÓN BIO -->
             <div class="menu-content-card" id="cardBio">
+
                 <div class="menu-header-title">conoce sobre</div>
                 <h1 class="menu-main-name">NATALIE</h1>
 
                 <div class="menu-body-layout">
+
                     <div class="menu-photo-placeholder">
                         <img src="img/natalie_bio.jpg"
                              alt="Natalie"
@@ -506,20 +545,26 @@
                         <p>
                             En animación y desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. Desde el trazo conceptual y modelos 3D hasta el storyboard, disfruto conectar ideas con historias con alma.
                         </p>
+
                         <p>
                             Hablo español, inglés (intermedio) y japonés (básico). Cada proyecto es un universo creativo diseñado para comunicar y emocionar.
                         </p>
                     </div>
+
                 </div>
             </div>
 
             <!-- SECCIÓN INPUTS -->
             <div class="menu-content-card" id="cardInputs" style="display: none;">
+
                 <div class="menu-header-title">seleccionar fuente</div>
                 <h1 class="menu-main-name">ENTRADAS / SOURCE</h1>
 
                 <div class="inputs-osd-panel" style="display: flex;">
-                    <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
+
+                    <div class="inputs-osd-title">
+                        ENTRADAS DISPONIBLES
+                    </div>
 
                     <a href="guiaCanalesMobile.html" class="input-option-item">
                         <span>📺 TV - Guía EPG de Canales</span>
@@ -530,6 +575,7 @@
                         <span>🔌 HDMI 1 - Wii Menu (Habilidades)</span>
                         <span class="input-tag">CONSOLA</span>
                     </a>
+
                 </div>
             </div>
 
@@ -561,26 +607,34 @@
 
         /* CAMBIAR ENTRE SECCIONES DEL MENÚ */
         function mostrarSeccion(seccion) {
+
             const cardBio = document.getElementById('cardBio');
             const cardInputs = document.getElementById('cardInputs');
             const btnPerfil = document.getElementById('btnPerfil');
             const btnInputs = document.getElementById('btnInputs');
 
             if (seccion === 'inputs') {
+
                 cardBio.style.display = 'none';
                 cardInputs.style.display = 'flex';
+
                 btnPerfil.classList.remove('active');
                 btnInputs.classList.add('active');
+
             } else {
+
                 cardBio.style.display = 'flex';
                 cardInputs.style.display = 'none';
+
                 btnInputs.classList.remove('active');
                 btnPerfil.classList.add('active');
+
             }
         }
 
         /* LISTA DE PROYECTOS DE ILUSTRACIÓN */
         const proyectosIlustracion = [
+
             {
                 titulo: "Portada de Comic",
                 tags: [
@@ -593,6 +647,7 @@
                 tipo: "imagen",
                 descripcion: "Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales. Inspirada en la leyenda de los duendes, realizada en Krita y Canva."
             },
+
             {
                 titulo: "Bonbon: Diseño Editorial",
                 tags: [
@@ -605,6 +660,7 @@
                 tipo: "imagen",
                 descripcion: "Diseñé en Krita e Illustrator un cómic impreso con tiras cómicas, model sheets y portadas, estructurando una publicación editorial completa."
             },
+
             {
                 titulo: "Model Sheet y Conceptualización 3D",
                 tags: [
@@ -616,6 +672,7 @@
                 tipo: "imagen",
                 descripcion: "Diseño en Krita de la hoja de personaje con turnaround y conceptos técnicos para agilizar la producción multidimensional."
             },
+
             {
                 titulo: "El Cuento de Kaguya: Entornos",
                 tags: [
@@ -627,12 +684,14 @@
                 tipo: "imagen",
                 descripcion: "Ilustré en Krita diversos fondos para la secuencia de un storyboard adaptado de la leyenda japonesa de la Princesa Kaguya."
             }
+
         ];
 
         let indiceActual = 0;
 
         /* CARGAR PROYECTO ACTUAL */
         function cargarProyectoActual() {
+
             const proj = proyectosIlustracion[indiceActual];
 
             document.getElementById('projectTitle').innerText = proj.titulo;
@@ -647,6 +706,7 @@
             const mediaContainer = document.getElementById('mediaContainer');
 
             if (proj.tipo === "video") {
+
                 mediaContainer.innerHTML = `
                     <video id="canalVideo"
                            autoplay
@@ -656,33 +716,43 @@
                            style="width:100%; height:100%; object-fit:contain;">
                         <source src="${proj.recurso}" type="video/mp4">
                     </video>`;
+
             } else {
+
                 mediaContainer.innerHTML = `
                     <img id="canalImagen"
                          src="${proj.recurso}"
                          alt="${proj.titulo}"
                          style="width:100%; height:100%; object-fit:contain;"
                          onerror="this.src='img/natalie_bio.jpg'">`;
+
             }
         }
 
         /* SIGUIENTE PROYECTO */
         function proyectoSiguiente() {
+
             indiceActual = (indiceActual + 1) % proyectosIlustracion.length;
             cargarProyectoActual();
+
         }
 
         /* PROYECTO ANTERIOR */
         function proyectoAnterior() {
+
             indiceActual = (indiceActual - 1 + proyectosIlustracion.length) % proyectosIlustracion.length;
             cargarProyectoActual();
+
         }
 
         /* CARGAR PRIMER PROYECTO */
         cargarProyectoActual();
+
     </script>
 
     <!-- AJUSTE DE DISEÑO MÓVIL -->
     <script src="ajuste-movil.js"></script>
+
 </body>
 </html>
+
