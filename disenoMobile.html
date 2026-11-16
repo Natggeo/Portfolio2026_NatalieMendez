@@ -125,9 +125,10 @@
             align-items: flex-start;
         }
 
+        /* TÍTULO DEL CANAL */
         .channel-logo-box {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.90rem;
             color: #F137A6;
             line-height: 1;
         }
@@ -167,13 +168,14 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 1px;
+            gap: 2px;
             margin: 2px 0;
         }
 
+        /* TÍTULO DEL PROYECTO */
         .project-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 0.95rem;
+            font-size: 1.70rem;
             color: #F2E0A4;
             line-height: 1;
             white-space: nowrap;
@@ -181,23 +183,22 @@
             text-overflow: ellipsis;
         }
 
+        /* DESCRIPCIÓN DEL PROYECTO */
         .project-description {
-            font-size: 0.65rem;
-            line-height: 1.05;
+            font-size: 1rem;
+            line-height: 1.1;
             color: #F6FFE9;
-            max-height: 2.2em;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 4px;
             display: block;
         }
 
-        /* ETIQUETAS DE LOS PROYECTOS */
+        /* ETIQUETAS DE LOS PROYECTOS (Centradas) */
         .project-tags-container {
             display: flex;
             gap: 4px;
             flex-wrap: wrap;
             margin-top: 2px;
-            justify-content: flex-start;
+            justify-content: center;
         }
 
         .project-tag-pill {
@@ -216,7 +217,7 @@
         /* BOTONES INFERIORES */
         .bottom-nav-buttons {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr;
             gap: 4px;
             margin-top: 4px;
         }
@@ -225,15 +226,16 @@
             background-color: #CAC5E5;
             color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.7rem;
+            font-size: 1.2rem;
             text-align: center;
             padding: 4px 2px;
             border-radius: 4px;
             border: 1.5px solid #F2E0A4;
             text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
         }
 
         .bottom-nav-btn:hover {
@@ -469,11 +471,9 @@
             <!-- ETIQUETAS DEL PROYECTO -->
             <div id="projectTags" class="project-tags-container"></div>
 
-            <!-- BOTONES INFERIORES -->
+            <!-- BOTÓN INFERIOR -->
             <div class="bottom-nav-buttons">
-                <a href="guiaCanalesMobile.html" class="bottom-nav-btn">GUÍA</a>
-                <a href="index.html" class="bottom-nav-btn">INICIO</a>
-                <a href="#" class="bottom-nav-btn" onclick="abrirInputsMenu(); return false;">INPUTS</a>
+                <a href="guiaCanalesMobile.html" class="bottom-nav-btn">CANALES</a>
             </div>
 
         </div>
@@ -494,8 +494,6 @@
                      title="Perfil / Bio"
                      onclick="mostrarSeccion('bio')">👤</div>
 
-                <div class="sidebar-icon-item" title="Favoritos">⭐</div>
-                <div class="sidebar-icon-item" title="Buscar">🔍</div>
                 <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
                 <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
 
@@ -544,7 +542,6 @@
                         <span class="input-tag">SINTONIZADOR</span>
                     </a>
 
-                    <!-- BOTÓN DE INPUTS ACTUALIZADO A LA VERSIÓN MÓVIL -->
                     <a href="habilidadesMobile.html" class="input-option-item">
                         <span>🔌 HDMI 1 - Wii Menu (Habilidades)</span>
                         <span class="input-tag">CONSOLA</span>
