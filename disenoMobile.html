@@ -53,7 +53,7 @@
             overflow: hidden;
         }
 
-        /* ÁREA CENTRAL DE LOS PROYECTOS (Vimeo responsivo) */
+        /* ÁREA CENTRAL DE LOS PROYECTOS */
         .project-display-area {
             flex: 1.4;
             position: relative;
@@ -67,13 +67,40 @@
             height: 100%;
         }
 
-        .vimeo-wrapper {
+        .project-display-area video,
+        .project-display-area img {
             width: 100%;
             height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            object-fit: cover;
+            background-color: #05020a;
+        }
+
+        /* FLECHAS DE NAVEGACIÓN (Restauradas con tus imágenes) */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px !important;
+            height: 40px !important;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 50;
+            user-select: none;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .nav-arrow:hover {
+            opacity: 1 !important;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .arrow-left {
+            left: 4px;
+        }
+
+        .arrow-right {
+            right: 4px;
         }
 
         /* PANEL LATERAL */
@@ -398,13 +425,23 @@
 
     <div class="tv-screen-container" id="tvContainer">
 
-        <!-- ÁREA CENTRAL DEL PROYECTO (Vimeo Tonali) -->
+        <!-- ÁREA CENTRAL DEL PROYECTO CON FLECHAS -->
         <div class="project-display-area">
-            <div class="vimeo-wrapper">
-                <div style="padding:56.25% 0 0 0;position:relative;width:100%;">
-                    <iframe src="https://player.vimeo.com/video/1247146504?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="TONALI FINAL"></iframe>
-                </div>
+
+            <img src="img/felcha izq.png"
+                 alt="Anterior"
+                 class="nav-arrow arrow-left"
+                 onclick="proyectoAnterior()">
+
+            <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+                <!-- Contenido dinámico -->
             </div>
+
+            <img src="img/felcha derch.png"
+                 alt="Siguiente"
+                 class="nav-arrow arrow-right"
+                 onclick="proyectoSiguiente()">
+
         </div>
 
         <!-- PANEL LATERAL DERECHO -->
@@ -432,12 +469,7 @@
             </div>
 
             <!-- ETIQUETAS DEL PROYECTO -->
-            <div class="project-tags-container">
-                <span class="project-tag-pill">BRANDING</span>
-                <span class="project-tag-pill">IDENTIDAD VISUAL</span>
-                <span class="project-tag-pill">CAMPAÑAS PUBLICITARIAS</span>
-                <span class="project-tag-pill">CONCEPTUALIZACIÓN</span>
-            </div>
+            <div id="projectTags" class="project-tags-container"></div>
 
             <!-- BOTÓN INFERIOR -->
             <div class="bottom-nav-buttons">
@@ -521,7 +553,7 @@
         </div>
     </div>
 
-    <!-- FUNCIONALIDAD DEL MENÚ -->
+    <!-- FUNCIONALIDAD DEL MENÚ Y CARRUSEL -->
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const menuOverlay = document.getElementById('menuOverlay');
@@ -561,6 +593,99 @@
                 btnPerfil.classList.add('active');
             }
         }
+
+        /* PROYECTOS DE DISEÑO (Soporta videos locales o iframes de Vimeo) */
+        const proyectosDiseno = [
+            {
+                titulo: "\"Tonali\"",
+                tags: [
+                    "BRANDING",
+                    "IDENTIDAD VISUAL",
+                    "CAMPAÑAS PUBLICITARIAS",
+                    "CONCEPTUALIZACIÓN"
+                ],
+                recurso: '<div style="padding:56.25% 0 0 0;position:relative;width:100%;height:100%;"><iframe src="https://player.vimeo.com/video/1247146504?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="TONALI FINAL"></iframe></div>',
+                tipo: "vimeo",
+                descripcion: "En este proyecto conceptualicé y desarrollé la identidad de una casa creativa ficticia, desde su branding hasta campañas publicitarias en Illustrator, Blender, After Effects y Canva."
+            },
+            {
+                titulo: "Afiches - \"Estrilda the Bewitched\"",
+                tags: [
+                    "COMPOSICIÓN VISUAL",
+                    "DIAGRAMACIÓN",
+                    "DISEÑO PUBLICITARIO"
+                ],
+                recurso: "videos/DISEÑO/Estrilda.mp4",
+                tipo: "video",
+                descripcion: "Diseñé los afiches promocionales para el videojuego \"Estrilda the Bewitched\" en Canva, integrando el arte de Armando Quezada."
+            },
+            {
+                titulo: "Trifold - Derechos Humanos",
+                tags: [
+                    "EDITORIAL",
+                    "DIAGRAMACIÓN",
+                    "DISEÑO SOCIAL"
+                ],
+                recurso: "videos/DISEÑO/TRIFOLD.mp4",
+                tipo: "video",
+                descripcion: "Se realizó el diseño y maquetación de un brochure educativo e ilustrado sobre derechos humanos, combinando tipografía e ilustración."
+            }
+        ];
+
+        let indiceActual = 0;
+
+        function cargarProyectoActual() {
+            const proj = proyectosDiseno[indiceActual];
+
+            document.getElementById('projectTitle').innerText = proj.titulo;
+            document.getElementById('projectDesc').innerText = proj.descripcion;
+
+            const tagsContainer = document.getElementById('projectTags');
+
+            tagsContainer.innerHTML = proj.tags
+                .map(tag => `<span class="project-tag-pill">${tag}</span>`)
+                .join('');
+
+            const mediaContainer = document.getElementById('mediaContainer');
+
+            if (proj.tipo === "vimeo") {
+                mediaContainer.innerHTML = proj.recurso;
+            } else if (proj.tipo === "video") {
+                mediaContainer.innerHTML = `
+                    <video id="disenoVideo"
+                           autoplay
+                           loop
+                           muted
+                           playsinline
+                           style="width:100%; height:100%; object-fit:cover;">
+                        <source src="${proj.recurso}" type="video/mp4">
+                    </video>`;
+
+                const vid = document.getElementById('disenoVideo');
+                vid.load();
+                vid.play().catch(e => console.log("Autoplay bloqueado:", e));
+            } else {
+                mediaContainer.innerHTML = `
+                    <img id="canalImagen"
+                         src="${proj.recurso}"
+                         alt="${proj.titulo}"
+                         style="width:100%; height:100%; object-fit:contain;"
+                         onerror="this.src='img/natalie_bio.jpg'">`;
+            }
+        }
+
+        function proyectoSiguiente() {
+            indiceActual = (indiceActual + 1) % proyectosDiseno.length;
+            cargarProyectoActual();
+        }
+
+        function proyectoAnterior() {
+            indiceActual = (indiceActual - 1 + proyectosDiseno.length) % proyectosDiseno.length;
+            cargarProyectoActual();
+        }
+
+        /* CARGAR PRIMER PROYECTO */
+        cargarProyectoActual();
     </script>
 
     <!-- SCRIPT REPRODUCTOR VIMEO Y AJUSTE MÓVIL -->
