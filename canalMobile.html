@@ -35,7 +35,7 @@
             left: 0;
         }
 
-        /* Contenedor Televisor adaptado a pantalla completa absoluta móvil (Basado en tu croquis) */
+        /* Contenedor Televisor adaptado a pantalla completa absoluta móvil */
         .tv-screen-container {
             position: absolute;
             top: 0;
@@ -52,7 +52,7 @@
             overflow: hidden;
         }
 
-        /* COLUMNA IZQUIERDA: Área Central del Video con marco fucsia y flechas */
+        /* COLUMNA IZQUIERDA: Área Central del Video Showreel con Flechas */
         .project-display-area {
             flex: 1.4;
             position: relative;
@@ -102,7 +102,6 @@
         .arrow-left { left: 4px; }
         .arrow-right { right: 4px; }
 
-
         /* COLUMNA DERECHA: Panel Lateral de Información y Controles */
         .tv-side-panel {
             flex: 1;
@@ -125,14 +124,15 @@
             align-items: flex-start;
         }
 
+        /* TÍTULO DEL CANAL */
         .channel-logo-box {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.90rem;
             color: #F137A6;
             line-height: 1;
         }
 
-        /* BOTÓN MENÚ HAMBURGUESA ESQUINA SUPERIOR DERECHA (Panel lateral) */
+        /* BOTÓN MENÚ HAMBURGUESA */
         .btn-menu-icon {
             width: 30px;
             height: 26px;
@@ -165,13 +165,14 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 1px;
+            gap: 2px;
             margin: 2px 0;
         }
 
+        /* TÍTULO DEL PROYECTO */
         .project-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 0.95rem;
+            font-size: 1.70rem;
             color: #F2E0A4;
             line-height: 1;
             white-space: nowrap;
@@ -179,41 +180,41 @@
             text-overflow: ellipsis;
         }
 
+        /* DESCRIPCIÓN DEL PROYECTO */
         .project-description {
-            font-size: 0.68rem;
-            line-height: 1.05;
+            font-size: 1rem;
+            line-height: 1.1;
             color: #F6FFE9;
-            max-height: 2.4em;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 4px;
             display: block;
         }
 
-        /* Contenedor de Etiquetas (Píldoras) Compactas abajo */
+        /* ETIQUETAS CENTRADAS */
         .project-tags-container {
             display: flex;
             gap: 4px;
             flex-wrap: wrap;
             margin-top: 2px;
+            justify-content: center;
         }
 
         .project-tag-pill {
             background-color: #F2E0A4;
             color: #290087;
             font-family: 'Teko', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             line-height: 1;
-            padding: 1px 6px;
+            padding: 1px 5px;
             border-radius: 8px;
             text-transform: uppercase;
             border: 1px solid #F137A6;
             white-space: nowrap;
         }
 
-        /* Botones inferiores interactivos (Guía, Inicio, etc.) */
+        /* BOTÓN INFERIOR DE ACCESO RÁPIDO */
         .canal-buttons-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr;
             gap: 4px;
             margin-top: 4px;
         }
@@ -223,7 +224,7 @@
             border: 1.5px solid #F2E0A4;
             color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.55rem;
+            font-size: 1.2rem;
             text-align: center;
             padding: 4px 2px;
             border-radius: 4px;
@@ -239,8 +240,7 @@
             color: #F6FFE9;
         }
 
-
-        /* MODAL / OVERLAY OSD (Adaptado a móvil) */
+        /* MODAL / OVERLAY OSD */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -422,13 +422,13 @@
         
         <!-- COLUMNA IZQUIERDA: Área Central del Video Showreel con Flechas -->
         <div class="project-display-area">
-            <a href="#" class="nav-arrow arrow-left" title="Canal Anterior">&lt;</a>
+            <a href="#" class="nav-arrow arrow-left" title="Canal Anterior"><</a>
             
             <video id="showreelVideo" playsinline style="width:100%; height:100%; object-fit:cover;">
                 <source src="videos/ShowreelWbsite.mp4" type="video/mp4">
             </video>
 
-            <a href="#" class="nav-arrow arrow-right" title="Canal Siguiente">&gt;</a>
+            <a href="#" class="nav-arrow arrow-right" title="Canal Siguiente">></a>
         </div>
 
         <!-- COLUMNA DERECHA: Panel Lateral de Información y Controles -->
@@ -451,18 +451,16 @@
                 </div>
             </div>
 
-            <!-- Etiquetas en la esquina derecha -->
+            <!-- Etiquetas centradas -->
             <div class="project-tags-container">
                 <span class="project-tag-pill">SHOWREEL</span>
                 <span class="project-tag-pill">3D & ANIMACIÓN</span>
                 <span class="project-tag-pill">PORTAFOLIO</span>
             </div>
 
-            <!-- Botones de Acceso Rápido Inferiores -->
+            <!-- Botón de Acceso Rápido Inferior -->
             <div class="canal-buttons-grid">
-                <a href="guiaCanalesMobile.html" class="canal-action-btn">GUÍA</a>
-                <a href="index.html" class="canal-action-btn">INICIO</a>
-                <a href="#" class="canal-action-btn" onclick="document.getElementById('menuBtn').click(); mostrarSeccion('inputs'); return false;">INPUTS</a>
+                <a href="guiaCanalesMobile.html" class="canal-action-btn">CANALES</a>
             </div>
 
         </div>
@@ -477,8 +475,6 @@
 
             <div class="menu-sidebar">
                 <div class="sidebar-icon-item active" id="btnPerfil" title="Perfil / Bio" onclick="mostrarSeccion('bio')">👤</div>
-                <div class="sidebar-icon-item" title="Favoritos">⭐</div>
-                <div class="sidebar-icon-item" title="Buscar">🔍</div>
                 <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
                 <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
                 <div class="sidebar-icon-item" id="btnInputs" title="Entradas Video / HDMI" onclick="mostrarSeccion('inputs')">📡</div>
@@ -512,7 +508,6 @@
                         <span class="input-tag">SINTONIZADOR</span>
                     </a>
 
-                    <!-- SE ACTUALIZÓ AL NUEVO ARCHIVO MÓVIL -->
                     <a href="habilidadesMobile.html" class="input-option-item">
                         <span>🔌 HDMI 1 - Wii Menu (Habilidades)</span>
                         <span class="input-tag">CONSOLA</span>
