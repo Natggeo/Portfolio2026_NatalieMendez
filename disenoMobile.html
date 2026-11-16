@@ -75,32 +75,36 @@
             background-color: #05020a;
         }
 
-        /* FLECHAS DE NAVEGACIÓN (Restauradas con tus imágenes) */
+        /* FLECHAS DE NAVEGACIÓN (Transparentes, sin fondo y sin recortes) */
         .nav-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 28px !important;
-            height: 40px !important;
+            width: 32px !important;
+            height: 48px !important;
             cursor: pointer;
-            opacity: 0.5;
+            opacity: 0.6;
             transition: opacity 0.2s ease, transform 0.2s ease;
             z-index: 50;
             user-select: none;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.7));
         }
 
         .nav-arrow:hover {
             opacity: 1 !important;
-            transform: translateY(-50%) scale(1.1);
+            transform: translateY(-50%) scale(1.15);
         }
 
         .arrow-left {
-            left: 4px;
+            left: 6px;
         }
 
         .arrow-right {
-            right: 4px;
+            right: 6px;
         }
 
         /* PANEL LATERAL */
@@ -425,7 +429,7 @@
 
     <div class="tv-screen-container" id="tvContainer">
 
-        <!-- ÁREA CENTRAL DEL PROYECTO CON FLECHAS -->
+        <!-- ÁREA CENTRAL DEL PROYECTO CON FLECHAS PNG TRANSPARENTES -->
         <div class="project-display-area">
 
             <img src="img/felcha izq.png"
@@ -594,7 +598,7 @@
             }
         }
 
-        /* PROYECTOS DE DISEÑO (Soporta videos locales o iframes de Vimeo) */
+        /* PROYECTOS DE DISEÑO (Soporta Vimeo y videos locales) */
         const proyectosDiseno = [
             {
                 titulo: "\"Tonali\"",
@@ -688,7 +692,7 @@
         cargarProyectoActual();
     </script>
 
-    <!-- SCRIPT REPRODUCTOR VIMEO Y AJUSTE MÓVIL -->
+    <!-- SCRIPTS REPRODUCTOR VIMEO Y AJUSTE MÓVIL -->
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="ajuste-movil.js"></script>
 
