@@ -36,7 +36,7 @@
             left: 0;
         }
 
-        /* CONTENEDOR TELEVISOR */
+        /* CONTENEDOR PRINCIPAL DEL TELEVISOR */
         .tv-screen-container {
             position: absolute;
             top: 0;
@@ -53,7 +53,7 @@
             overflow: hidden;
         }
 
-        /* ÁREA CENTRAL DEL PROYECTO */
+        /* ÁREA CENTRAL DE LOS PROYECTOS */
         .project-display-area {
             flex: 1.4;
             position: relative;
@@ -68,44 +68,46 @@
         }
 
         .project-display-area video,
-        .project-display-area img,
-        .project-display-area iframe {
+        .project-display-area img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             background-color: #05020a;
-            border: none;
         }
 
-        /* FLECHAS DE NAVEGACIÓN */
+        /* FLECHAS DE NAVEGACIÓN (Transparentes, sin fondo y sin recortes) */
         .nav-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 28px !important;
-            height: 40px !important;
+            width: 32px !important;
+            height: 48px !important;
             cursor: pointer;
-            opacity: 0.5;
+            opacity: 0.6;
             transition: opacity 0.2s ease, transform 0.2s ease;
             z-index: 50;
             user-select: none;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.7));
         }
 
         .nav-arrow:hover {
             opacity: 1 !important;
-            transform: translateY(-50%) scale(1.1);
+            transform: translateY(-50%) scale(1.15);
         }
 
         .arrow-left {
-            left: 4px;
+            left: 6px;
         }
 
         .arrow-right {
-            right: 4px;
+            right: 6px;
         }
 
-        /* PANEL LATERAL DERECHO */
+        /* PANEL LATERAL */
         .tv-side-panel {
             flex: 1;
             background-color: #290087;
@@ -121,17 +123,16 @@
             overflow: hidden;
         }
 
-        /* ENCABEZADO: LOGO Y MENÚ */
         .panel-header-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            flex-shrink: 0;
         }
 
+        /* TÍTULO DEL CANAL */
         .channel-logo-box {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: #F137A6;
             line-height: 1;
         }
@@ -166,27 +167,19 @@
             transform: scale(1.05);
         }
 
-        /* GRUPO CENTRAL DE INFORMACIÓN */
-        .project-details-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 0;
-            gap: 5px;
-        }
-
+        /* INFORMACIÓN DEL PROYECTO */
         .project-info-box {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 1px;
-            margin: 0;
+            gap: 2px;
+            margin: 2px 0;
         }
 
+        /* TÍTULO DEL PROYECTO */
         .project-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 0.95rem;
+            font-size: 1.35rem;
             color: #F2E0A4;
             line-height: 1;
             white-space: nowrap;
@@ -194,23 +187,24 @@
             text-overflow: ellipsis;
         }
 
+        /* DESCRIPCIÓN DEL PROYECTO */
         .project-description {
-            font-size: 0.64rem;
+            font-size: 0.88rem;
             line-height: 1.05;
             color: #F6FFE9;
-            max-height: 2.5em;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 2px;
             display: block;
+            max-height: 3.2em;
+            overflow: hidden;
         }
 
-        /* ETIQUETAS DEL PROYECTO */
+        /* ETIQUETAS DE LOS PROYECTOS (Centradas) */
         .project-tags-container {
             display: flex;
             gap: 4px;
             flex-wrap: wrap;
             margin-top: 2px;
-            justify-content: flex-end;
+            justify-content: center;
         }
 
         .project-tag-pill {
@@ -226,29 +220,36 @@
             white-space: nowrap;
         }
 
-        /* NAVEGACIÓN INFERIOR */
-        .bottom-nav {
-            display: flex;
-            justify-content: space-between;
+        /* BOTONES INFERIORES */
+        .bottom-nav-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 4px;
-            width: 100%;
-            margin-top: auto;
-            flex-shrink: 0;
+            margin-top: 4px;
         }
 
-        .bottom-nav button {
-            flex: 1;
-            background: #F137A6;
-            color: #F6FFE9;
-            border: 1px solid #F2E0A4;
-            border-radius: 4px;
-            padding: 3px 2px;
+        .bottom-nav-btn {
+            background-color: #CAC5E5;
+            color: #290087;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.55rem;
-            cursor: pointer;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 4px 2px;
+            border-radius: 4px;
+            border: 1.5px solid #F2E0A4;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
         }
 
-        /* MODAL / OVERLAY */
+        .bottom-nav-btn:hover {
+            background-color: #F137A6;
+            color: #F6FFE9;
+        }
+
+        /* MENÚ DESPLEGABLE OSD */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -363,6 +364,7 @@
             text-align: justify;
         }
 
+        /* PANEL DE ENTRADAS */
         .inputs-osd-panel {
             display: none;
             flex-direction: column;
@@ -429,7 +431,7 @@
 
     <div class="tv-screen-container" id="tvContainer">
 
-        <!-- ÁREA CENTRAL DEL PROYECTO -->
+        <!-- ÁREA CENTRAL DEL PROYECTO CON FLECHAS PNG TRANSPARENTES -->
         <div class="project-display-area">
 
             <img src="img/felcha izq.png"
@@ -437,8 +439,7 @@
                  class="nav-arrow arrow-left"
                  onclick="proyectoAnterior()">
 
-            <div id="mediaContainer"
-                 style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+            <div id="mediaContainer" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
                 <!-- Contenido dinámico -->
             </div>
 
@@ -452,13 +453,11 @@
         <!-- PANEL LATERAL DERECHO -->
         <div class="tv-side-panel">
 
-            <!-- ENCABEZADO: LOGO Y MENÚ -->
             <div class="panel-header-row">
 
-                <div id="channelLogo" class="channel-logo-box">
-                    ILUSTRA-TV
-                </div>
+                <div id="channelLogo" class="channel-logo-box">ILUSTRA-TV</div>
 
+                <!-- BOTÓN DE MENÚ HAMBURGUESA -->
                 <div class="btn-menu-icon" id="menuBtn">
                     <span></span>
                     <span></span>
@@ -467,39 +466,24 @@
 
             </div>
 
-            <!-- INFORMACIÓN CENTRAL DEL PROYECTO -->
-            <div class="project-details-group">
+            <div class="project-info-box">
+                <div id="projectTitle" class="project-title">Portada de Comic</div>
 
-                <div class="project-info-box">
-                    <div id="projectTitle" class="project-title">
-                        Portada de Comic
-                    </div>
-
-                    <div id="projectDesc" class="project-description">
-                        Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales.
-                    </div>
+                <div id="projectDesc" class="project-description">
+                    Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales.
                 </div>
-
-                <div id="projectTags" class="project-tags-container"></div>
-
             </div>
 
-            <!-- NAVEGACIÓN INFERIOR -->
-            <div class="bottom-nav">
-                <button onclick="window.location.href='guiaCanalesMobile.html'">
-                    GUÍA
-                </button>
+            <!-- ETIQUETAS DEL PROYECTO -->
+            <div id="projectTags" class="project-tags-container"></div>
 
-                <button onclick="window.location.href='index.html'">
-                    INICIO
-                </button>
-
-                <button onclick="abrirInputsMenu()">
-                    INPUTS
-                </button>
+            <!-- BOTÓN INFERIOR -->
+            <div class="bottom-nav-buttons">
+                <a href="guiaCanalesMobile.html" class="bottom-nav-btn">CANALES</a>
             </div>
 
         </div>
+
     </div>
 
     <!-- MODAL / MENÚ DESPLEGABLE -->
@@ -516,8 +500,6 @@
                      title="Perfil / Bio"
                      onclick="mostrarSeccion('bio')">👤</div>
 
-                <div class="sidebar-icon-item" title="Favoritos">⭐</div>
-                <div class="sidebar-icon-item" title="Buscar">🔍</div>
                 <div class="sidebar-icon-item" title="Música / Audio">🎵</div>
                 <div class="sidebar-icon-item" title="Ajustes">⚙️</div>
 
@@ -528,7 +510,7 @@
 
             </div>
 
-            <!-- SECCIÓN BIO -->
+            <!-- PERFIL -->
             <div class="menu-content-card" id="cardBio">
 
                 <div class="menu-header-title">conoce sobre</div>
@@ -543,19 +525,15 @@
                     </div>
 
                     <div class="menu-text-bio">
-                        <p>
-                            En animación y desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. Desde el trazo conceptual y modelos 3D hasta el storyboard, disfruto conectar ideas con historias con alma.
-                        </p>
+                        <p>En animación y desarrollo digital, me muevo entre lo técnico, la creatividad y la narrativa visual. Desde el trazo conceptual y modelos 3D hasta el storyboard, disfruto conectar ideas con historias con alma.</p>
 
-                        <p>
-                            Hablo español, inglés (intermedio) y japonés (básico). Cada proyecto es un universo creativo diseñado para comunicar y emocionar.
-                        </p>
+                        <p>Hablo español, inglés (intermedio) y japonés (básico). Cada proyecto es un universo creativo diseñado para comunicar y emocionar.</p>
                     </div>
 
                 </div>
             </div>
 
-            <!-- SECCIÓN INPUTS -->
+            <!-- ENTRADAS -->
             <div class="menu-content-card" id="cardInputs" style="display: none;">
 
                 <div class="menu-header-title">seleccionar fuente</div>
@@ -563,9 +541,7 @@
 
                 <div class="inputs-osd-panel" style="display: flex;">
 
-                    <div class="inputs-osd-title">
-                        ENTRADAS DISPONIBLES
-                    </div>
+                    <div class="inputs-osd-title">ENTRADAS DISPONIBLES</div>
 
                     <a href="guiaCanalesMobile.html" class="input-option-item">
                         <span>📺 TV - Guía EPG de Canales</span>
@@ -583,11 +559,8 @@
         </div>
     </div>
 
-    <!-- API DE VIMEO -->
-    <script src="https://player.vimeo.com/api/player.js"></script>
-
+    <!-- FUNCIONALIDAD DEL MENÚ Y CARRUSEL -->
     <script>
-        /* ELEMENTOS DEL MENÚ */
         const menuBtn = document.getElementById('menuBtn');
         const menuOverlay = document.getElementById('menuOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -602,14 +575,12 @@
             menuBtn.classList.remove('active-btn');
         });
 
-        /* ABRIR MENÚ DIRECTAMENTE EN INPUTS */
         function abrirInputsMenu() {
             menuOverlay.style.display = 'flex';
             menuBtn.classList.add('active-btn');
             mostrarSeccion('inputs');
         }
 
-        /* CAMBIAR ENTRE SECCIONES DEL MENÚ */
         function mostrarSeccion(seccion) {
             const cardBio = document.getElementById('cardBio');
             const cardInputs = document.getElementById('cardInputs');
@@ -639,7 +610,7 @@
                     "NARRATIVA VISUAL",
                     "ILUSTRACIÓN EDITORIAL"
                 ],
-                recurso: "https://player.vimeo.com/video/1247738545?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                recurso: '<div style="padding:56.25% 0 0 0;position:relative;width:100%;height:100%;"><iframe src="https://player.vimeo.com/video/1247738545?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="PORTADACOMIC"></iframe></div>',
                 tipo: "vimeo",
                 descripcion: "Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales. Inspirada en la leyenda de los duendes, realizada en Krita y Canva."
             },
@@ -651,7 +622,7 @@
                     "MODEL SHEET",
                     "COMIC SECUENCIAL"
                 ],
-                recurso: "https://player.vimeo.com/video/1247449093?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                recurso: '<div style="padding:75% 0 0 0;position:relative;width:100%;height:100%;"><iframe src="https://player.vimeo.com/video/1247449093?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="BonBom"></iframe></div>',
                 tipo: "vimeo",
                 descripcion: "Diseñé en Krita e Illustrator un cómic impreso con tiras cómicas, model sheets y portadas, estructurando una publicación editorial completa."
             },
@@ -673,7 +644,7 @@
                     "ILUSTRACIÓN DIGITAL",
                     "COMPOSICIÓN VISUAL"
                 ],
-                recurso: "https://player.vimeo.com/video/1247740737?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                recurso: '<div style="padding:56.25% 0 0 0;position:relative;width:100%;height:100%;"><iframe src="https://player.vimeo.com/video/1247740737?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="KAGUYA"></iframe></div>',
                 tipo: "vimeo",
                 descripcion: "Ilustré en Krita diversos fondos para la secuencia de un storyboard adaptado de la leyenda japonesa de la Princesa Kaguya."
             },
@@ -684,7 +655,7 @@
                     "NARRATIVA VISUAL",
                     "PREPRODUCCIÓN"
                 ],
-                recurso: "https://player.vimeo.com/video/1247349115?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                recurso: '<div style="padding:75% 0 0 0;position:relative;width:100%;height:100%;"><iframe src="https://player.vimeo.com/video/1247349115?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="STORYBOARD"></iframe></div>',
                 tipo: "vimeo",
                 descripcion: "Desarrollo de storyboard secuencial para estructurar la línea narrativa, tiempos de escena, encuadres y composición visual."
             }
@@ -692,7 +663,6 @@
 
         let indiceActual = 0;
 
-        /* CARGAR PROYECTO ACTUAL */
         function cargarProyectoActual() {
             const proj = proyectosIlustracion[indiceActual];
 
@@ -700,6 +670,7 @@
             document.getElementById('projectDesc').innerText = proj.descripcion;
 
             const tagsContainer = document.getElementById('projectTags');
+
             tagsContainer.innerHTML = proj.tags
                 .map(tag => `<span class="project-tag-pill">${tag}</span>`)
                 .join('');
@@ -707,24 +678,21 @@
             const mediaContainer = document.getElementById('mediaContainer');
 
             if (proj.tipo === "vimeo") {
-                mediaContainer.innerHTML = `
-                    <iframe src="${proj.recurso}"
-                            frameborder="0"
-                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            style="width:100%; height:100%; border:none;"
-                            title="${proj.titulo}">
-                    </iframe>`;
+                mediaContainer.innerHTML = proj.recurso;
             } else if (proj.tipo === "video") {
                 mediaContainer.innerHTML = `
-                    <video id="canalVideo"
+                    <video id="iluxVideo"
                            autoplay
                            loop
                            muted
                            playsinline
-                           style="width:100%; height:100%; object-fit:contain;">
+                           style="width:100%; height:100%; object-fit:cover;">
                         <source src="${proj.recurso}" type="video/mp4">
                     </video>`;
+
+                const vid = document.getElementById('iluxVideo');
+                vid.load();
+                vid.play().catch(e => console.log("Autoplay bloqueado:", e));
             } else {
                 mediaContainer.innerHTML = `
                     <img id="canalImagen"
@@ -735,13 +703,11 @@
             }
         }
 
-        /* SIGUIENTE PROYECTO */
         function proyectoSiguiente() {
             indiceActual = (indiceActual + 1) % proyectosIlustracion.length;
             cargarProyectoActual();
         }
 
-        /* PROYECTO ANTERIOR */
         function proyectoAnterior() {
             indiceActual = (indiceActual - 1 + proyectosIlustracion.length) % proyectosIlustracion.length;
             cargarProyectoActual();
@@ -751,7 +717,8 @@
         cargarProyectoActual();
     </script>
 
-    <!-- AJUSTE DE DISEÑO MÓVIL -->
+    <!-- SCRIPTS REPRODUCTOR VIMEO Y AJUSTE MÓVIL -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="ajuste-movil.js"></script>
 
 </body>
