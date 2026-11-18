@@ -53,37 +53,7 @@
             overflow: hidden;
         }
 
-        /* BOTÓN REGRESAR EN LA ESQUINA SUPERIOR DERECHA */
-        .btn-regresar-home {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 32px;
-            height: 28px;
-            background: rgba(41, 0, 135, 0.5);
-            border: 1.5px solid #F2E0A4;
-            border-radius: 6px;
-            color: #F6FFE9;
-            font-size: 1.1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            opacity: 0.7;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 60;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .btn-regresar-home:hover {
-            opacity: 1 !important;
-            transform: scale(1.05);
-            background-color: #F137A6;
-            color: #F6FFE9;
-        }
-
-        /* Encabezado OSD Estilo Wii */
+        /* Encabezado OSD Estilo Wii (Ocupa todo el ancho ahora que no está el botón) */
         .wii-header {
             background-color: #290087;
             border: 2px solid #F2E0A4;
@@ -94,7 +64,6 @@
             align-items: center;
             color: #F6FFE9;
             flex-shrink: 0;
-            margin-right: 38px;
         }
 
         .wii-title {
@@ -251,9 +220,6 @@
 <body>
 
     <div class="tv-screen-container">
-
-        <!-- Botón Regresar al canal -->
-        <a href="guiaCanalesMobile.html" class="btn-regresar-home" title="Volver al Canal">↩</a>
 
         <!-- Encabezado OSD -->
         <header class="wii-header">
