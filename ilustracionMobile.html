@@ -68,11 +68,13 @@
         }
 
         .project-display-area video,
-        .project-display-area img {
+        .project-display-area img,
+        .project-display-area iframe {
             width: 100%;
             height: 100%;
             object-fit: contain;
             background-color: #05020a;
+            border: none;
         }
 
         /* FLECHAS DE NAVEGACIÓN */
@@ -570,7 +572,6 @@
                         <span class="input-tag">SINTONIZADOR</span>
                     </a>
 
-                    <!-- BOTÓN DE INPUTS ACTUALIZADO A LA VERSIÓN MÓVIL -->
                     <a href="habilidadesMobile.html" class="input-option-item">
                         <span>🔌 HDMI 1 - Wii Menu (Habilidades)</span>
                         <span class="input-tag">CONSOLA</span>
@@ -581,6 +582,9 @@
 
         </div>
     </div>
+
+    <!-- API DE VIMEO -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
 
     <script>
         /* ELEMENTOS DEL MENÚ */
@@ -607,34 +611,26 @@
 
         /* CAMBIAR ENTRE SECCIONES DEL MENÚ */
         function mostrarSeccion(seccion) {
-
             const cardBio = document.getElementById('cardBio');
             const cardInputs = document.getElementById('cardInputs');
             const btnPerfil = document.getElementById('btnPerfil');
             const btnInputs = document.getElementById('btnInputs');
 
             if (seccion === 'inputs') {
-
                 cardBio.style.display = 'none';
                 cardInputs.style.display = 'flex';
-
                 btnPerfil.classList.remove('active');
                 btnInputs.classList.add('active');
-
             } else {
-
                 cardBio.style.display = 'flex';
                 cardInputs.style.display = 'none';
-
                 btnInputs.classList.remove('active');
                 btnPerfil.classList.add('active');
-
             }
         }
 
-        /* LISTA DE PROYECTOS DE ILUSTRACIÓN */
+        /* LISTA DE PROYECTOS DE ILUSTRACIÓN CON VIMEO */
         const proyectosIlustracion = [
-
             {
                 titulo: "Portada de Comic",
                 tags: [
@@ -643,11 +639,10 @@
                     "NARRATIVA VISUAL",
                     "ILUSTRACIÓN EDITORIAL"
                 ],
-                recurso: "img/ilustracion/portada_comic.jpg",
-                tipo: "imagen",
+                recurso: "https://player.vimeo.com/video/1247738545?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                tipo: "vimeo",
                 descripcion: "Para este proyecto se nos pidió ilustrar una portada de cómic incluyéndonos como personajes principales. Inspirada en la leyenda de los duendes, realizada en Krita y Canva."
             },
-
             {
                 titulo: "Bonbon: Diseño Editorial",
                 tags: [
@@ -656,11 +651,10 @@
                     "MODEL SHEET",
                     "COMIC SECUENCIAL"
                 ],
-                recurso: "img/ilustracion/bonbon.jpg",
-                tipo: "imagen",
+                recurso: "https://player.vimeo.com/video/1247449093?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                tipo: "vimeo",
                 descripcion: "Diseñé en Krita e Illustrator un cómic impreso con tiras cómicas, model sheets y portadas, estructurando una publicación editorial completa."
             },
-
             {
                 titulo: "Model Sheet y Conceptualización 3D",
                 tags: [
@@ -672,7 +666,6 @@
                 tipo: "imagen",
                 descripcion: "Diseño en Krita de la hoja de personaje con turnaround y conceptos técnicos para agilizar la producción multidimensional."
             },
-
             {
                 titulo: "El Cuento de Kaguya: Entornos",
                 tags: [
@@ -680,33 +673,49 @@
                     "ILUSTRACIÓN DIGITAL",
                     "COMPOSICIÓN VISUAL"
                 ],
-                recurso: "img/ilustracion/cuento_kaguya.jpg",
-                tipo: "imagen",
+                recurso: "https://player.vimeo.com/video/1247740737?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                tipo: "vimeo",
                 descripcion: "Ilustré en Krita diversos fondos para la secuencia de un storyboard adaptado de la leyenda japonesa de la Princesa Kaguya."
+            },
+            {
+                titulo: "Storyboard - Secuencia Narrativa",
+                tags: [
+                    "STORYBOARD",
+                    "NARRATIVA VISUAL",
+                    "PREPRODUCCIÓN"
+                ],
+                recurso: "https://player.vimeo.com/video/1247349115?autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1",
+                tipo: "vimeo",
+                descripcion: "Desarrollo de storyboard secuencial para estructurar la línea narrativa, tiempos de escena, encuadres y composición visual."
             }
-
         ];
 
         let indiceActual = 0;
 
         /* CARGAR PROYECTO ACTUAL */
         function cargarProyectoActual() {
-
             const proj = proyectosIlustracion[indiceActual];
 
             document.getElementById('projectTitle').innerText = proj.titulo;
             document.getElementById('projectDesc').innerText = proj.descripcion;
 
             const tagsContainer = document.getElementById('projectTags');
-
             tagsContainer.innerHTML = proj.tags
                 .map(tag => `<span class="project-tag-pill">${tag}</span>`)
                 .join('');
 
             const mediaContainer = document.getElementById('mediaContainer');
 
-            if (proj.tipo === "video") {
-
+            if (proj.tipo === "vimeo") {
+                mediaContainer.innerHTML = `
+                    <iframe src="${proj.recurso}"
+                            frameborder="0"
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            style="width:100%; height:100%; border:none;"
+                            title="${proj.titulo}">
+                    </iframe>`;
+            } else if (proj.tipo === "video") {
                 mediaContainer.innerHTML = `
                     <video id="canalVideo"
                            autoplay
@@ -716,38 +725,30 @@
                            style="width:100%; height:100%; object-fit:contain;">
                         <source src="${proj.recurso}" type="video/mp4">
                     </video>`;
-
             } else {
-
                 mediaContainer.innerHTML = `
                     <img id="canalImagen"
                          src="${proj.recurso}"
                          alt="${proj.titulo}"
                          style="width:100%; height:100%; object-fit:contain;"
                          onerror="this.src='img/natalie_bio.jpg'">`;
-
             }
         }
 
         /* SIGUIENTE PROYECTO */
         function proyectoSiguiente() {
-
             indiceActual = (indiceActual + 1) % proyectosIlustracion.length;
             cargarProyectoActual();
-
         }
 
         /* PROYECTO ANTERIOR */
         function proyectoAnterior() {
-
             indiceActual = (indiceActual - 1 + proyectosIlustracion.length) % proyectosIlustracion.length;
             cargarProyectoActual();
-
         }
 
         /* CARGAR PRIMER PROYECTO */
         cargarProyectoActual();
-
     </script>
 
     <!-- AJUSTE DE DISEÑO MÓVIL -->
