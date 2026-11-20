@@ -116,6 +116,7 @@
             grid-template-columns: 1fr 1.4fr;
             gap: 6px;
             align-items: center;
+            text-align: center;
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -124,35 +125,42 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            text-align: center;
             overflow: hidden;
         }
 
         .mobile-channel-tag {
             font-family: 'Chunko', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #F137A6;
             line-height: 1;
-            margin-bottom: 1px;
+            margin-bottom: 2px;
+            width: 100%;
+            text-align: center;
         }
 
         .mobile-title {
             font-family: 'Chunko', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #290087;
-            letter-spacing: 0.3px;
-            line-height: 1;
+            letter-spacing: 0.5px;
+            line-height: 1.05;
+            width: 100%;
+            text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .mobile-desc {
-            font-size: 0.68rem;
+            font-family: 'Teko', sans-serif;
+            font-size: 0.9rem;
             color: #290087;
             line-height: 1.05;
-            max-height: 2.2em;
+            text-align: center;
+            width: 100%;
             overflow: hidden;
-            text-overflow: ellipsis;
             display: block;
         }
 
@@ -231,7 +239,8 @@
             align-items: center;
             text-decoration: none;
             font-family: 'Chunko', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.6px;
             padding: 2px 4px;
             text-align: center;
             cursor: pointer;
@@ -282,7 +291,7 @@
                     <div class="mobile-title" id="mobTitle">"SHOWREEL"</div>
                 </div>
                 <div class="mobile-desc" id="mobDesc">
-                    Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.
+                    Donde lo mejor de cada proyecto se reúne.
                 </div>
             </div>
 
@@ -302,9 +311,9 @@
                 <div class="mobile-epg-row">
                     <div class="mobile-epg-channel-num">CH 102</div>
                     <div class="mobile-epg-subgrid">
-                        <a href="canalMobile.html" class="mobile-program-block row-yellow-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 102', '&quot;SHOWREEL&quot;', 'Sintoniza el Showreel principal con lo mejor de tus proyectos y animación 3D.', 'video', 'videos/ShowreelWbsite.mp4')">
+                        <a href="canalMobile.html" class="mobile-program-block row-dark-bg"
+                           ontouchstart="actualizarPreviewMovil('CH 102', '"SHOWREEL"', 'Donde lo mejor de cada proyecto se reúne.', 'video', 'videos/ShowreelWbsite.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 102', '"SHOWREEL"', 'Donde lo mejor de cada proyecto se reúne.', 'video', 'videos/ShowreelWbsite.mp4')">
                             "SHOWREEL"
                         </a>
                     </div>
@@ -315,9 +324,9 @@
                     <div class="mobile-epg-channel-num">CH 50</div>
                     <div class="mobile-epg-subgrid">
                         <a href="disenoMobile.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda y trifolds.', 'video', 'videos/DISEÑO/Tonali.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 50', '&quot;CANVAS NETWORK&quot;', 'Explora proyectos de diseño como Tonali, afiches de Estrilda y trifolds.', 'video', 'videos/DISEÑO/Tonali.mp4')">
-                            "CANVAS NETWORK"
+                           ontouchstart="actualizarPreviewMovil('CH 50', '"BRIEF NET"', 'Tu señal de diseño  publicidad.', 'video', 'videos/DISEÑO/Tonali.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 50', '"BRIEF NET"', 'Tu señal de diseño  publicidad.', 'video', 'videos/DISEÑO/Tonali.mp4')">
+                            "BRIEF NET"
                         </a>
                     </div>
                 </div>
@@ -327,9 +336,9 @@
                     <div class="mobile-epg-channel-num">CH 51</div>
                     <div class="mobile-epg-subgrid">
                         <a href="animacionMobile.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y Maya 3D.', 'video', 'videos/MotionTv/DESN3.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 51', '&quot;MOTION-TV&quot;', 'Motion Graphics para la campaña de Estrilda the Bewitched y Maya 3D.', 'video', 'videos/MotionTv/DESN3.mp4')">
-                            "MOTION-TV"
+                           ontouchstart="actualizarPreviewMovil('CH 51', '"FLIP!"', 'Dale vuelta a la imaginación y mira cómo cobra vida.', 'video', 'videos/MotionTv/DESN3.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 51', '"FLIP!"', 'Dale vuelta a la imaginación y mira cómo cobra vida.', 'video', 'videos/MotionTv/DESN3.mp4')">
+                            "FLIP!"
                         </a>
                     </div>
                 </div>
@@ -339,8 +348,8 @@
                     <div class="mobile-epg-channel-num">CH 52</div>
                     <div class="mobile-epg-subgrid">
                         <a href="ilustracionMobile.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 52', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/portada_comic.jpg')"
-                           onmouseover="actualizarPreviewMovil('CH 52', '&quot;SKETCH BOX&quot;', 'Galería de Concept Art, Diseño de Personajes y Fondos 2D.', 'imagen', 'img/ilustracion/portada_comic.jpg')">
+                           ontouchstart="actualizarPreviewMovil('CH 52', '"SKETCH BOX"', 'Mundos que empiezan en un boceto.', 'imagen', 'img/ilustracion/portada_comic.jpg')"
+                           onmouseover="actualizarPreviewMovil('CH 52', '"SKETCH BOX"', 'Mundos que empiezan en un boceto.', 'imagen', 'img/ilustracion/portada_comic.jpg')">
                             "SKETCH BOX"
                         </a>
                     </div>
@@ -351,9 +360,9 @@
                     <div class="mobile-epg-channel-num">CH 53</div>
                     <div class="mobile-epg-subgrid">
                         <a href="otrosMobile.html" class="mobile-program-block row-dark-bg"
-                           ontouchstart="actualizarPreviewMovil('CH 53', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos.', 'video', 'videos/otros/videojuegos_demo.mp4')"
-                           onmouseover="actualizarPreviewMovil('CH 53', '&quot;PIXEL VISION&quot;', 'Proyectos de Desarrollo de Videojuegos, UI/UX y Prototipos.', 'video', 'videos/otros/videojuegos_demo.mp4')">
-                            "PIXEL VISION"
+                           ontouchstart="actualizarPreviewMovil('CH 53', '"KUBIK"', 'Un mundo 3D por explorar.', 'video', 'videos/otros/videojuegos_demo.mp4')"
+                           onmouseover="actualizarPreviewMovil('CH 53', '"KUBIK"', 'Un mundo 3D por explorar.', 'video', 'videos/otros/videojuegos_demo.mp4')">
+                            "KUBIK"
                         </a>
                     </div>
                 </div>
